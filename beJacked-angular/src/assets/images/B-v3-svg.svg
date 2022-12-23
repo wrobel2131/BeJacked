@@ -1,0 +1,19 @@
+<svg id="Component_65_1" data-name="Component 65 – 1" xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
+  <g id="Component_63_1" data-name="Component 63 – 1">
+    <g id="Component_64_1" data-name="Component 64 – 1">
+      <g id="Ellipse_75" data-name="Ellipse 75" stroke="#000" stroke-width="1">
+        <circle cx="18" cy="18" r="18" stroke="none"/>
+        <circle cx="18" cy="18" r="17.5" fill="none"/>
+      </g>
+    </g>
+  </g>
+  <g id="dumbell_in_logo" transform="translate(4.331 21.661) rotate(-47)">
+    <rect id="Rectangle_1" data-name="Rectangle 1" width="1.811" height="8.793" transform="translate(0 3.103)" fill="#fff"/>
+    <rect id="Rectangle_4" data-name="Rectangle 4" width="1.811" height="8.793" transform="translate(24 11.897) rotate(180)" fill="#fff"/>
+    <rect id="Rectangle_2" data-name="Rectangle 2" width="1.811" height="11.897" transform="translate(2.264 1.552)" fill="#fff"/>
+    <rect id="Rectangle_5" data-name="Rectangle 5" width="1.811" height="11.897" transform="translate(21.736 13.448) rotate(180)" fill="#fff"/>
+    <rect id="Rectangle_3" data-name="Rectangle 3" width="1.811" height="15" transform="translate(4.528)" fill="#fff"/>
+    <rect id="Rectangle_7" data-name="Rectangle 7" width="2.069" height="13.585" transform="translate(19.472 6.207) rotate(90)" fill="#fff"/>
+    <rect id="Rectangle_6" data-name="Rectangle 6" width="1.811" height="15" transform="translate(19.472 15) rotate(180)" fill="#fff"/>
+  </g>
+</svg>
