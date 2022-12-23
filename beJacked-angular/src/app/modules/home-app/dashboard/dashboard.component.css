@@ -1,0 +1,155 @@
+::ng-deep * {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    
+}
+
+.dashboard {
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+
+}
+
+::ng-deep .mat-toolbar {
+    /* background-color: #1C1E1F; */
+    background-color: rgba(1,1,1,0.8);
+    backdrop-filter: blur(5px);    
+    color: white;
+
+    
+}
+
+::ng-deep .mat-toolbar-row {
+    background-color: transparent;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+
+
+::ng-deep .mat-sidenav-container {
+    width: 100vw;
+    height: calc(100vh - 64px);
+    /* border-radius: 20px; */
+    /* background-color: black; */
+    background-color: transparent;
+    /* padding-right: 5px; */
+    /* margin: 2.5vh 2.5vw; */
+
+
+    /* outline: 2px solid pink; */
+    /* display: flex; */
+
+}
+
+::ng-deep .mat-sidenav {
+    
+    /* background-color: rgba(255,255,255,0.9); */
+    background-color: rgba(1,1,1,0.8);
+    backdrop-filter: blur(10px); 
+    border: none !important;
+    padding: 10px;
+    
+
+    width: 200px;
+    /* padding: 10px; */
+ 
+
+}
+
+::ng-deep.mat-sidenav *{
+    color: white;
+    /* display: flex;
+    flex-direction: column; */
+    /* align-items: center; */
+}
+
+::ng-deep .mat-list-item-content {
+    display: flex;
+    font-weight: 300;
+    justify-content: flex-start;
+    /* padding-left: 30px !important; */
+;
+    align-items: center;
+    font-size: 16px;
+}
+::ng-deep .mat-list-item-content .mat-icon{
+    margin-right: 20px;
+}
+
+
+::ng-deep .mat-list-item {
+    border-left: 5px solid transparent;
+    /* height: 70px !important; */
+    line-height: 18px;
+
+
+}
+    
+
+::ng-deep .mat-list-item:hover {
+    /* background-color: white; */
+
+    box-sizing: border-box;
+    border-left: 5px solid white;
+
+
+    
+}
+
+::ng-deep .mat-sidenav-content {
+    
+    background-color: black;
+    
+
+}
+
+::ng-deep .mat-divider {
+    background-color: white !important;
+    /* justify-self: center; */
+    margin: 20px 0 !important;
+    width: 100%;
+    align-self: center;
+}
+
+::ng-deep .mat-mini-fab {
+    background-color: transparent !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+::ng-deep .mat-mini-fab .mat-icon {
+    color: white;
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+}
+
+.logo {
+    width: 100;
+    padding: 15px;
+    margin: 20px 0;
+    cursor: pointer;
+}
+
+.router-content {
+    margin: 10px;
+    border-radius: 10px;
+    background-color: rgba(255,255,255,1);
+    backdrop-filter: blur(5px);   
+    width:  calc(100% - 20px);
+    height: calc(100% - 20px);
+    padding: 20px;
+
+}
+
+df-messenger {
+    --df-messenger-bot-message: black;
+    --df-messenger-button-titlebar-color: black;
+    --df-messenger-chat-background-color: #fafafa;
+    --df-messenger-font-color: white;
+    --df-messenger-send-icon: black;
+    --df-messenger-user-message: orange;
+   }

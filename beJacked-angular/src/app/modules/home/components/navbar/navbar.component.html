@@ -1,0 +1,17 @@
+<div class="navbar">
+    <nav>
+        <ul>
+            <li><div class="logo" (click)="$event.preventDefault();scrollToSection('logo')">
+                <img src="assets/images/B-new-logo-svg.svg" alt="beJacked mini navbar logo">
+            </div></li>
+            <li><a href="#" (click)="$event.preventDefault();scrollToSection('logo')">Home</a></li>
+            <li><a href="#" (click)="$event.preventDefault();scrollToSection('about')">About us</a></li>
+            <li><a href="#" (click)="$event.preventDefault();scrollToSection('features')">Features</a></li>
+            <li><a href="#" (click)="$event.preventDefault();scrollToSection('contact')">Contact</a></li>
+            <li><a href="#" (click)="$event.preventDefault();openLoginDialog()">Sign in</a></li>
+            <li><a href="#" (click)="$event.preventDefault();openRegisterDialog()">Sign up</a></li>
+
+
+        </ul>     
+    </nav>
+</div>

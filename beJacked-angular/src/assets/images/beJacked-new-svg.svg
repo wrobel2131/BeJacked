@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 312 143.4">
+  <g id="logo" transform="translate(0 0)">
+    <text id="BEJACKED" transform="translate(156 127.4)" fill="#fff" font-size="56" font-family="BlackerSansTrial-Extrabold, Blacker Sans Trial" font-weight="800" letter-spacing="0.057em"><tspan x="-155.916" y="0">BEJACKED</tspan></text>
+    <g id="dumbell_in_logo" transform="translate(116.139 54.12) rotate(-47)">
+      <rect id="Rectangle_1" data-name="Rectangle 1" width="5.585" height="23.448" transform="translate(0 8.276)" fill="#fff"/>
+      <rect id="Rectangle_4" data-name="Rectangle 4" width="5.585" height="23.448" transform="translate(74 31.724) rotate(180)" fill="#fff"/>
+      <rect id="Rectangle_2" data-name="Rectangle 2" width="5.585" height="31.724" transform="translate(6.981 4.138)" fill="#fff"/>
+      <rect id="Rectangle_5" data-name="Rectangle 5" width="5.585" height="31.724" transform="translate(67.019 35.862) rotate(180)" fill="#fff"/>
+      <rect id="Rectangle_3" data-name="Rectangle 3" width="5.585" height="40" transform="translate(13.962)" fill="#fff"/>
+      <rect id="Rectangle_7" data-name="Rectangle 7" width="5.517" height="41.887" transform="translate(60.038 16.552) rotate(90)" fill="#fff"/>
+      <rect id="Rectangle_6" data-name="Rectangle 6" width="5.585" height="40" transform="translate(60.038 40) rotate(180)" fill="#fff"/>
+    </g>
+  </g>
+</svg>

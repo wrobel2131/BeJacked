@@ -1,0 +1,69 @@
+* {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+}
+h2 {
+    font-weight: bold;
+    font-size: 30px;
+
+}
+
+
+.content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    border-radius: 15px;
+
+}
+
+::ng-deep.mat-dialog-container {
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(5px);
+}
+
+
+.form {
+    height: 100%;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.form-input {
+    width: 60%;
+}
+
+button {
+    font-weight: 300;
+    color: white;
+    background-color: black;
+    border-radius: 15px;
+}
+
+::ng-deep.mat-form-field-appearance-fill .mat-form-field-flex {
+    background-color: transparent !important;
+    }
+/* ::ng-deep.mat-form-field {
+    text-align: center !important;
+} */
+    
+::ng-deep .mat-focused .mat-form-field-label {
+    color: black !important;
+}
+      
+::ng-deep.mat-form-field-underline {
+    background-color: black !important;
+} 
+      
+::ng-deep.mat-form-field-ripple {
+    background-color: black !important;
+}
+    
+
+
+
+

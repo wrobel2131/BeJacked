@@ -1,0 +1,222 @@
+* {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+}
+h2 {
+    font-weight: bold;
+    font-size: 30px;
+}
+
+
+
+.content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%; 
+    align-items: center;
+
+    border-radius: 15px;
+}
+
+button {
+    font-weight: 300;
+    color: white;
+    background-color: black;
+    border-radius: 15px;
+}
+
+::ng-deep.mat-button-disabled {
+    color: rgba(255,255,255,0.4) !important;
+    background-color: rgba(1,1,1,0.2) !important;
+}
+
+::ng-deep.mat-card-title {
+    font-weight: 500 !important;
+    width: 100% !important;
+    
+}
+::ng-deep.mat-dialog-container {
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(5px);
+
+}
+
+::ng-deep.mat-form-field-appearance-fill .mat-form-field-flex {
+    background-color: transparent !important;
+    }
+::ng-deep.mat-form-field {
+    /* text-align: center !important; */
+    margin: 5px 0 !important;
+}
+    
+::ng-deep .mat-focused .mat-form-field-label {
+    color: black !important;
+}
+      
+::ng-deep.mat-form-field-underline {
+    background-color: black !important;
+} 
+      
+::ng-deep.mat-form-field-ripple {
+    background-color: black !important;
+}
+
+.stepper {
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+}
+
+::ng-deep.mat-step-header {
+    background-color: transparent !important;
+}
+
+::ng-deep.mat-vertical-content {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+::ng-deep.mat-stepper-next {
+    float: right !important;
+    /* justify-self: right !important; */
+
+}
+
+::ng-deep.mat-step-icon {
+    background-color: black !important;
+}
+
+::ng-deep.mat-step-icon-state-error .mat-icon {
+    font-size: 15px !important;
+    height: 15px !important;
+    width: 15px !important;
+}
+
+:host ::ng-deep .mat-radio-container {
+    display: none;
+    
+}
+
+::ng-deep.mat-radio-button:hover .card {
+    /* background-color: aquamarine; */
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+::ng-deep.mat-radio-checked .card {
+
+    /* outline: 2px solid black; */
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+::ng-deep.mat-radio-group {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-evenly !important;
+    margin: 50px 15px !important;
+}
+
+::ng-deep.mat-radio-button {
+    width: 50% !important;
+}
+
+::ng-deep.mat-radio-label {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+::ng-deep.mat-radio-label-content {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+}
+
+
+
+.buttons {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5vw 0 5vw;
+}
+.single {
+    justify-content: flex-end;
+}
+
+
+
+.card {
+
+    margin: 0;
+    transition: all .2s ease-in-out; 
+    width: 90%;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+::ng-deep.mat-card-image {
+    height: 300px;
+    object-fit: contain;
+   
+}
+
+::ng-deep.mat-card-content {
+    font-size: 18px;
+    width: 300px;
+    white-space: break-spaces;
+    overflow-y: auto;
+    overflow-wrap: break-word !important;
+}
+
+
+
+.form {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    /* margin-bottom: 30px; */
+}
+
+.form-data {
+    width: 70%;
+}
+
+.form-input {
+    width: 100%;
+}
+
+
+::ng-deep.mat-dialog-container::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  ::ng-deep.mat-dialog-container::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  
+  ::ng-deep.mat-dialog-container::-webkit-scrollbar-thumb {
+    background-color: black;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+  
+  ::ng-deep.mat-dialog-container::-webkit-scrollbar-thumb:hover {
+    background-color: #a8bbbf;
+  }
+
+
+
+
+
