@@ -25,7 +25,7 @@ public class Workout {
 
     @ManyToOne
     @JoinColumn(name = "program_id")
-    @JsonIgnore
+//    @JsonIgnore
     private Program program;
 
     @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
