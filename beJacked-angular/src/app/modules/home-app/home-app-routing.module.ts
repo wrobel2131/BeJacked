@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeAppComponent } from './components/home-app/home-app.component';
+import { ManageExercisesComponent } from './components/manage-exercises/manage-exercises.component';
+import { ManagePlansComponent } from './components/manage-plans/manage-plans.component';
+import { ManageUsersComponent } from './components/manage-users/manage-users.component';
 import { PlansComponent } from './components/plans/plans.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthGuard } from './guards/auth.guard';
@@ -32,19 +35,19 @@ const routes: Routes = [
       },
       {
         path:'admin/plans',
-        component: PlansComponent,
+        component: ManagePlansComponent,
         canActivate: [AuthGuard, RoleGuard],
         data: {roles: ["ROLE_ADMIN"]}
       },
       {
         path:'admin/users',
-        component: PlansComponent,
+        component: ManageUsersComponent,
         canActivate: [AuthGuard, RoleGuard],
         data: {roles: ["ROLE_ADMIN"]}
       },
       {
         path:'admin/exercises',
-        component: PlansComponent,
+        component: ManageExercisesComponent,
         canActivate: [AuthGuard, RoleGuard],
         data: {roles: ["ROLE_ADMIN"]}
       }

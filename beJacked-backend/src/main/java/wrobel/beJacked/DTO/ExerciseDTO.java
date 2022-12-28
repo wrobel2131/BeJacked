@@ -1,2 +1,11 @@
-package wrobel.beJacked.DTO;public class ExerciseDTO {
+package wrobel.beJacked.DTO;
+
+import lombok.Data;
+
+@Data
+public class ExerciseDTO {
+    private String name;
+    private String description;
+    private String muscles;
+    private String exerciseCategory;
 }

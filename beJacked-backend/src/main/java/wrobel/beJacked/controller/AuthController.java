@@ -11,13 +11,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import wrobel.beJacked.DTO.UserRegisterDTO;
-import wrobel.beJacked.advice.CustomApiError;
 import wrobel.beJacked.config.CustomJWTConfig;
 import wrobel.beJacked.config.JWTUtils;
 import wrobel.beJacked.exception.UserNotAuthorizedException;
 import wrobel.beJacked.model.Role;
 import wrobel.beJacked.model.User;
-import wrobel.beJacked.service.AuthServiceImpl;
+import wrobel.beJacked.service.AuthService;
+import wrobel.beJacked.service.implementation.AuthServiceImpl;
 import wrobel.beJacked.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,14 +37,14 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @CrossOrigin(origins = "http://localhost:4200")
 public class AuthController {
 
-    private final AuthServiceImpl authServiceImpl;
+    private final AuthService authService;
     private final UserService userService;
 
 
     @PostMapping(path = "/register")
     public void register(@RequestBody UserRegisterDTO form) {
         if(!userService.doesUserExists(form.getUsername(), form.getEmail())) {
-            User user = authServiceImpl.convertDTOtoUser(form);
+            User user = authService.convertDTOtoUser(form);
             userService.saveUser(user);
         } else {
             log.info("User already exists");
