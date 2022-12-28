@@ -17,7 +17,6 @@ import wrobel.beJacked.exception.UserNotAuthorizedException;
 import wrobel.beJacked.model.Role;
 import wrobel.beJacked.model.User;
 import wrobel.beJacked.service.AuthService;
-import wrobel.beJacked.service.implementation.AuthServiceImpl;
 import wrobel.beJacked.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;

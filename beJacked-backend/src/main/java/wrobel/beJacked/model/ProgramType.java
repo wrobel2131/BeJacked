@@ -1,11 +1,13 @@
 package wrobel.beJacked.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,5 +26,6 @@ public class ProgramType {
     private String name;
 
     @OneToMany(mappedBy = "programType")
-    private Set<Program> programs = new HashSet<>();
+    @JsonIgnore
+    private Collection<Program> programs;
 }

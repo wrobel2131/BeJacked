@@ -1,10 +1,12 @@
 package wrobel.beJacked.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,6 +25,7 @@ public class ExerciseCategory {
     private String name;
 
     @OneToMany(mappedBy = "exerciseCategory")
-    private Set<Exercise> exercises = new HashSet<>();
+    @JsonIgnore
+    private Collection<Exercise> exercises;
 }
 

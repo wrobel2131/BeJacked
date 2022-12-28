@@ -7,6 +7,7 @@ import wrobel.beJacked.model.Exercise;
 import wrobel.beJacked.model.ExerciseCategory;
 import wrobel.beJacked.service.ExerciseService;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @RestController
@@ -16,11 +17,13 @@ import java.util.List;
 public class ExerciseController {
     private final ExerciseService exerciseService;
 
+    @RolesAllowed({"ROLE_USER", "ROLE_ADMIN", "ROLE_TRAINER"})
     @GetMapping()
     List<Exercise> getExercises() {
         return exerciseService.getExercises();
     }
 
+    @RolesAllowed({"ROLE_USER", "ROLE_ADMIN", "ROLE_TRAINER"})
     @GetMapping(path = "/{exerciseName}")
     Exercise getExerciseByName(@PathVariable String exerciseName) {
         //TODO check of exercise exists
@@ -39,16 +42,25 @@ public class ExerciseController {
 
     }
 
+    @RolesAllowed({"ROLE_USER", "ROLE_ADMIN", "ROLE_TRAINER"})
+
     @GetMapping(path = "/category/{categoryName}")
     List<Exercise> getExercisesByCategory(@PathVariable String categoryName) {
         //TODO check if category exists
         return exerciseService.getExercisesByCategory(categoryName);
     }
 
+    @RolesAllowed({"ROLE_USER", "ROLE_ADMIN", "ROLE_TRAINER"})
     @GetMapping(path = "/category")
     List<ExerciseCategory> getExerciseCategories() {
         return exerciseService.getExerciseCategories();
     }
 
+
+    @RolesAllowed("ROLE_ADMIN")
+    @PostMapping(path = "/category/{categoryName}")
+    ExerciseCategory addExerciseCategory(@PathVariable String categoryName) {
+        return exerciseService.saveExerciseCategory(categoryName);
+    }
 
 }

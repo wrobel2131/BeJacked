@@ -66,7 +66,9 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public ExerciseCategory saveExerciseCategory(ExerciseCategory exerciseCategory) {
+    public ExerciseCategory saveExerciseCategory(String name) {
+        ExerciseCategory exerciseCategory = new ExerciseCategory();
+        exerciseCategory.setName(name);
         return exerciseCategoryRepository.save(exerciseCategory);
     }
 

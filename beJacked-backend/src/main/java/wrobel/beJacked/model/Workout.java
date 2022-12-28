@@ -1,5 +1,6 @@
 package wrobel.beJacked.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,7 @@ public class Workout {
 
     @ManyToOne
     @JoinColumn(name = "program_id")
+    @JsonIgnore
     private Program program;
 
     @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
@@ -32,5 +34,5 @@ public class Workout {
             joinColumns = @JoinColumn(name = "workout_id"),
             inverseJoinColumns = @JoinColumn(name = "exercise_id")
     )
-    private List<Exercise> exercises = new ArrayList<>();
+    private Collection<Exercise> exercises;
 }

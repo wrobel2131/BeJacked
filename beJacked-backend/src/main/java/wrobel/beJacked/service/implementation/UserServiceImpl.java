@@ -80,10 +80,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.findAll();
     }
 
-    @Override
-    public List<User> getUsersByRoles(Set<Role> roles) {
-        return userRepository.findUsersByRoles(roles);
-    }
+//    @Override
+//    public List<User> getUsersByRoles(Set<Role> roles) {
+//        return userRepository.findUsersByRoles(roles);
+//    }
 
     @Override
     public Boolean doesUserExists(String username, String email) {

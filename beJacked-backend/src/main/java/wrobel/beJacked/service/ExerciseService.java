@@ -18,7 +18,7 @@ public interface ExerciseService {
 
     ExerciseCategory getExerciseCategory(String exerciseCategory);
     List<ExerciseCategory> getExerciseCategories();
-    ExerciseCategory saveExerciseCategory(ExerciseCategory exerciseCategory);
+    ExerciseCategory saveExerciseCategory(String name);
 
 
     void setExerciseCategory(String exerciseName, String categoryName);

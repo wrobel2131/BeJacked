@@ -15,6 +15,6 @@ public interface UserService {
     List<User> getUsers();
     Role saveRole(Role role);
     void addRoleToUser(String username, String roleName);
-    List<User> getUsersByRoles(Set<Role> roles);
+//    List<User> getUsersByRoles(Set<Role> roles);
     Boolean doesUserExists(String username, String email);
 }

@@ -1,11 +1,13 @@
 package wrobel.beJacked.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -30,9 +32,11 @@ public class Exercise {
     private String muscles;
 
     @ManyToMany(mappedBy = "exercises", fetch = FetchType.LAZY)
-    private List<Workout> workouts = new ArrayList<>();
+    @JsonIgnore
+    private Collection<Workout> workouts;
 
     @ManyToOne
     @JoinColumn(name = "exercise_category_id")
+//    @JsonIgnore
     private ExerciseCategory exerciseCategory;
 }
