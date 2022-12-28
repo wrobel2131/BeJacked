@@ -1,4 +1,4 @@
-package wrobel.beJacked.service;
+package wrobel.beJacked.service.implementation;
 
 
 import lombok.RequiredArgsConstructor;
@@ -13,11 +13,13 @@ import wrobel.beJacked.model.Role;
 import wrobel.beJacked.model.User;
 import wrobel.beJacked.repository.RoleRepository;
 import wrobel.beJacked.repository.UserRepository;
+import wrobel.beJacked.service.UserService;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -76,6 +78,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public List<User> getUsers() {
         log.info("get users");
         return userRepository.findAll();
+    }
+
+    @Override
+    public List<User> getUsersByRoles(Set<Role> roles) {
+        return userRepository.findUsersByRoles(roles);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package wrobel.beJacked.service;
+package wrobel.beJacked.service.implementation;
 
 
 import lombok.AllArgsConstructor;
@@ -7,11 +7,12 @@ import wrobel.beJacked.DTO.UserRegisterDTO;
 import wrobel.beJacked.model.Role;
 import wrobel.beJacked.model.User;
 import wrobel.beJacked.repository.RoleRepository;
+import wrobel.beJacked.service.AuthService;
 
 
 @Service
 @AllArgsConstructor
-public class AuthServiceImpl implements AuthService{
+public class AuthServiceImpl implements AuthService {
 
     private final RoleRepository roleRepository;
 
