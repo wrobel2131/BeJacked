@@ -1,108 +1,151 @@
+<div class="content">
+  <h2 mat-dialog-title>Sign up</h2>
 
-    <div class="content">
-        <h2 mat-dialog-title>Sign up</h2>
-         
-
-            <mat-stepper class="stepper" orientation="vertical" #stepper>
-                <mat-step class="step" [stepControl]="registerForm" errorMessage="Fill all fields">
-                    <form class="form form-data" id="regForm" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-                    <ng-template matStepLabel>Fill out personal data</ng-template>
-                    <mat-form-field  appearance="fill">
-                        <mat-label>
-                            <span>Username</span>
-                        </mat-label>
-                        <input id="username" class="form-input" matInput formControlName="username" type="text">
-                        <mat-error>{{getRequiredErrorMessage('username')}}</mat-error>
-
-                    </mat-form-field>
-                    <mat-form-field  appearance="fill">
-                        <mat-label>
-                            <span>Email</span>
-                        </mat-label>
-                        <input id="email" class="form-input" matInput formControlName="email" type="email">
-                        <mat-error >{{getEmailErrorMessage()}}</mat-error>
-
-                    </mat-form-field>
-                    <mat-form-field appearance="fill">
-                        <mat-label>
-                            <span>Password</span>
-                        </mat-label>
-                        <input id="password" class="form-input" matInput formControlName="password" type="password">
-                        <mat-error >{{getPasswordErrorMessage()}}</mat-error>
-
-                    </mat-form-field>
-                    <mat-form-field appearance="fill">
-                        <mat-label>
-                            <span>Confirm Password</span>
-                        </mat-label>
-                        <input id="confirmPassword" class="form-input" matInput formControlName="confirmPassword" type="password" >
-                        <mat-error *ngIf="true" >{{getRequiredErrorMessage('confirm password')}}</mat-error>
-                        <mat-hint class="mat-error" *ngIf="registerForm.errors?.['notmatched']&&registerForm.controls.confirmPassword.dirty">Passwords need to match</mat-hint>
-
-                    </mat-form-field>
-                    <mat-form-field appearance="fill">
-                        <mat-label>
-                            <span>Name</span>
-                        </mat-label>
-                        <input id="name" class="form-input" matInput formControlName="name" type="text" > 
-                        <mat-error  >{{getRequiredErrorMessage('name')}}</mat-error>
-
-                    </mat-form-field>
-                    <mat-form-field appearance="fill">
-                        <mat-label>
-                            <span>Surname</span>
-                        </mat-label>
-                        <input id="surname" class="form-input" matInput formControlName="surname" type="text" >
-                        <mat-error >{{getRequiredErrorMessage('surname')}}</mat-error>
-
-                    </mat-form-field>
-                  </form>
-                  <div class="buttons single">
-                    <button mat-button matStepperNext type="button">Next</button>
-                  </div>
-                  
-                </mat-step>
-                <mat-step [stepControl]="roleForm" errorMessage="Role is required">
-                  <form class="form" [formGroup]="roleForm">
-                    <ng-template matStepLabel>Choose type of account</ng-template>
-                    <mat-radio-group formControlName="role" >
-                        <mat-radio-button value="ROLE_USER" >
-                            <mat-card class="card">
-                                <mat-card-header>
-                                    <mat-card-title>Client</mat-card-title>
-                                </mat-card-header>
-                                <img mat-card-image src="assets/images/user.jpg" alt="">
-                                <mat-card-content>
-                                    Create personalized training plans, log your workouts and reach your goal
-                                </mat-card-content>
-                            </mat-card>
-                        </mat-radio-button>
-                        <mat-radio-button value="ROLE_TRAINER">
-                            <mat-card class="card">
-                                <mat-card-header>
-                                    <mat-card-title>Trainer</mat-card-title>
-                                </mat-card-header>
-                                <img mat-card-image src="assets/images/trainer.jpg" alt="">
-                                <mat-card-content>
-                                    Manage your clients and take your coaching to the next level
-                                </mat-card-content>
-                            </mat-card>
-                        </mat-radio-button>
-                    </mat-radio-group>    
-                  </form>
-                  <div class="buttons">
-                    <button mat-button matStepperPrevious>Back</button>
-                    <button mat-button matStepperNext>Next</button>
-                  </div>
-                </mat-step>
-                <mat-step>
-                  <ng-template matStepLabel>Finish</ng-template>
-                  <div class="buttons">
-                    <button mat-button matStepperPrevious>Back</button>
-                    <button mat-button form="regForm" [disabled]="!isValid()">Submit</button>
-                  </div>
-                </mat-step>
-              </mat-stepper>
-              
+  <mat-stepper class="stepper" orientation="vertical" #stepper>
+    <mat-step
+      class="step"
+      [stepControl]="registerForm"
+      errorMessage="Fill all fields"
+    >
+      <form
+        class="form form-data"
+        id="regForm"
+        [formGroup]="registerForm"
+        (ngSubmit)="onSubmit()"
+      >
+        <ng-template matStepLabel>Fill out personal data</ng-template>
+        <mat-form-field appearance="fill">
+          <mat-label>
+            <span>Username</span>
+          </mat-label>
+          <input
+            id="username"
+            class="form-input"
+            matInput
+            formControlName="username"
+            type="text"
+          />
+          <mat-error>{{ getRequiredErrorMessage("username") }}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>
+            <span>Email</span>
+          </mat-label>
+          <input
+            id="email"
+            class="form-input"
+            matInput
+            formControlName="email"
+            type="email"
+          />
+          <mat-error>{{ getEmailErrorMessage() }}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>
+            <span>Password</span>
+          </mat-label>
+          <input
+            id="password"
+            class="form-input"
+            matInput
+            formControlName="password"
+            type="password"
+          />
+          <mat-error>{{ getPasswordErrorMessage() }}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>
+            <span>Confirm Password</span>
+          </mat-label>
+          <input
+            id="confirmPassword"
+            class="form-input"
+            matInput
+            formControlName="confirmPassword"
+            type="password"
+          />
+          <mat-error *ngIf="true">{{
+            getRequiredErrorMessage("confirm password")
+          }}</mat-error>
+          <mat-hint
+            class="mat-error"
+            *ngIf="registerForm.errors?.['notmatched']&&registerForm.controls.confirmPassword.dirty"
+            >Passwords need to match</mat-hint
+          >
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>
+            <span>Name</span>
+          </mat-label>
+          <input
+            id="name"
+            class="form-input"
+            matInput
+            formControlName="name"
+            type="text"
+          />
+          <mat-error>{{ getRequiredErrorMessage("name") }}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>
+            <span>Surname</span>
+          </mat-label>
+          <input
+            id="surname"
+            class="form-input"
+            matInput
+            formControlName="surname"
+            type="text"
+          />
+          <mat-error>{{ getRequiredErrorMessage("surname") }}</mat-error>
+        </mat-form-field>
+      </form>
+      <div class="buttons single">
+        <button mat-button matStepperNext type="button">Next</button>
+      </div>
+    </mat-step>
+    <mat-step [stepControl]="roleForm" errorMessage="Role is required">
+      <form class="form" [formGroup]="roleForm">
+        <ng-template matStepLabel>Choose type of account</ng-template>
+        <mat-radio-group formControlName="role">
+          <mat-radio-button value="ROLE_USER">
+            <mat-card class="card">
+              <mat-card-header>
+                <mat-card-title>Client</mat-card-title>
+              </mat-card-header>
+              <img mat-card-image src="assets/images/user.jpg" alt="" />
+              <mat-card-content>
+                Create personalized training plans, log your workouts and reach
+                your goal
+              </mat-card-content>
+            </mat-card>
+          </mat-radio-button>
+          <mat-radio-button value="ROLE_TRAINER">
+            <mat-card class="card">
+              <mat-card-header>
+                <mat-card-title>Trainer</mat-card-title>
+              </mat-card-header>
+              <img mat-card-image src="assets/images/trainer.jpg" alt="" />
+              <mat-card-content>
+                Manage your clients and take your coaching to the next level
+              </mat-card-content>
+            </mat-card>
+          </mat-radio-button>
+        </mat-radio-group>
+      </form>
+      <div class="buttons">
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Finish</ng-template>
+      <div class="buttons">
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button form="regForm" [disabled]="!isValid()">
+          Submit
+        </button>
+      </div>
+    </mat-step>
+  </mat-stepper>
 </div>
-    

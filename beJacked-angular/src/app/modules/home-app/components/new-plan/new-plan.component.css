@@ -142,26 +142,8 @@ button {
   justify-content: flex-end;
 }
 
-.card {
-  margin: 0;
-  transition: all 0.2s ease-in-out;
-  width: 90%;
-  height: 500px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-::ng-deep.mat-card-image {
-  height: 300px;
-  object-fit: contain;
-}
-
-::ng-deep.mat-card-content {
-  font-size: 18px;
-  width: 300px;
-  white-space: break-spaces;
-  overflow-y: auto;
-  overflow-wrap: break-word !important;
+textarea {
+  resize: none !important;
 }
 
 .form {

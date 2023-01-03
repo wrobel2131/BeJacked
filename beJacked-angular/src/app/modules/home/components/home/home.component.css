@@ -1,75 +1,71 @@
 * {
-    color: white;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    outline: 1px sold red;
+  color: white;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: 1px sold red;
 }
 
 .main-container {
-    background-color: black;
-    scroll-snap-type: y mandatory;
-    overflow-y: scroll;
-    height: 100vh;
-    scroll-snap-stop: always;
-    width: 100vw;
-    
+  background-color: black;
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: 100vh;
+  scroll-snap-stop: always;
+  width: 100vw;
 }
 section {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    scroll-snap-align: start;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  scroll-snap-align: start;
 }
 
 .logo-container {
-    width: 50%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .logo-container > .logo-title {
-    font-size: 24px;
-    margin-top: 10px;
-    font-family: 'Montserrat', sans-serif;
+  font-size: 24px;
+  margin-top: 10px;
+  font-family: "Montserrat", sans-serif;
 
-    color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.75);
 }
-
 
 .logo-container img {
   object-fit: cover;
 }
 
-
 /* custom scrollbar */
 ::-webkit-scrollbar {
-    width: 5px;
-  }
-  
-  ::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
-  
-  ::-webkit-scrollbar-thumb {
-    background-color: white;
-    border-radius: 10px;
-    border: 2px solid transparent;
-    background-clip: content-box;
-  }
-  
-  ::-webkit-scrollbar-thumb:hover {
-    background-color: #a8bbbf;
-  }
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: white;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #a8bbbf;
+}
 
 @media screen and (min-width: 1920px) {
-    .container {
-      padding-left: calc(100vw - 1920px)/2;
-      padding-right: calc(100vw - 1920px)/2;
-
-    }
+  .container {
+    padding-left: calc(100vw - 1920px) / 2;
+    padding-right: calc(100vw - 1920px) / 2;
   }
+}

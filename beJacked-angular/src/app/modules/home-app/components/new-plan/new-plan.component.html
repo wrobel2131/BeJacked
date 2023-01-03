@@ -1,0 +1,98 @@
+<div class="content">
+  <h2 mat-dialog-title>Create new plan</h2>
+
+  <mat-stepper class="stepper" orientation="vertical" #stepper>
+    <mat-step
+      class="step"
+      [stepControl]="planDetailsForm"
+      errorMessage="Fill all required fields"
+    >
+      <p>
+        Enter the name of your plan. If you have specific guidelines, tips or
+        important information about your plan, enter them in the description
+        below.
+      </p>
+      <form
+        class="form form-data"
+        id="detailsForm"
+        [formGroup]="planDetailsForm"
+      >
+        <ng-template matStepLabel>Fill about your new program</ng-template>
+        <mat-form-field appearance="fill">
+          <mat-label>
+            <span>Name of the plan</span>
+          </mat-label>
+          <input
+            id="plan-name"
+            class="form-input"
+            matInput
+            formControlName="name"
+            type="text"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>
+            <span>Description</span>
+          </mat-label>
+          <textarea
+            id="plan-description"
+            rows="5"
+            cols="40"
+            class="form-input"
+            maxlength="256"
+            matInput
+            formControlName="description"
+            #description
+            type="text"
+          ></textarea>
+          <mat-hint align="start">Not required</mat-hint>
+          <mat-hint align="end">{{ description.value.length }} / 256</mat-hint>
+        </mat-form-field>
+      </form>
+
+      <div class="buttons single">
+        <button mat-button matStepperNext type="button">Next</button>
+      </div>
+    </mat-step>
+    <mat-step
+      class="step"
+      [stepControl]="planTypeForm"
+      errorMessage="error step 2"
+    >
+      <ng-template matStepLabel>Choose type of yout plan</ng-template>
+      <p>
+        Select the type of your training plan. You can use ready-made templates
+        of training plans (JM Brakley or Jim Wendler 5/3/1) or create your dream
+        plan from scratch.
+      </p>
+      <form class="form form-data" id="typeForm" [formGroup]="planTypeForm">
+        <mat-form-field appearance="fill">
+          <mat-label>
+            <span>Type of training program</span>
+          </mat-label>
+          <mat-select
+            name="plan-type"
+            id="plan-type"
+            class="form-input"
+            matInput
+            formControlName="type"
+            (selectionChange)="stepper.next()"
+          >
+            <mat-option *ngFor="let type of planTypes" [value]="type.value">{{
+              type.label
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+
+      <div class="buttons single">
+        <button mat-button matStepperNext type="button">Next</button>
+      </div>
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>Choose number of workouts</ng-template>
+      <button (click)="check()">Check plan type</button>
+    </mat-step>
+  </mat-stepper>
+</div>

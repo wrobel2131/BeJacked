@@ -6,20 +6,14 @@ import { UserService } from 'src/app/shared/services/user.service';
 @Component({
   selector: 'app-home-app',
   templateUrl: './home-app.component.html',
-  styleUrls: ['./home-app.component.css']
+  styleUrls: ['./home-app.component.css'],
 })
 export class HomeAppComponent implements OnInit {
+  constructor(private authService: AuthService) {}
 
-  constructor(private authService: AuthService) { }
-
-  ngOnInit(): void {
-  
-  }
+  ngOnInit(): void {}
 
   public logout() {
-    this.authService.logout()
+    this.authService.logout();
   }
-
-  
-
 }

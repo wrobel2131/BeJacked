@@ -4,7 +4,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './components/home/home.component';
 import { AuthGuard } from './guards/auth.guard';
 
-
 const routes: Routes = [
   {
     path: '',
@@ -13,18 +12,15 @@ const routes: Routes = [
     // canActivateChild: [AuthGuard],
     children: [
       {
-        path: "",
-        component: HomeComponent
-      }
-      
-    ]
-  }
-
-  
+        path: '',
+        component: HomeComponent,
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class HomeRoutingModule { }
+export class HomeRoutingModule {}

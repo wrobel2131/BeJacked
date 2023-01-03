@@ -14,6 +14,7 @@ import { PlansComponent } from './components/plans/plans.component';
 import { ManageUsersComponent } from './components/manage-users/manage-users.component';
 import { ManagePlansComponent } from './components/manage-plans/manage-plans.component';
 import { ManageExercisesComponent } from './components/manage-exercises/manage-exercises.component';
+import { NewPlanComponent } from './components/new-plan/new-plan.component';
 
 
 
@@ -25,6 +26,7 @@ import { ManageExercisesComponent } from './components/manage-exercises/manage-e
     ManageUsersComponent,
     ManagePlansComponent,
     ManageExercisesComponent,
+    NewPlanComponent,
   ],
   imports: [
     CommonModule,
