@@ -1,23 +1,25 @@
-
-
 /* html, body { height: 100%; } */
-body { margin: 0;padding:0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 ::ng-deep.mat-form-field-appearance-fill .mat-form-field-flex {
-    background-color: transparent !important;
-    }
+  background-color: transparent !important;
+}
 ::ng-deep.mat-form-field {
-    text-align: center !important;
+  text-align: center !important;
 }
-    
+
 ::ng-deep .mat-focused .mat-form-field-label {
-    color: black !important;
+  color: black !important;
 }
-      
+
 ::ng-deep.mat-form-field-underline {
-    background-color: black !important;
-} 
-      
+  background-color: black !important;
+}
+
 ::ng-deep.mat-form-field-ripple {
-    background-color: black !important;
+  background-color: black !important;
 }

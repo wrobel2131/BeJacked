@@ -11,7 +11,7 @@ export class PlansComponent implements OnInit {
   openAddProgramDialog(): void {
     this.dialog.open(NewPlanComponent, {
       height: '900px',
-      width: '1000px',
+      width: '80%',
       // closeOnNavigation: true
     });
   }
