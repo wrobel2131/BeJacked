@@ -112,11 +112,6 @@
             <mat-panel-title> Workout {{ i }} </mat-panel-title>
           </mat-expansion-panel-header>
 
-          <!-- <form class="form form-data"> -->
-          <!-- <mat-form-field class="ex-field" appearance="fill"> -->
-          <!-- <mat-label>Exercises</mat-label> -->
-
-          <!-- <mat-select multiple> -->
           <mat-tree
             [dataSource]="dataSource"
             [treeControl]="treeControl"
@@ -134,9 +129,11 @@
                   <mat-expansion-panel-header>
                     <mat-panel-title>{{ node.name }}</mat-panel-title>
                   </mat-expansion-panel-header>
-                  <p>Description: {{ node.description }}</p>
-                  <p>Engaged muslces: {{ node.muscles }}</p>
-                  <p>Category {{ node.category }}</p>
+                  <div class="exercise-info">
+                    <p>Description: {{ node.description }}</p>
+                    <p>Engaged muslces: {{ node.muscles }}</p>
+                    <p>Category {{ node.category }}</p>
+                  </div>
                 </mat-expansion-panel>
               </mat-accordion>
             </mat-tree-node>
@@ -167,9 +164,7 @@
               </div>
             </mat-nested-tree-node>
           </mat-tree>
-          <!-- </mat-select> -->
-          <!-- </mat-form-field> -->
-          <!-- </form> -->
+
           <button mat-button extended (click)="removeWorkout(i)">
             <mat-icon>delete</mat-icon>
           </button>
@@ -182,7 +177,7 @@
     </mat-step>
     <mat-step class="step">
       <ng-template matStepLabel>check</ng-template>
-      <button (click)="check()"></button>
+      <button (click)="check()">check</button>
     </mat-step>
   </mat-stepper>
 </div>

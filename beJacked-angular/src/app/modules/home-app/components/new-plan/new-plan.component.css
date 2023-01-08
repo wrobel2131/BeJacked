@@ -202,3 +202,11 @@ textarea {
 ::ng-deep.mat-checkbox-checked.mat-accent ::ng-deep.mat-checkbox-background {
   background-color: black !important;
 }
+
+.exercise-info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

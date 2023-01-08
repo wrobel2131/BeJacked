@@ -1,6 +1,7 @@
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { Component, OnInit } from '@angular/core';
 import {
+  Form,
   FormArray,
   FormBuilder,
   FormControl,
@@ -11,7 +12,6 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { PlanService } from 'src/app/shared/services/plan.service';
-import { PlansComponent } from '../plans/plans.component';
 
 interface Exercise {
   name: string;
@@ -230,12 +230,17 @@ export class NewPlanComponent implements OnInit {
       this.createTreeData();
     }
     // const workoutArray = this.workouts;
-    (this.workouts as FormArray).push(this.fb.array([]));
+    (this.workouts as FormArray).push(
+      this.fb.group({
+        name: String,
+        exercises: this.fb.array([], [Validators.required]),
+      })
+    );
   }
 
   addExerciseToWorkout(event: any, workoutIndex: number, ex: string) {
     if (event.checked) {
-      (this.workouts.controls[workoutIndex] as FormArray).push(
+      (this.workouts.controls[workoutIndex].get('exercises') as FormArray).push(
         this.fb.control(ex)
       );
     } else {
