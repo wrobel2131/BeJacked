@@ -1,8 +1,9 @@
 package wrobel.beJacked.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import wrobel.beJacked.DTO.ExerciseDTO;
+import wrobel.beJacked.DTO.AddExerciseDTO;
 import wrobel.beJacked.model.Exercise;
 import wrobel.beJacked.model.ExerciseCategory;
 import wrobel.beJacked.service.ExerciseService;
@@ -14,6 +15,7 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/v1/exercises")
+@Slf4j
 public class ExerciseController {
     private final ExerciseService exerciseService;
 
@@ -31,13 +33,21 @@ public class ExerciseController {
     }
 
 
+
+
+    @RolesAllowed("ROLE_ADMIN")
     @PostMapping()
-    Exercise addExercise(@RequestBody ExerciseDTO form) {
+    Exercise addExercise(@RequestBody AddExerciseDTO form) {
         //TODO sprawdzenie przychodzacego exercise DTO
+        log.info("in controller");
         if(form == null) {
             throw new RuntimeException("not valid exercise ");
         }
-        Exercise exercise = exerciseService.convertDTOtoExercise(form);
+        log.info(form.getName());
+        log.info(form.getDescription());
+                log.info(form.getExerciseCategory());
+        log.info(form.getMuscles());
+        Exercise exercise = exerciseService.convertAddDTOtoExercise(form);
         return exerciseService.saveExercise(exercise);
 
     }

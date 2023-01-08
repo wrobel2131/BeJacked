@@ -3,7 +3,7 @@ package wrobel.beJacked.DTO;
 import lombok.Data;
 
 @Data
-public class ExerciseDTO {
+public class AddExerciseDTO {
     private String name;
     private String description;
     private String muscles;

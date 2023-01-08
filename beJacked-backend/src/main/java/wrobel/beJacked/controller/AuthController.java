@@ -66,7 +66,7 @@ public class AuthController {
                 int accessTokenExpireTime = 60*1000;
                 String accessToken = CustomJWTConfig.createAccessToken(request, user.getUsername(),user.getRoles().stream().map(Role::getName).collect(Collectors.toList()) ,accessTokenExpireTime);
                 response.setContentType(APPLICATION_JSON_VALUE);
-                JWTUtils jwt = new JWTUtils(accessToken, "Bearer", String.valueOf(accessTokenExpireTime), refreshToken);
+                JWTUtils jwt = new JWTUtils(accessToken, "Bearer", String.valueOf(accessTokenExpireTime), refreshToken, user.getUsername());
                 new ObjectMapper().writeValue(response.getOutputStream(), jwt);
             }catch(Exception exception) {
                 log.info(exception.getMessage());

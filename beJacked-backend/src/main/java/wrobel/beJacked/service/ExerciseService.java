@@ -2,6 +2,7 @@ package wrobel.beJacked.service;
 
 
 import org.springframework.stereotype.Service;
+import wrobel.beJacked.DTO.AddExerciseDTO;
 import wrobel.beJacked.DTO.ExerciseDTO;
 import wrobel.beJacked.model.Exercise;
 import wrobel.beJacked.model.ExerciseCategory;
@@ -14,6 +15,7 @@ public interface ExerciseService {
     Exercise getExerciseByName(String name);
     List<Exercise> getExercisesByCategory(String exerciseCategory);
     List<Exercise> getExercises();
+    Exercise convertAddDTOtoExercise(AddExerciseDTO form);
     Exercise convertDTOtoExercise(ExerciseDTO form);
 
     ExerciseCategory getExerciseCategory(String exerciseCategory);

@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import wrobel.beJacked.advice.CustomApiError;
 import wrobel.beJacked.exception.UserNotAuthorizedException;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.util.Arrays.stream;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -43,6 +45,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         //first we are checking, if this is not the login path, we dont need to authorize user to login
+
         if(request.getServletPath().equals("/api/v1/auth/login") || request.getServletPath().equals("/api/v1/auth/register") || request.getServletPath().equals("/api/v1/auth/token")) {
             log.info("auth path");
             filterChain.doFilter(request, response);
@@ -73,7 +76,22 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     log.info("after username ver");
                     //spring with the username will authorize him based on the autorities(roles)
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                    log.info(String.valueOf(response.getStatus()));
+
+
+//                        byte[] inputStreamBytes = StreamUtils.copyToByteArray(request.getInputStream());
+//                        Map<String, String> jsonRequest = new ObjectMapper().readValue(inputStreamBytes, Map.class);
+//                        String requestBodyJsonString = jsonRequest.get("body");
+//                        log.info(requestBodyJsonString);
+                        // other code
+                        log.info(request.getHeader("Authorization"));
+//                        String body = request.getReader().lines().collect(Collectors.joining());
+//                        log.info(body);
+
+
+
                     filterChain.doFilter(request, response);
+                    log.info(String.valueOf(response.getStatus()));
                 }catch(Exception exception) {
                     log.info(exception.getMessage());
                     response.setHeader(WARNING, exception.getMessage());
@@ -89,7 +107,6 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                 log.info("no i cnuj");
 //                response.setStatus(HttpStatus.UNAUTHORIZED.value());
                 log.info(String.valueOf(response.getStatus()));
-
                 filterChain.doFilter(request, response);
 
 //                log.info(String.valueOf(response.getStatus()));

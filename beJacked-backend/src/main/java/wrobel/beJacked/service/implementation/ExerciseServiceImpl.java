@@ -4,6 +4,7 @@ package wrobel.beJacked.service.implementation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import wrobel.beJacked.DTO.AddExerciseDTO;
 import wrobel.beJacked.DTO.ExerciseDTO;
 import wrobel.beJacked.model.Exercise;
 import wrobel.beJacked.model.ExerciseCategory;
@@ -44,7 +45,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public Exercise convertDTOtoExercise(ExerciseDTO form) {
+    public Exercise convertAddDTOtoExercise(AddExerciseDTO form) {
         Exercise exercise = new Exercise();
         exercise.setName(form.getName());
         exercise.setDescription(form.getDescription());
@@ -52,6 +53,12 @@ public class ExerciseServiceImpl implements ExerciseService {
         ExerciseCategory exerciseCategory = exerciseCategoryRepository.findExerciseCategoryByName(form.getExerciseCategory());
         exercise.setExerciseCategory(exerciseCategory);
 
+        return exercise;
+    }
+
+    @Override
+    public Exercise convertDTOtoExercise(ExerciseDTO form) {
+        Exercise exercise = exerciseRepository.findExerciseByName(form.getName());
         return exercise;
     }
 

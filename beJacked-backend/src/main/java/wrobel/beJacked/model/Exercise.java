@@ -26,10 +26,10 @@ public class Exercise {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 1000)
     private String description;
 
-    @Column(name = "muscles")
+    @Column(name = "muscles", length = 1000)
     private String muscles;
 
     @ManyToMany(mappedBy = "exercises", fetch = FetchType.LAZY)
