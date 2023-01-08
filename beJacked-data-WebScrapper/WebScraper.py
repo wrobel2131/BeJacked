@@ -1,5 +1,5 @@
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, NavigableString
 import re
 
 from Exercise import Exercise
@@ -79,6 +79,12 @@ class WebScraper:
 
         for ul in uls:
             for li in ul:
+                if isinstance(li, NavigableString):
+                    print('navigatable')
+                    print(li)
+                    continue
+                    
+
                 links = li.findChildren('a')
                 if not(links):
                     working_muscles.append(li.text)
