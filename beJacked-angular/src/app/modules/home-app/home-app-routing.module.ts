@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeAppComponent } from './components/home-app/home-app.component';
 import { ManageExercisesComponent } from './components/manage-exercises/manage-exercises.component';
-import { ManagePlansComponent } from './components/manage-plans/manage-plans.component';
+import { ManageProgramsComponent } from './components/manage-programs/manage-programs.component';
 import { ManageUsersComponent } from './components/manage-users/manage-users.component';
-import { PlansComponent } from './components/plans/plans.component';
+import { ProgramsComponent } from './components/programs/programs.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthGuard } from './guards/auth.guard';
 import { RoleGuard } from './guards/role.guard';
@@ -19,44 +19,44 @@ const routes: Routes = [
         path: '',
         component: HomeAppComponent,
         canActivate: [AuthGuard, RoleGuard],
-        data: {roles: ["ROLE_ADMIN", "ROLE_USER", "ROLE_TRAINER"]}
+        data: { roles: ['ROLE_ADMIN', 'ROLE_USER', 'ROLE_TRAINER'] },
       },
       {
-        path:'plans',
-        component: PlansComponent,
+        path: 'programs',
+        component: ProgramsComponent,
         canActivate: [AuthGuard, RoleGuard],
-        data: {roles: ["ROLE_ADMIN", "ROLE_USER", "ROLE_TRAINER"]}
+        data: { roles: ['ROLE_ADMIN', 'ROLE_USER', 'ROLE_TRAINER'] },
       },
       {
-        path:'logs',
-        component: PlansComponent,
+        path: 'logs',
+        component: ProgramsComponent,
         canActivate: [AuthGuard, RoleGuard],
-        data: {roles: ["ROLE_nsons"]}
+        data: { roles: ['ROLE_nsons'] },
       },
       {
-        path:'admin/plans',
-        component: ManagePlansComponent,
+        path: 'admin/programs',
+        component: ManageProgramsComponent,
         canActivate: [AuthGuard, RoleGuard],
-        data: {roles: ["ROLE_ADMIN"]}
+        data: { roles: ['ROLE_ADMIN'] },
       },
       {
-        path:'admin/users',
+        path: 'admin/users',
         component: ManageUsersComponent,
         canActivate: [AuthGuard, RoleGuard],
-        data: {roles: ["ROLE_ADMIN"]}
+        data: { roles: ['ROLE_ADMIN'] },
       },
       {
-        path:'admin/exercises',
+        path: 'admin/exercises',
         component: ManageExercisesComponent,
         canActivate: [AuthGuard, RoleGuard],
-        data: {roles: ["ROLE_ADMIN"]}
-      }
-    ]
-  }
-]
+        data: { roles: ['ROLE_ADMIN'] },
+      },
+    ],
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class HomeAppRoutingModule { }
+export class HomeAppRoutingModule {}

@@ -1,5 +1,5 @@
 import { NestedTreeControl } from '@angular/cdk/tree';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   Form,
   FormArray,
@@ -13,19 +13,32 @@ import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { Exercise } from 'src/app/shared/models/exercise';
 import { ExerciseCategory } from 'src/app/shared/models/exercise-category';
 import { AuthService } from 'src/app/shared/services/auth.service';
-import { PlanService } from 'src/app/shared/services/plan.service';
+import { ProgramService } from 'src/app/shared/services/program.service';
 
 interface CategoryNode {
   exerciseCategory: string;
   children?: any;
 }
 
+interface WorkoutToBackend {
+  name: string;
+  exercises: string[];
+}
+
+interface programToBackend {
+  name: string;
+  description: string;
+  programType: string;
+  username: string;
+  workouts: WorkoutToBackend[];
+}
+
 @Component({
-  selector: 'app-new-plan',
-  templateUrl: './new-plan.component.html',
-  styleUrls: ['./new-plan.component.css'],
+  selector: 'app-new-program',
+  templateUrl: './new-program.component.html',
+  styleUrls: ['./new-program.component.css'],
 })
-export class NewPlanComponent implements OnInit {
+export class NewProgramComponent implements OnInit {
   treeControl = new NestedTreeControl<CategoryNode>((node) => node.children);
   dataSource = new MatTreeNestedDataSource<CategoryNode>();
   hasChild = (_: number, node: CategoryNode) =>
@@ -33,26 +46,29 @@ export class NewPlanComponent implements OnInit {
 
   public categories: ExerciseCategory[] = [];
   public exercises: Exercise[] = [];
-  // public DATA?: CategoryNode[];
+  public program?: programToBackend;
+
+  displayedColumns() {
+    return this.program!.workouts.map((w) => w.name);
+  }
 
   constructor(
-    public dialogRef: MatDialogRef<NewPlanComponent>,
+    public dialogRef: MatDialogRef<NewProgramComponent>,
     public authService: AuthService,
     private fb: FormBuilder,
-    public planService: PlanService
+    public programService: ProgramService
   ) {
-    planService.getExerciseCategories().subscribe((categoryArray) => {
+    programService.getExerciseCategories().subscribe((categoryArray) => {
       categoryArray.forEach((cat) => this.categories.push(cat));
     });
 
-    planService.getExercises().subscribe((exercisesArray) => {
+    programService.getExercises().subscribe((exercisesArray) => {
       exercisesArray.forEach((ex) => this.exercises.push(ex));
     });
   }
 
   createTreeData() {
     let data: CategoryNode[] = [];
-    // let arr: Object[] = this!.categories;
     this.categories.forEach((category: ExerciseCategory) => {
       console.log(category.name);
       let node: CategoryNode = {
@@ -60,103 +76,112 @@ export class NewPlanComponent implements OnInit {
         children: [] as Exercise[],
       };
 
-      // console.log('przed for eachem: ' + this.exercises);
       this.exercises!.forEach((exercise: Exercise) => {
-        // console.log('pred pushem: ' + exercise.name);
-        // console.log('pred pushem: ' + exercise.exerciseCategory);
-        // console.log('category.name:' + category.name);
-        // console.log('exercise.exerciseCategory:' + exercise.exerciseCategory);
-
         if (category.name === exercise.exerciseCategory.name) {
-          // console.log('pred pushem: ' + exercise);
           node.children?.push(exercise);
         }
       });
-      // console.log(node);
       data.push(node);
     });
 
-    // console.log(data!);
     this.dataSource.data = data;
   }
 
-  //tymaczasowo, typy planow maja byc pobierane z API
-  planTypes = [
+  //tymaczasowo, typy programow maja byc pobierane z API
+  programTypes = [
     { value: 'wendler', label: "Jim Wendler's 5/3/1" },
     { value: 'brakley', label: 'JM Brakley' },
-    { value: 'custom', label: 'Your custom training plan' },
+    { value: 'custom', label: 'Your custom training program' },
   ];
 
-  planType: string = 'custom';
+  programType: string = 'custom';
 
-  planDetailsForm!: FormGroup;
-  planTypeForm!: FormGroup;
-  planWorkoutsForm!: FormGroup;
+  programDetailsForm!: FormGroup;
+  programTypeForm!: FormGroup;
+  programWorkoutsForm!: FormGroup;
 
   ngOnInit(): void {
     console.log('ngoiinit data');
-    this.planDetailsForm = this.fb.group({
+    this.programDetailsForm = this.fb.group({
       name: this.fb.control(null, [Validators.required]),
       description: null,
     });
 
-    this.planTypeForm = this.fb.group({
-      type: this.fb.control(this.planType, [Validators.required]),
+    this.programTypeForm = this.fb.group({
+      type: this.fb.control(this.programType, [Validators.required]),
     });
 
-    this.planWorkoutsForm = this.fb.group({
+    this.programWorkoutsForm = this.fb.group({
       workouts: this.fb.array([], [Validators.required]),
     });
   }
 
   get workouts() {
-    return this.planWorkoutsForm.get('workouts') as FormArray;
+    return this.programWorkoutsForm.get('workouts') as FormArray;
   }
 
   get name() {
-    return this.planDetailsForm.get('name');
+    return this.programDetailsForm.get('name');
   }
   get description() {
-    return this.planDetailsForm.get('description');
+    return this.programDetailsForm.get('description');
   }
   get type() {
-    return this.planTypeForm.get('type');
+    return this.programTypeForm.get('type');
   }
 
   getWorkoutByIndex(index: number) {
     return this.workouts.controls[index] as FormGroup;
   }
+  isprogramReady() {
+    if (this.program !== undefined) {
+      return true;
+    }
+    return false;
+  }
 
   isSubmit() {
     return (
-      this.planDetailsForm.valid &&
-      this.planTypeForm.valid &&
-      this.planWorkoutsForm.valid
+      this.programDetailsForm.valid &&
+      this.programTypeForm.valid &&
+      this.programWorkoutsForm.valid
     );
   }
 
-  submit() {
-    // console.log(this.name?.value);
-    // console.log(this.description?.value);
-    // console.log(this.type?.value);
-    // console.log(this.workouts.value);
-    // console.log(
-    //   (this.workouts.controls[0] as FormGroup).controls['name'].value
-    // );
-
-    let plan = {
-      name: this.name!.value,
-      description: this.description!.value,
-      programType: this.type!.value,
-      username: this.authService.getUsernameFromToken(),
-      workouts: this.workouts!.value,
-    };
-    console.log(plan);
-    // console.log(this.exercises);
+  buildSubmitObject() {
+    if (this.isSubmit()) {
+      this.program = {
+        name: this?.name!.value,
+        description: this?.description!.value,
+        programType: this?.type!.value,
+        username: this?.authService.getUsernameFromToken(),
+        workouts: this?.workouts!.value,
+      };
+      console.log('object built');
+    }
   }
 
-  // checkTypeofPlan() {
-  //   switch (this.planDetailsForm.controls.type.value) {
+  deleteSubmitObject() {
+    this.program = undefined;
+  }
+
+  submit() {
+    console.log(this.program);
+    if (this.program) {
+      this.programService.addprogram(this.program).subscribe(
+        (data) => {
+          console.log(data);
+          this.dialogRef.close();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
+  }
+
+  // checkTypeofprogram() {
+  //   switch (this.programDetailsForm.controls.type.value) {
   //     case 'wendler':
   //       console.log('wendler, 5 workouts');
   //       break;

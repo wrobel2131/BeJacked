@@ -18,8 +18,8 @@
         <a mat-list-item [routerLink]="['/app']"
           ><mat-icon>home</mat-icon>Home</a
         >
-        <a mat-list-item [routerLink]="['/app/plans']"
-          ><mat-icon>article</mat-icon>Plans</a
+        <a mat-list-item [routerLink]="['/app/programs']"
+          ><mat-icon>article</mat-icon>programs</a
         >
         <a mat-list-item [routerLink]="['/app/logs']"
           ><mat-icon>trending_up</mat-icon>Logs</a
@@ -35,8 +35,8 @@
         <a
           mat-list-item
           *ngIf="hasRole('admin')"
-          [routerLink]="['/app/admin/plans']"
-          ><mat-icon>edit_calendar</mat-icon>Manage plans</a
+          [routerLink]="['/app/admin/programs']"
+          ><mat-icon>edit_calendar</mat-icon>Manage programs</a
         >
         <a
           mat-list-item

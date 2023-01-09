@@ -7,26 +7,21 @@ import { HomeAppComponent } from './components/home-app/home-app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../material/material.module';
-import { NgxSpinnerModule } from 'ngx-spinner';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxUiLoaderConfig, SPINNER, PB_DIRECTION, POSITION, NgxUiLoaderHttpModule, NgxUiLoaderModule } from 'ngx-ui-loader';
-import { PlansComponent } from './components/plans/plans.component';
-import { ManageUsersComponent } from './components/manage-users/manage-users.component';
-import { ManagePlansComponent } from './components/manage-plans/manage-plans.component';
 import { ManageExercisesComponent } from './components/manage-exercises/manage-exercises.component';
-import { NewPlanComponent } from './components/new-plan/new-plan.component';
-
-
+import { ManageProgramsComponent } from './components/manage-programs/manage-programs.component';
+import { ManageUsersComponent } from './components/manage-users/manage-users.component';
+import { NewProgramComponent } from './components/new-program/new-program.component';
+import { ProgramsComponent } from './components/programs/programs.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
     HomeAppComponent,
-    PlansComponent,
+    ProgramsComponent,
     ManageUsersComponent,
-    ManagePlansComponent,
+    ManageProgramsComponent,
     ManageExercisesComponent,
-    NewPlanComponent,
+    NewProgramComponent,
   ],
   imports: [
     CommonModule,
@@ -36,11 +31,7 @@ import { NewPlanComponent } from './components/new-plan/new-plan.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
- 
-
   ],
-  schemas:[
-    CUSTOM_ELEMENTS_SCHEMA
-  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class HomeAppModule { }
+export class HomeAppModule {}

@@ -1,42 +1,42 @@
 <div class="content">
-  <h2 mat-dialog-title>Create new plan</h2>
+  <h2 mat-dialog-title>Create new program</h2>
 
   <mat-stepper class="stepper" orientation="vertical" #stepper>
     <mat-step
       class="step"
-      [stepControl]="planDetailsForm"
+      [stepControl]="programDetailsForm"
       errorMessage="Fill all required fields"
     >
       <p>
-        Enter the name of your plan. If you have specific guidelines, tips or
-        important information about your plan, enter them in the description
+        Enter the name of your program. If you have specific guidelines, tips or
+        important information about your program, enter them in the description
         below.
       </p>
       <form
         class="form form-data"
         id="detailsForm"
-        [formGroup]="planDetailsForm"
+        [formGroup]="programDetailsForm"
       >
         <ng-template matStepLabel>Fill about your new program</ng-template>
         <mat-form-field appearance="fill">
           <mat-label>
-            <span>Name of the plan</span>
+            <span>Name of the program</span>
           </mat-label>
           <input
-            id="plan-name"
+            id="program-name"
             class="form-input"
             matInput
             formControlName="name"
             type="text"
           />
-          <mat-error>Name of the plan is required</mat-error>
+          <mat-error>Name of the program is required</mat-error>
         </mat-form-field>
         <mat-form-field appearance="fill">
           <mat-label>
             <span>Description</span>
           </mat-label>
           <textarea
-            id="plan-description"
+            id="program-description"
             rows="5"
             cols="40"
             class="form-input"
@@ -57,48 +57,51 @@
     </mat-step>
     <mat-step
       class="step"
-      [stepControl]="planTypeForm"
-      errorMessage="Choose plan type"
+      [stepControl]="programTypeForm"
+      errorMessage="Choose program type"
     >
-      <ng-template matStepLabel>Choose type of your plan</ng-template>
+      <ng-template matStepLabel>Choose type of your program</ng-template>
       <p>
-        Select the type of your training plan. You can use ready-made templates
-        of training plans (JM Brakley or Jim Wendler 5/3/1) or create your dream
-        plan from scratch.
+        Select the type of your training program. You can use ready-made
+        templates of training programs (JM Brakley or Jim Wendler 5/3/1) or
+        create your dream program from scratch.
       </p>
-      <form class="form form-data" id="typeForm" [formGroup]="planTypeForm">
+      <form class="form form-data" id="typeForm" [formGroup]="programTypeForm">
         <mat-form-field appearance="fill">
           <mat-label>
             <span>Type of training program</span>
           </mat-label>
           <mat-select
-            name="plan-type"
-            id="plan-type"
+            name="program-type"
+            id="program-type"
             class="form-input"
             matInput
             formControlName="type"
             (selectionChange)="stepper.next()"
           >
-            <mat-option *ngFor="let type of planTypes" [value]="type.value">{{
-              type.label
-            }}</mat-option>
+            <mat-option
+              *ngFor="let type of programTypes"
+              [value]="type.value"
+              >{{ type.label }}</mat-option
+            >
           </mat-select>
         </mat-form-field>
       </form>
 
-      <div class="buttons single">
+      <div class="buttons">
+        <button mat-button matStepperPrevious type="button">Back</button>
         <button mat-button matStepperNext type="button">Next</button>
       </div>
     </mat-step>
 
     <mat-step
       class="step"
-      [stepControl]="planWorkoutsForm"
+      [stepControl]="programWorkoutsForm"
       errorMessage="Add workout"
     >
-      <ng-template matStepLabel>Add workouts to your plan</ng-template>
+      <ng-template matStepLabel>Add workouts to your program</ng-template>
       <p>
-        Add workouts to your plan. For example: if you train on Mondays,
+        Add workouts to your program. For example: if you train on Mondays,
         Tuesdays, Thursdays and Fridays, add 4 workouts.
       </p>
       <div class="buttons singleCenter">
@@ -192,17 +195,117 @@
         </mat-expansion-panel>
       </mat-accordion>
 
-      <div class="buttons single">
-        <button mat-button matStepperNext type="button">Next</button>
+      <div class="buttons">
+        <button mat-button matStepperPrevious type="button">Back</button>
+
+        <button
+          mat-button
+          matStepperNext
+          type="button"
+          (click)="buildSubmitObject()"
+        >
+          Next
+        </button>
       </div>
     </mat-step>
     <mat-step class="step">
       <ng-template matStepLabel>Submit</ng-template>
-      <p>Your plan is ready to submit.</p>
 
-      <button mat-button (click)="submit()" [disabled]="!isSubmit()">
-        Submit
-      </button>
+      <table
+        *ngIf="isprogramReady()"
+        class="table table-striped table-bordered"
+      >
+        <caption *ngIf="isSubmit()">
+          Your program is ready to submit
+        </caption>
+        <caption *ngIf="!isSubmit()">
+          Your program IS NOT READY to submit :(
+        </caption>
+
+        <thead>
+          <h2>
+            {{ program!.name }}
+          </h2>
+          <h4>
+            {{ program!.description }}
+          </h4>
+          <!-- <tr class="table-head-row">
+            <th colspan="all">{{ program.name }}</th>
+          </tr>
+          <tr class="table-head-row">
+            <th colspan="all">{{ program.description }}</th>
+          </tr> -->
+          <tr>
+            <th *ngFor="let workout of program!.workouts">
+              {{ workout.name }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td *ngFor="let workout of program!.workouts">
+              <span
+                class="exercise-table"
+                *ngFor="let exercise of workout.exercises; index as i"
+              >
+                <strong>{{ i + 1 }}.</strong> {{ exercise }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- <mat-table *ngIf="isprogramReady()" [dataSource]="dataSourceTable">
+        <ng-container
+          *ngFor="let workout of workoutsTable"
+          [matColumnDef]="workout.name"
+        >
+          <mat-header-cell *matHeaderCellDef>
+            {{ workout.name }}
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{ element[workout.name] }}
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns()"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns()"></mat-row>
+      </mat-table> -->
+
+      <!-- <table
+        mat-table
+        [dataSource]="program.workouts"
+        *ngIf="isprogramReady()"
+        class="mat-elevation-z8 demo-table"
+      >
+        <ng-container
+          *ngFor="let workout of program.workouts"
+          [matColumnDef]="workout.name"
+        >
+          <th mat-header-cell *matHeaderCellDef>
+            {{ workout.name }}
+          </th>
+          <td mat-cell *matCellDef="let row">
+            {{ workout.exercises }}
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns()"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns()"></tr>
+      </table> -->
+
+      <div class="buttons">
+        <button
+          mat-button
+          matStepperPrevious
+          type="button"
+          (click)="deleteSubmitObject()"
+        >
+          Back
+        </button>
+        <button mat-button (click)="submit()" [disabled]="!isSubmit()">
+          Submit
+        </button>
+      </div>
     </mat-step>
   </mat-stepper>
 </div>
