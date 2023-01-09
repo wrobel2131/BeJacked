@@ -10,19 +10,14 @@ import {
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
+import { Exercise } from 'src/app/shared/models/exercise';
+import { ExerciseCategory } from 'src/app/shared/models/exercise-category';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { PlanService } from 'src/app/shared/services/plan.service';
 
-interface Exercise {
-  name: string;
-  description: string;
-  muscles: string;
-  category: string;
-}
-
 interface CategoryNode {
-  category: string;
-  children?: Exercise[];
+  exerciseCategory: string;
+  children?: any;
 }
 
 @Component({
@@ -36,7 +31,8 @@ export class NewPlanComponent implements OnInit {
   hasChild = (_: number, node: CategoryNode) =>
     !!node.children && node.children.length > 0;
 
-  public categories?: any;
+  public categories: ExerciseCategory[] = [];
+  public exercises: Exercise[] = [];
   // public DATA?: CategoryNode[];
 
   constructor(
@@ -45,31 +41,42 @@ export class NewPlanComponent implements OnInit {
     private fb: FormBuilder,
     public planService: PlanService
   ) {
-    planService
-      .getExerciseCategories()
-      .subscribe((data) => (this.categories = data));
+    planService.getExerciseCategories().subscribe((categoryArray) => {
+      categoryArray.forEach((cat) => this.categories.push(cat));
+    });
+
+    planService.getExercises().subscribe((exercisesArray) => {
+      exercisesArray.forEach((ex) => this.exercises.push(ex));
+    });
   }
 
   createTreeData() {
     let data: CategoryNode[] = [];
-    let arr: Object[] = this!.categories;
-    arr.forEach((category: any) => {
+    // let arr: Object[] = this!.categories;
+    this.categories.forEach((category: ExerciseCategory) => {
+      console.log(category.name);
       let node: CategoryNode = {
-        category: category.name,
+        exerciseCategory: category.name,
         children: [] as Exercise[],
       };
 
-      this.exercises.forEach((exercise) => {
-        if (category.name === exercise.category) {
-          console.log('pred pushem: ' + exercise);
+      // console.log('przed for eachem: ' + this.exercises);
+      this.exercises!.forEach((exercise: Exercise) => {
+        // console.log('pred pushem: ' + exercise.name);
+        // console.log('pred pushem: ' + exercise.exerciseCategory);
+        // console.log('category.name:' + category.name);
+        // console.log('exercise.exerciseCategory:' + exercise.exerciseCategory);
+
+        if (category.name === exercise.exerciseCategory.name) {
+          // console.log('pred pushem: ' + exercise);
           node.children?.push(exercise);
         }
       });
-      console.log(node);
+      // console.log(node);
       data.push(node);
     });
 
-    console.log(data!);
+    // console.log(data!);
     this.dataSource.data = data;
   }
 
@@ -80,88 +87,6 @@ export class NewPlanComponent implements OnInit {
     { value: 'custom', label: 'Your custom training plan' },
   ];
 
-  //tez tymczasowo
-  exercises = [
-    {
-      name: 'ex0',
-      description: 'cwiczenie 0',
-      muscles: 'Cohp',
-      category: 'shoulders',
-    },
-    {
-      name: 'ex1',
-      description: 'cwiczenie 1',
-      muscles: 'Chest pressing ex',
-      category: 'chest',
-    },
-    {
-      name: 'ex2',
-      description: 'cwiczenie 2',
-      muscles: 'Legs squat',
-      category: 'legs',
-    },
-    {
-      name: 'ex3',
-      description: 'cwiczenie 3',
-      muscles: 'Hip thrusts',
-      category: 'glute',
-    },
-    {
-      name: 'ex4',
-      description: 'cwiczenie 4',
-      muscles: 'Pull upsex',
-      category: 'back',
-    },
-    {
-      name: 'ex5',
-      description: 'cwiczenie 5',
-      muscles: 'Biceps cwiczeniw',
-      category: 'biceps',
-    },
-    {
-      name: 'ex6',
-      description: 'cwiczenie 6',
-      muscles: 'Hummer curls',
-      category: 'forearm_flexors',
-    },
-    {
-      name: 'ex10',
-      description: 'cwiczenie 10',
-      muscles: 'forearms extensors',
-      category: 'forearm_extensor',
-    },
-    {
-      name: 'ex7',
-      description: 'cwiczenie 7',
-      muscles: 'brzuszki',
-      category: 'abs',
-    },
-    {
-      name: 'ex8',
-      description: 'cwiczenie 8',
-      muscles: 'tricpes extensions',
-      category: 'triceps',
-    },
-    {
-      name: 'ex9',
-      description: 'cwiczenie 9',
-      muscles: 'Ccalves exercise',
-      category: 'calves',
-    },
-    {
-      name: 'ex11',
-      description: 'cwiczenie 11',
-      muscles: 'cols',
-      category: 'calves',
-    },
-    {
-      name: 'ex12',
-      description: 'cwiczenie 12',
-      muscles: 'cols',
-      category: 'back',
-    },
-  ];
-
   planType: string = 'custom';
 
   planDetailsForm!: FormGroup;
@@ -170,7 +95,6 @@ export class NewPlanComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('ngoiinit data');
-    // this.createTreeData();
     this.planDetailsForm = this.fb.group({
       name: this.fb.control(null, [Validators.required]),
       description: null,
@@ -199,13 +123,36 @@ export class NewPlanComponent implements OnInit {
     return this.planTypeForm.get('type');
   }
 
-  check() {
-    console.log(this.name?.value);
-    console.log(this.description?.value);
-    console.log(this.type?.value);
-    console.log(this.workouts.value);
+  getWorkoutByIndex(index: number) {
+    return this.workouts.controls[index] as FormGroup;
+  }
 
-    // this.createTreeData();
+  isSubmit() {
+    return (
+      this.planDetailsForm.valid &&
+      this.planTypeForm.valid &&
+      this.planWorkoutsForm.valid
+    );
+  }
+
+  submit() {
+    // console.log(this.name?.value);
+    // console.log(this.description?.value);
+    // console.log(this.type?.value);
+    // console.log(this.workouts.value);
+    // console.log(
+    //   (this.workouts.controls[0] as FormGroup).controls['name'].value
+    // );
+
+    let plan = {
+      name: this.name!.value,
+      description: this.description!.value,
+      programType: this.type!.value,
+      username: this.authService.getUsernameFromToken(),
+      workouts: this.workouts!.value,
+    };
+    console.log(plan);
+    // console.log(this.exercises);
   }
 
   // checkTypeofPlan() {
@@ -229,16 +176,22 @@ export class NewPlanComponent implements OnInit {
       console.log('creating data');
       this.createTreeData();
     }
+    let index: number = this.workouts.length;
+    console.log(index);
     // const workoutArray = this.workouts;
     (this.workouts as FormArray).push(
       this.fb.group({
-        name: String,
+        name: this.fb.control('Workout ' + index, [Validators.required]),
         exercises: this.fb.array([], [Validators.required]),
       })
     );
   }
 
   addExerciseToWorkout(event: any, workoutIndex: number, ex: string) {
+    console.log(
+      'Adding exercise to ' +
+        this.getWorkoutByIndex(workoutIndex).controls['name'].value
+    );
     if (event.checked) {
       (this.workouts.controls[workoutIndex].get('exercises') as FormArray).push(
         this.fb.control(ex)
@@ -257,28 +210,3 @@ export class NewPlanComponent implements OnInit {
     (workoutArray as FormArray).removeAt(index);
   }
 }
-
-// interface FoodNode {
-//   name: string;
-//   children?: FoodNode[];
-// }
-
-// const TREE_DATA: FoodNode[] = [
-//   {
-//     name: 'Fruit',
-//     children: [{ name: 'Apple' }, { name: 'Banana' }, { name: 'Fruit loops' }],
-//   },
-//   {
-//     name: 'Vegetables',
-//     children: [
-//       {
-//         name: 'Green',
-//         children: [{ name: 'Broccoli' }, { name: 'Brussels sprouts' }],
-//       },
-//       {
-//         name: 'Orange',
-//         children: [{ name: 'Pumpkins' }, { name: 'Carrots' }],
-//       },
-//     ],
-//   },
-// ];

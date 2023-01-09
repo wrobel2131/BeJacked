@@ -28,11 +28,11 @@ export class AuthGuard implements CanActivate {
       return false;
     }
     if (this.authService.isLoggedIn()) {
-      console.log('logged in true');
+      // console.log('logged in true');
       return true;
     }
 
-    console.log('can activate, logged out, redirect');
+    // console.log('can activate, logged out, redirect');
     this.authService.logout();
     // this.router.navigate([''])
     return false;

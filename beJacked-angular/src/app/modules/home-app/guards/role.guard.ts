@@ -29,7 +29,7 @@ export class RoleGuard implements CanActivate {
         // console.log("token was expired")
         const refresh = this.authService.refreshToken().pipe(
           tap((res) => {
-            console.log('refreshing');
+            // console.log('refreshing');
             this.authService.setSession(res);
           }),
           catchError((err) => this.authService.handleError(err))
@@ -42,7 +42,7 @@ export class RoleGuard implements CanActivate {
         );
         // const rolesFromToken = decodedToken.getItem('roles');
         const roles = decodedToken['roles'];
-        console.log(roles);
+        // console.log(roles);
 
         if (route.data['roles'].some((role: string) => roles.includes(role))) {
           // console.log(route.data['roles'].some((role: string) => roles.includes(role)))

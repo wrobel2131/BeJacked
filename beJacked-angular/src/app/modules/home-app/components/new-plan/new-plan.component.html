@@ -29,6 +29,7 @@
             formControlName="name"
             type="text"
           />
+          <mat-error>Name of the plan is required</mat-error>
         </mat-form-field>
         <mat-form-field appearance="fill">
           <mat-label>
@@ -106,11 +107,29 @@
         </button>
       </div>
 
-      <mat-accordion *ngFor="let workout of workouts.controls; index as i">
-        <mat-expansion-panel hideToggle #panel>
+      <mat-accordion>
+        <mat-expansion-panel
+          *ngFor="let workout of workouts.controls; index as i"
+          #panel
+          [formGroup]="getWorkoutByIndex(i)"
+        >
           <mat-expansion-panel-header>
-            <mat-panel-title> Workout {{ i }} </mat-panel-title>
+            <mat-panel-title>
+              {{ getWorkoutByIndex(i).controls["name"].value }}
+            </mat-panel-title>
           </mat-expansion-panel-header>
+          <mat-form-field appearance="fill">
+            <mat-label>
+              <span>Name of the workout</span>
+            </mat-label>
+            <input
+              class="form-input"
+              matInput
+              type="text"
+              formControlName="name"
+            />
+            <mat-error>Workout name is required</mat-error>
+          </mat-form-field>
 
           <mat-tree
             [dataSource]="dataSource"
@@ -132,7 +151,7 @@
                   <div class="exercise-info">
                     <p>Description: {{ node.description }}</p>
                     <p>Engaged muslces: {{ node.muscles }}</p>
-                    <p>Category {{ node.category }}</p>
+                    <p>Category: {{ node.exerciseCategory.name }}</p>
                   </div>
                 </mat-expansion-panel>
               </mat-accordion>
@@ -143,7 +162,7 @@
                 <button
                   mat-icon-button
                   matTreeNodeToggle
-                  [attr.aria-label]="'Toggle ' + node.category"
+                  [attr.aria-label]="'Toggle ' + node.exerciseCategory"
                 >
                   <mat-icon class="mat-icon-rtl-mirror">
                     {{
@@ -153,7 +172,7 @@
                     }}
                   </mat-icon>
                 </button>
-                {{ node.category }}
+                {{ node.exerciseCategory }}
               </div>
 
               <div
@@ -165,9 +184,11 @@
             </mat-nested-tree-node>
           </mat-tree>
 
-          <button mat-button extended (click)="removeWorkout(i)">
-            <mat-icon>delete</mat-icon>
-          </button>
+          <mat-action-row>
+            <button mat-button extended (click)="removeWorkout(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-action-row>
         </mat-expansion-panel>
       </mat-accordion>
 
@@ -176,8 +197,12 @@
       </div>
     </mat-step>
     <mat-step class="step">
-      <ng-template matStepLabel>check</ng-template>
-      <button (click)="check()">check</button>
+      <ng-template matStepLabel>Submit</ng-template>
+      <p>Your plan is ready to submit.</p>
+
+      <button mat-button (click)="submit()" [disabled]="!isSubmit()">
+        Submit
+      </button>
     </mat-step>
   </mat-stepper>
 </div>

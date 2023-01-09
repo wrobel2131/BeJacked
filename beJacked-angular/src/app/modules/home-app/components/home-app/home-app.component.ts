@@ -16,4 +16,8 @@ export class HomeAppComponent implements OnInit {
   public logout() {
     this.authService.logout();
   }
+
+  click() {
+    console.log(this.authService.getUsernameFromToken());
+  }
 }

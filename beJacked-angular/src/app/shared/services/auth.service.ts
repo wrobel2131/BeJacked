@@ -24,7 +24,7 @@ export class AuthService {
   public URL = 'http://localhost:8080/api/v1/auth';
 
   public handleError(error: HttpErrorResponse) {
-    console.log(error);
+    // console.log(error);
     if (error.status === 0) {
       // console.log("client error");
       return throwError(() => new Error(error.message));
@@ -37,10 +37,11 @@ export class AuthService {
   public setSession(res: any) {
     localStorage.setItem('access_token', res.access_token);
     localStorage.setItem('refresh_token', res.refresh_token);
-    console.log('ref: ' + res.refresh_token);
-    console.log('acc: ' + res.access_token);
+    localStorage.setItem('username', res.username);
+    // console.log('ref: ' + res.refresh_token);
+    // console.log('acc: ' + res.access_token);
 
-    console.log('Set in local storage');
+    // console.log('Set in local storage');
   }
 
   public login(credentials: Object): Observable<Object> {
@@ -51,7 +52,7 @@ export class AuthService {
   }
 
   public register(data: Object): Observable<Object> {
-    console.log(data);
+    // console.log(data);
     return this.http.post<Object>(this.URL + '/register', data).pipe(
       tap((res) => console.log(res)),
       catchError(this.handleError)
@@ -61,12 +62,13 @@ export class AuthService {
   public removeTokens() {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
+    localStorage.removeItem('username');
   }
   public logout() {
     this.removeTokens();
     this.dialog.closeAll();
     this.router.navigate(['']);
-    console.log('logged out');
+    // console.log('logged out');
   }
 
   public refreshToken() {
@@ -80,7 +82,9 @@ export class AuthService {
   public isLoggedIn(): boolean {
     if (
       localStorage.getItem('access_token') !== null &&
-      localStorage.getItem('refresh_token') !== null
+      localStorage.getItem('refresh_token') !== null &&
+      localStorage.getItem('username') !== null &&
+      this.getUsernameFromToken() === localStorage.getItem('username')
     ) {
       return true;
     } else {
@@ -94,6 +98,11 @@ export class AuthService {
 
   public decodeToken(token: string) {
     return helper.decodeToken(token);
+  }
+
+  public getUsernameFromToken() {
+    let token = this.getAccessToken();
+    return helper.decodeToken(token).sub;
   }
 
   public getAccessToken(): string {

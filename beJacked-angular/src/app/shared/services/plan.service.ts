@@ -1,6 +1,8 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, tap, throwError } from 'rxjs';
+import { Exercise } from '../models/exercise';
+import { ExerciseCategory } from '../models/exercise-category';
 
 @Injectable({
   providedIn: 'root',
@@ -21,8 +23,17 @@ export class PlanService {
     }
   }
 
-  public getExerciseCategories(): Observable<Object> {
-    return this.http.get(this.EXERCISES_URL + '/category').pipe(
+  public getExerciseCategories(): Observable<ExerciseCategory[]> {
+    return this.http
+      .get<ExerciseCategory[]>(this.EXERCISES_URL + '/category')
+      .pipe(
+        tap((res) => console.log(res)),
+        catchError(this.handleError)
+      );
+  }
+
+  public getExercises(): Observable<Exercise[]> {
+    return this.http.get<Exercise[]>(this.EXERCISES_URL).pipe(
       tap((res) => console.log(res)),
       catchError(this.handleError)
     );
