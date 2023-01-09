@@ -16,7 +16,7 @@ public interface ExerciseService {
     List<Exercise> getExercisesByCategory(String exerciseCategory);
     List<Exercise> getExercises();
     Exercise convertAddDTOtoExercise(AddExerciseDTO form);
-    Exercise convertDTOtoExercise(ExerciseDTO form);
+    Exercise convertDTOtoExercise(String exerciseName);
 
     ExerciseCategory getExerciseCategory(String exerciseCategory);
     List<ExerciseCategory> getExerciseCategories();

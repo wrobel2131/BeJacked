@@ -9,8 +9,8 @@ public class ProgramDTO {
     private String name;
     private String description;
     private String username;
-
     private List<WorkoutDTO> workouts;
+//    private List<{}>
 
     private String programType;
 }

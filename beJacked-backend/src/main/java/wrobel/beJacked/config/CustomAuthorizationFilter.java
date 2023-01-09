@@ -19,6 +19,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -79,14 +80,16 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     log.info(String.valueOf(response.getStatus()));
 
 
-//                        byte[] inputStreamBytes = StreamUtils.copyToByteArray(request.getInputStream());
-//                        Map<String, String> jsonRequest = new ObjectMapper().readValue(inputStreamBytes, Map.class);
-//                        String requestBodyJsonString = jsonRequest.get("body");
-//                        log.info(requestBodyJsonString);
-                        // other code
-                        log.info(request.getHeader("Authorization"));
-//                        String body = request.getReader().lines().collect(Collectors.joining());
-//                        log.info(body);
+//                    StringBuilder buffer = new StringBuilder();
+//                    BufferedReader reader = request.getReader();
+//                    String line;
+//                    while ((line = reader.readLine()) != null) {
+//                        buffer.append(line);
+//                    }
+//                    String body = buffer.toString();
+//                        log.info("body: " + body);
+//                        log.info(request.getHeader("Authorization"));
+
 
 
 

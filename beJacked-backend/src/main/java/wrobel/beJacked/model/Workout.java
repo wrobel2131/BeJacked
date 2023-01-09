@@ -1,10 +1,12 @@
 package wrobel.beJacked.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -36,7 +38,7 @@ public class Workout {
             inverseJoinColumns = @JoinColumn(name = "exercise_id")
     )
     @ToString.Exclude
-    private Set<Exercise> exercises = new HashSet<>();
+    private List<Exercise> exercises;
 
     @Override
     public boolean equals(Object o) {

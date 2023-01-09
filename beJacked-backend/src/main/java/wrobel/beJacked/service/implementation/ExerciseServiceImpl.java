@@ -57,8 +57,8 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public Exercise convertDTOtoExercise(ExerciseDTO form) {
-        Exercise exercise = exerciseRepository.findExerciseByName(form.getName());
+    public Exercise convertDTOtoExercise(String exerciseName) {
+        Exercise exercise = exerciseRepository.findExerciseByName(exerciseName);
         return exercise;
     }
 

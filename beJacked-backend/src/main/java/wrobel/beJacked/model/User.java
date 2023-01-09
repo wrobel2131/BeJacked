@@ -1,5 +1,6 @@
 package wrobel.beJacked.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -32,6 +33,7 @@ public class User {
     private String surname;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     @ToString.Exclude
     private Set<Program> programs;
 

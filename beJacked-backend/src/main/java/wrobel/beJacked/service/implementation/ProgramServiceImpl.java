@@ -3,26 +3,26 @@ package wrobel.beJacked.service.implementation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import wrobel.beJacked.DTO.ExerciseDTO;
 import wrobel.beJacked.DTO.ProgramDTO;
 import wrobel.beJacked.DTO.WorkoutDTO;
 import wrobel.beJacked.model.*;
 import wrobel.beJacked.repository.ProgramRepository;
 import wrobel.beJacked.repository.ProgramTypeRepository;
 import wrobel.beJacked.repository.UserRepository;
+import wrobel.beJacked.repository.WorkoutRepository;
 import wrobel.beJacked.service.ExerciseService;
 import wrobel.beJacked.service.ProgramService;
 
 import javax.transaction.Transactional;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
 public class ProgramServiceImpl implements ProgramService {
+    private final WorkoutRepository workoutRepository;
 
     private final ProgramRepository programRepository;
     private final ProgramTypeRepository programTypeRepository;
@@ -50,19 +50,74 @@ public class ProgramServiceImpl implements ProgramService {
         return programRepository.findProgramByNameAndUser(programName, user);
     }
 
-    @Override
-    public Program convertDTOtoProgram(ProgramDTO form) {
+    public Program createEmptyProgram(ProgramDTO form) {
         Program program = new Program();
         program.setName(form.getName());
         program.setDescription(form.getDescription());
         ProgramType programType = programTypeRepository.findProgramTypeByName(form.getProgramType());
         program.setProgramType(programType);
 
-        for(WorkoutDTO workout: form.getWorkouts()) {
-
-        }
+        List<Workout> workouts = new ArrayList<>();
+        program.setWorkouts(workouts);
         User user = userRepository.findByUsername(form.getUsername());
         program.setUser(user);
+        return program;
+
+
+    }
+
+    public List<Workout> createWorkouts(Program program, ProgramDTO form) {
+        List<Workout> workouts = new ArrayList<>();
+        for(WorkoutDTO workoutDto: form.getWorkouts()) {
+            Workout workout = new Workout();
+            workout.setName(workoutDto.getName());
+            workout.setProgram(program);
+            List<Exercise> exercises = new ArrayList<>();
+            for (String exerciseDto : workoutDto.getExercises()) {
+                Exercise exercise = exerciseService.getExerciseByName(exerciseDto);
+                exercises.add(exercise);
+            }
+            workout.setExercises(exercises);
+
+//            workouts.add(workout);
+            Workout w = workoutRepository.save(workout);
+            workouts.add(w);
+        }
+
+        return workouts;
+    }
+
+    @Override
+    public Program addWorkoutsToProgram(Program program, List<Workout> workouts) {
+
+        log.info(String.valueOf(program.getId()));
+
+//        List<Workout> workouts = new ArrayList<>();
+//        for(WorkoutDTO workoutDto: form.getWorkouts()) {
+//            Workout workout = new Workout();
+//            workout.setName(workoutDto.getName());
+//            workout.setProgram(program);
+//            List<Exercise> exercises = new ArrayList<>();
+//            for (String exerciseDto : workoutDto.getExercises()) {
+//                Exercise exercise = exerciseService.getExerciseByName(exerciseDto);
+//                exercises.add(exercise);
+//            }
+//            workout.setExercises(exercises);
+//
+//            workouts.add(workout);
+//        }
+
+//        program.setWorkouts(workouts);
+        for(Workout workout: workouts) {
+            log.info(String.valueOf(workout.getId()));
+            log.info(workout.getName());
+
+            for (Exercise exercise: workout.getExercises()) {
+                log.info(String.valueOf(exercise));
+            }
+        }
+
+        program.setWorkouts(workouts);
 
         return program;
     }
@@ -72,8 +127,8 @@ public class ProgramServiceImpl implements ProgramService {
         Workout workout = new Workout();
         workout.setName(form.getName());
         workout.setProgram(program);
-        Set<Exercise> exercises = new HashSet<>();
-        for(ExerciseDTO exercise: form.getExercises()) {
+        List<Exercise> exercises = new ArrayList<>();
+        for(String exercise: form.getExercises()) {
             exercises.add(exerciseService.convertDTOtoExercise(exercise));
         }
         workout.setExercises(exercises);
