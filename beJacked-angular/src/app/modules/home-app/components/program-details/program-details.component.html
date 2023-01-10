@@ -1,0 +1,33 @@
+<div class="content" *ngIf="data">
+  <h2 mat-dialog-title>{{ data.name }}</h2>
+  <h3>{{ data.description }}</h3>
+  <mat-divider></mat-divider>
+  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
+    <mat-tab *ngFor="let workout of workouts" label="{{ workout.name }}">
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let exercise of workout.exercises">
+          <mat-expansion-panel-header>
+            <mat-panel-title> {{ exercise.name }} </mat-panel-title>
+          </mat-expansion-panel-header>
+          <ng-template matExpansionPanelContent>
+            <div class="exercise-content">
+              <p class="exercise-description">{{ exercise.description }}</p>
+              <mat-divider></mat-divider>
+              <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
+                <mat-tab label="Info">
+                  <div class="tab info-content"></div>
+                </mat-tab>
+                <mat-tab label="Training results">
+                  <div class="tab results-content"></div>
+                </mat-tab>
+                <mat-tab label="Previous logs">
+                  <div class="tab logs-content"></div>
+                </mat-tab>
+              </mat-tab-group>
+            </div>
+          </ng-template>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-tab>
+  </mat-tab-group>
+</div>

@@ -12,6 +12,7 @@ import { ManageProgramsComponent } from './components/manage-programs/manage-pro
 import { ManageUsersComponent } from './components/manage-users/manage-users.component';
 import { NewProgramComponent } from './components/new-program/new-program.component';
 import { ProgramsComponent } from './components/programs/programs.component';
+import { ProgramDetailsComponent } from './components/program-details/program-details.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { ProgramsComponent } from './components/programs/programs.component';
     ManageProgramsComponent,
     ManageExercisesComponent,
     NewProgramComponent,
+    ProgramDetailsComponent,
   ],
   imports: [
     CommonModule,

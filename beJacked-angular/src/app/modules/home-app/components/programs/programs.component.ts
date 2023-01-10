@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Program } from 'src/app/shared/models/program';
 import { ProgramService } from 'src/app/shared/services/program.service';
 import { NewProgramComponent } from '../new-program/new-program.component';
+import { ProgramDetailsComponent } from '../program-details/program-details.component';
 
 @Component({
   selector: 'app-programs',
@@ -13,10 +14,28 @@ export class ProgramsComponent implements OnInit {
   public programs?: Program[];
 
   openAddProgramDialog(): void {
-    this.dialog.open(NewProgramComponent, {
+    const dialogRef = this.dialog.open(NewProgramComponent, {
       height: '900px',
       width: '80%',
       // closeOnNavigation: true
+    });
+
+    dialogRef.afterClosed().subscribe((res) => {
+      this.getPrograms();
+    });
+  }
+
+  openProgramDetailsDialog(program: Program): void {
+    const dialogRef = this.dialog.open(ProgramDetailsComponent, {
+      height: '900px',
+      width: '80%',
+      data: program,
+      // closeOnNavigation: true
+    });
+
+    console.log(program);
+    dialogRef.afterClosed().subscribe((res) => {
+      this.getPrograms();
     });
   }
 
@@ -26,9 +45,10 @@ export class ProgramsComponent implements OnInit {
   ) {}
 
   getPrograms() {
-    this.programService.getprograms().subscribe(
+    this.programService.getPrograms().subscribe(
       (data) => {
-        console.log(data);
+        this.programs = data;
+        // console.log(data);
       },
       (error) => {
         console.log(error);
@@ -36,5 +56,7 @@ export class ProgramsComponent implements OnInit {
     );
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getPrograms();
+  }
 }

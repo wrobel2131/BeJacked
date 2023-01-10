@@ -20,13 +20,13 @@ import { AuthService } from '../services/auth.service';
 export class AuthInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService) {}
   isRefreshing = false;
-  static counter = 0;
+  // static counter = 0;
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<any> {
     // console.log("interceptor start")
     const accessToken = this.authService.getAccessToken();
     const refreshToken = this.authService.getRefreshToken();
-    AuthInterceptor.counter = AuthInterceptor.counter + 1;
+    // AuthInterceptor.counter = AuthInterceptor.counter + 1;
     // console.log(AuthInterceptor.counter)
 
     // console.log("intercept, is token expired?: " + this.authService.isTokenExpired(accessToken));

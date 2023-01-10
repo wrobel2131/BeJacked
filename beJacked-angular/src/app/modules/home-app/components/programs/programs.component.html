@@ -1,7 +1,17 @@
-<div>
-  <button mat-button (click)="openAddProgramDialog()">
-    <mat-icon>add</mat-icon> Create new program
-  </button>
+<h2 mat-dialog-title>Programs</h2>
 
-  <button mat-button (click)="getPrograms()">get programs</button>
-</div>
+<button mat-button (click)="openAddProgramDialog()">
+  <mat-icon>add</mat-icon> Create new program
+</button>
+
+<!-- <button mat-button (click)="getPrograms()">get programs</button> -->
+<ng-container>
+  <mat-grid-list *ngIf="programs" gutterSize="10px" cols="4" rowHeight="100px">
+    <mat-grid-tile
+      *ngFor="let program of programs"
+      (click)="openProgramDetailsDialog(program)"
+    >
+      {{ program.name }}
+    </mat-grid-tile>
+  </mat-grid-list>
+</ng-container>

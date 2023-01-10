@@ -79,11 +79,9 @@
             formControlName="type"
             (selectionChange)="stepper.next()"
           >
-            <mat-option
-              *ngFor="let type of programTypes"
-              [value]="type.value"
-              >{{ type.label }}</mat-option
-            >
+            <mat-option *ngFor="let type of programTypes" [value]="type.name">{{
+              type.name
+            }}</mat-option>
           </mat-select>
         </mat-form-field>
       </form>

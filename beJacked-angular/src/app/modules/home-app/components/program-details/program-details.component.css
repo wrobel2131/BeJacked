@@ -1,0 +1,92 @@
+h2 {
+  font-weight: bold;
+  font-size: 30px;
+  text-align: center;
+}
+
+h3 {
+  font-weight: 400;
+  font-size: 20px;
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  /* align-items: center; */
+
+  border-radius: 15px;
+}
+
+button {
+  font-weight: 300;
+  color: white;
+  background-color: black;
+  border-radius: 15px;
+}
+
+/* ::ng-deep.mat-icon-button {
+  background-color: transparent !important;
+  color: black !important;
+} */
+::ng-deep.mat-dialog-container {
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(5px);
+}
+
+::ng-deep.mat-button-disabled {
+  color: rgba(255, 255, 255, 0.4) !important;
+  background-color: rgba(1, 1, 1, 0.2) !important;
+}
+
+/* active tab */
+::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
+  color: black;
+  background-color: transparent !important;
+}
+
+/* ink bar */
+::ng-deep .mat-ink-bar {
+  background-color: black !important;
+}
+
+.mat-expansion-panel {
+  background-color: transparent;
+}
+
+.mat-expansion-panel-header .mat-expansion-panel-header-title {
+  font-weight: 500;
+}
+
+/* .mat-expansion-panel-body {
+  display: flex;
+  justify-content: center;
+} */
+
+.exercise-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.exercise-content .mat-tab-group {
+  width: 80%;
+}
+.tab {
+  width: 100%;
+  height: 700px;
+}
+
+.info-content {
+  background-color: pink;
+}
+.results-content {
+  background-color: green;
+}
+
+.logs-content {
+  background-color: red;
+}

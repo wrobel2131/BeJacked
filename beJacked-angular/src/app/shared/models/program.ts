@@ -1,3 +1,4 @@
+import { User } from './user';
 import { Workout } from './workout';
 
 export interface Program {
@@ -5,6 +6,6 @@ export interface Program {
   name: string;
   description: string;
   programType: string;
-  username: string;
+  user: User;
   workouts: Workout[];
 }

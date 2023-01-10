@@ -4,6 +4,7 @@ import { catchError, Observable, tap, throwError } from 'rxjs';
 import { Exercise } from '../models/exercise';
 import { ExerciseCategory } from '../models/exercise-category';
 import { Program } from '../models/program';
+import { ProgramType } from '../models/program-type';
 
 @Injectable({
   providedIn: 'root',
@@ -41,7 +42,7 @@ export class ProgramService {
     );
   }
 
-  public addprogram(program: Object): Observable<Object> {
+  public addProgram(program: Object): Observable<Object> {
     console.log(program);
     return this.http.post<Object>(this.PROGRAMS_URL, program).pipe(
       tap((res) => console.log(res)),
@@ -49,8 +50,15 @@ export class ProgramService {
     );
   }
 
-  public getprograms(): Observable<Program[]> {
+  public getPrograms(): Observable<Program[]> {
     return this.http.get<Program[]>(this.PROGRAMS_URL).pipe(
+      tap((res) => console.log(res)),
+      catchError(this.handleError)
+    );
+  }
+
+  public getProgramTypes(): Observable<ProgramType[]> {
+    return this.http.get<Program[]>(this.PROGRAMS_URL + '/programTypes').pipe(
       tap((res) => console.log(res)),
       catchError(this.handleError)
     );

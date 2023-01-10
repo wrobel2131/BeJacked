@@ -12,6 +12,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { Exercise } from 'src/app/shared/models/exercise';
 import { ExerciseCategory } from 'src/app/shared/models/exercise-category';
+import { ProgramType } from 'src/app/shared/models/program-type';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { ProgramService } from 'src/app/shared/services/program.service';
 
@@ -47,6 +48,7 @@ export class NewProgramComponent implements OnInit {
   public categories: ExerciseCategory[] = [];
   public exercises: Exercise[] = [];
   public program?: programToBackend;
+  public programTypes: ProgramType[] = [];
 
   displayedColumns() {
     return this.program!.workouts.map((w) => w.name);
@@ -64,6 +66,10 @@ export class NewProgramComponent implements OnInit {
 
     programService.getExercises().subscribe((exercisesArray) => {
       exercisesArray.forEach((ex) => this.exercises.push(ex));
+    });
+
+    programService.getProgramTypes().subscribe((types) => {
+      types.forEach((type) => this.programTypes.push(type));
     });
   }
 
@@ -88,11 +94,11 @@ export class NewProgramComponent implements OnInit {
   }
 
   //tymaczasowo, typy programow maja byc pobierane z API
-  programTypes = [
-    { value: 'wendler', label: "Jim Wendler's 5/3/1" },
-    { value: 'brakley', label: 'JM Brakley' },
-    { value: 'custom', label: 'Your custom training program' },
-  ];
+  // programTypes = [
+  //   { value: 'wendler', label: "Jim Wendler's 5/3/1" },
+  //   { value: 'brakley', label: 'JM Brakley' },
+  //   { value: 'custom', label: 'Your custom training program' },
+  // ];
 
   programType: string = 'custom';
 
@@ -168,7 +174,7 @@ export class NewProgramComponent implements OnInit {
   submit() {
     console.log(this.program);
     if (this.program) {
-      this.programService.addprogram(this.program).subscribe(
+      this.programService.addProgram(this.program).subscribe(
         (data) => {
           console.log(data);
           this.dialogRef.close();
