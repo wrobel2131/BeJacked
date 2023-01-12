@@ -7,10 +7,13 @@ import wrobel.beJacked.DTO.AddExerciseDTO;
 import wrobel.beJacked.DTO.ProgramDTO;
 import wrobel.beJacked.model.Exercise;
 import wrobel.beJacked.model.Program;
+import wrobel.beJacked.model.ProgramType;
 import wrobel.beJacked.model.Workout;
 import wrobel.beJacked.service.ProgramService;
 
 import javax.annotation.security.RolesAllowed;
+import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -21,28 +24,44 @@ import java.util.List;
 public class ProgramController {
 
     private final ProgramService programService;
+    private final HttpServletRequest request;
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_TRAINER", "ROLE_USER"})
+    @GetMapping()
+    List<Program> getPrograms(HttpServletRequest request) {
+        Principal principal = request.getUserPrincipal();
+
+        return programService.getUserPrograms(principal.getName());
+    }
 
     @RolesAllowed({"ROLE_ADMIN", "ROLE_TRAINER", "ROLE_USER"})
     @PostMapping()
     Program addProgram(@RequestBody ProgramDTO form) {
-        //TODO sprawdzenie przychodzacego exercise DTO
         log.info("in controller");
-//        ProgramDTO programDTO = (ProgramDTO) form;
-//        log.info(form.name);
-//        log.info(programDTO.toString());
+
         log.info(String.valueOf(form));
         if(form == null) {
             throw new RuntimeException("not valid program ");
+        }
+
+        Principal principal = request.getUserPrincipal();
+
+        if(programService.getUserProgramByName(principal.getName(), form.getName()) != null) {
+            throw new RuntimeException("program already exists");
         }
 
 
         Program program = programService.createEmptyProgram(form);
         Program returnedProgram = programService.saveProgram(program);
         List<Workout> workouts= programService.createWorkouts(returnedProgram, form);
-        Program programToReturn = programService.addWorkoutsToProgram(returnedProgram, workouts);
 
 
 //        return "done";
-        return programToReturn;
+        return programService.addWorkoutsToProgram(returnedProgram, workouts);
+    }
+
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_TRAINER", "ROLE_USER"})
+    @GetMapping("/programTypes")
+    List<ProgramType> getProgramTypes() {
+        return programService.getProgramTypes();
     }
 }

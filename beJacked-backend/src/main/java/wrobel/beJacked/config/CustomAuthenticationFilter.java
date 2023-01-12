@@ -77,7 +77,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         //Signing access and refresh token, secret need to be get from properties for example
 
         int accessTokenExpireTime = 60*1000; //minuta
-        int refreshTokenExpireTime = 30*60*1000; //30 min
+        int refreshTokenExpireTime = 24*60*60*1000; //24h min
 
         String accessToken = CustomJWTConfig.createAccessToken(request, user.getUsername(),user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()), accessTokenExpireTime);
         String refreshToken = CustomJWTConfig.createRefreshToken(request, user.getUsername(), refreshTokenExpireTime);

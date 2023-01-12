@@ -1,6 +1,7 @@
 package wrobel.beJacked.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -29,6 +30,8 @@ public class Workout {
     @ManyToOne
     @JoinColumn(name = "program_id")
 //    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+
     private Program program;
 
     @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)

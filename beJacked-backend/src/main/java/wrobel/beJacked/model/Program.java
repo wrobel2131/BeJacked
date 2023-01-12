@@ -37,7 +37,7 @@ public class Program {
     private ProgramType programType;
 
     @OneToMany(mappedBy = "program")
-    @JsonIgnore
+//    @JsonIgnore
 //    @ToString.Exclude
     private List<Workout> workouts;
 

@@ -16,9 +16,7 @@ public interface ProgramService {
     List<Program> getUserPrograms(String username);
     Program getUserProgramByName(String username, String programName);
 
-//    Program convertDTOtoProgram(ProgramDTO form);
 
-//    Program addWorkoutsToProgram(Program program, ProgramDTO form);
 
     Program addWorkoutsToProgram(Program program, List<Workout> workouts);
 
