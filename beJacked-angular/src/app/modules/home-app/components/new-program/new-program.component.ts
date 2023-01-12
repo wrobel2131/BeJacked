@@ -1,5 +1,16 @@
 import { NestedTreeControl } from '@angular/cdk/tree';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MatTableDataSource } from '@angular/material/table';
+
 import {
   Form,
   FormArray,
@@ -15,11 +26,20 @@ import { ExerciseCategory } from 'src/app/shared/models/exercise-category';
 import { ProgramType } from 'src/app/shared/models/program-type';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { ProgramService } from 'src/app/shared/services/program.service';
-
-interface CategoryNode {
-  exerciseCategory: string;
-  children?: any;
-}
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { MatSort, Sort } from '@angular/material/sort';
+import {
+  MatPaginator,
+  MatPaginatorIntl,
+  PageEvent,
+} from '@angular/material/paginator';
+import {
+  trigger,
+  state,
+  style,
+  transition,
+  animate,
+} from '@angular/animations';
 
 interface WorkoutToBackend {
   name: string;
@@ -38,21 +58,45 @@ interface programToBackend {
   selector: 'app-new-program',
   templateUrl: './new-program.component.html',
   styleUrls: ['./new-program.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition(
+        'expanded <=> collapsed',
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      ),
+    ]),
+  ],
 })
 export class NewProgramComponent implements OnInit {
-  treeControl = new NestedTreeControl<CategoryNode>((node) => node.children);
-  dataSource = new MatTreeNestedDataSource<CategoryNode>();
-  hasChild = (_: number, node: CategoryNode) =>
-    !!node.children && node.children.length > 0;
+  @ViewChild(MatSort, { static: false }) sort!: MatSort;
+  @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
 
+  @ViewChildren(MatSort) sorts!: QueryList<MatSort>;
+  @ViewChildren(MatPaginator) paginators!: QueryList<MatPaginator>;
+
+  dataSources: MatTableDataSource<Exercise>[] = [];
+  // sorts: MatSort[] = [];
+  // paginators: MatPaginator[] = [];
+
+  public pageEvent: PageEvent;
   public categories: ExerciseCategory[] = [];
   public exercises: Exercise[] = [];
   public program?: programToBackend;
   public programTypes: ProgramType[] = [];
 
-  displayedColumns() {
-    return this.program!.workouts.map((w) => w.name);
-  }
+  programType: string = 'custom';
+
+  programDetailsForm!: FormGroup;
+  programTypeForm!: FormGroup;
+  programWorkoutsForm!: FormGroup;
+
+  displayedColumns: string[] = ['select', 'id', 'name', 'exerciseCategory'];
+  columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
+  expandedElement?: Exercise | null;
+  pageSizeOptions: number[] = [];
+  pageSize: number = 5;
 
   constructor(
     public dialogRef: MatDialogRef<NewProgramComponent>,
@@ -61,53 +105,35 @@ export class NewProgramComponent implements OnInit {
     public programService: ProgramService
   ) {
     programService.getExerciseCategories().subscribe((categoryArray) => {
-      categoryArray.forEach((cat) => this.categories.push(cat));
+      this.categories = categoryArray;
+      // categoryArray.forEach((cat) => this.categories.push(cat));
     });
 
-    programService.getExercises().subscribe((exercisesArray) => {
-      exercisesArray.forEach((ex) => this.exercises.push(ex));
-    });
+    // programService.getExercises().subscribe((exercisesArray) => {
+    //   this.exercises = exercisesArray;
+    //   this.dataSource = new MatTableDataSource<Exercise>(exercisesArray);
+    //   this.dataSource.paginator = this.paginator;
+    //   this.dataSource.sort = this.sort;
+    //   console.log('ewbfjkgwevjfgevwjh');
+    //   console.log(this.dataSource);
+
+    // });
 
     programService.getProgramTypes().subscribe((types) => {
       types.forEach((type) => this.programTypes.push(type));
     });
+    this.pageEvent = { pageIndex: 0, pageSize: 5, length: 0 };
+
+    // this.sort = new MatSort();
+    // this.paginator = new MatPaginator(
+    //   new MatPaginatorIntl(),
+    //   ChangeDetectorRef.prototype
+    // );
   }
-
-  createTreeData() {
-    let data: CategoryNode[] = [];
-    this.categories.forEach((category: ExerciseCategory) => {
-      console.log(category.name);
-      let node: CategoryNode = {
-        exerciseCategory: category.name,
-        children: [] as Exercise[],
-      };
-
-      this.exercises!.forEach((exercise: Exercise) => {
-        if (category.name === exercise.exerciseCategory.name) {
-          node.children?.push(exercise);
-        }
-      });
-      data.push(node);
-    });
-
-    this.dataSource.data = data;
-  }
-
-  //tymaczasowo, typy programow maja byc pobierane z API
-  // programTypes = [
-  //   { value: 'wendler', label: "Jim Wendler's 5/3/1" },
-  //   { value: 'brakley', label: 'JM Brakley' },
-  //   { value: 'custom', label: 'Your custom training program' },
-  // ];
-
-  programType: string = 'custom';
-
-  programDetailsForm!: FormGroup;
-  programTypeForm!: FormGroup;
-  programWorkoutsForm!: FormGroup;
 
   ngOnInit(): void {
     console.log('ngoiinit data');
+
     this.programDetailsForm = this.fb.group({
       name: this.fb.control(null, [Validators.required]),
       description: null,
@@ -120,6 +146,25 @@ export class NewProgramComponent implements OnInit {
     this.programWorkoutsForm = this.fb.group({
       workouts: this.fb.array([], [Validators.required]),
     });
+  }
+
+  /** Announce the change in sort state for assistive technology. */
+  // announceSortChange(sortState: Sort) {
+
+  //   if (sortState.direction) {
+  //     this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+  //   } else {
+  //     this._liveAnnouncer.announce('Sorting cleared');
+  //   }
+  // }
+
+  applyFilter(event: Event, index: number) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSources[index].filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSources[index].paginator) {
+      this.dataSources[index].paginator?.firstPage();
+    }
   }
 
   get workouts() {
@@ -139,7 +184,7 @@ export class NewProgramComponent implements OnInit {
   getWorkoutByIndex(index: number) {
     return this.workouts.controls[index] as FormGroup;
   }
-  isprogramReady() {
+  isProgramReady() {
     if (this.program !== undefined) {
       return true;
     }
@@ -203,11 +248,52 @@ export class NewProgramComponent implements OnInit {
   // }
 
   addWorkout() {
-    if (this.dataSource.data.length === 0) {
-      console.log('creating data');
-      this.createTreeData();
-    }
     let index: number = this.workouts.length;
+
+    this.programService.getExercises().subscribe((exercisesArray) => {
+      this.exercises = exercisesArray;
+
+      // this.dataSource = new MatTableDataSource<Exercise>(exercisesArray);
+      // this.dataSource.paginator = this.paginator;
+      // this.dataSource.sort = this.sort;
+      // this.dataSource.sortingDataAccessor = (item: any, property: any) => {
+      //   switch (property) {
+      //     case 'exerciseCategory':
+      //       return item.exerciseCategory.name;
+
+      //     default:
+      //       return item[property];
+      //   }
+      // };
+      // console.log(this.dataSource);
+
+      let source = new MatTableDataSource<Exercise>(exercisesArray);
+      // source.sort = this.sorts.get(index - 1);
+      this.dataSources.push(source);
+      this.paginators.forEach((pag, i) => {
+        this.dataSources[i].paginator = pag;
+      });
+
+      this.sorts.forEach((sort, i) => {
+        this.dataSources[i].sort = sort;
+        this.dataSources[i].sortingDataAccessor = (
+          item: any,
+          property: any
+        ) => {
+          switch (property) {
+            case 'exerciseCategory':
+              return item.exerciseCategory.name;
+
+            default:
+              return item[property];
+          }
+        };
+      });
+      console.log(this.dataSources[index]);
+
+      this.pageSizeOptions = [5, 10, 20, 50, 100, exercisesArray.length];
+      this.pageSize = this.pageSizeOptions[0];
+    });
     console.log(index);
     // const workoutArray = this.workouts;
     (this.workouts as FormArray).push(
@@ -218,26 +304,31 @@ export class NewProgramComponent implements OnInit {
     );
   }
 
-  addExerciseToWorkout(event: any, workoutIndex: number, ex: string) {
-    console.log(
-      'Adding exercise to ' +
-        this.getWorkoutByIndex(workoutIndex).controls['name'].value
-    );
+  addRemoveExerciseToWorkout(event: any, workoutIndex: number, ex: string) {
     if (event.checked) {
       (this.workouts.controls[workoutIndex].get('exercises') as FormArray).push(
         this.fb.control(ex)
       );
     } else {
-      console.log('remove exercis');
-    }
-  }
+      (
+        this.workouts.controls[workoutIndex].get('exercises') as FormArray
+      ).removeAt(
+        (
+          this.workouts.controls[workoutIndex].get('exercises') as FormArray
+        ).value.findIndex((el: { value: string }) => el.value === ex)
+      );
 
-  removeExerciseFromWorkout(workoutIndex: number, ex: string) {
-    console.log('remove exercis');
+      // (this.workouts.controls[workoutIndex].get('exercises') as FormArray)
+    }
   }
 
   removeWorkout(index: number) {
     const workoutArray = this.workouts;
     (workoutArray as FormArray).removeAt(index);
+    this.dataSources.splice(index, 1);
+    // this.sorts.splice(index, 1);
+    // this.paginators.splice(index, 1);
   }
+
+  selection = new SelectionModel<Exercise>(true, []);
 }

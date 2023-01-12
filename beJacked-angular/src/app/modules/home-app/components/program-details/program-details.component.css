@@ -90,3 +90,26 @@ button {
 .logs-content {
   background-color: red;
 }
+
+::ng-deep.mat-dialog-container::-webkit-scrollbar {
+  width: 5px;
+}
+
+::ng-deep.mat-dialog-container::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::ng-deep.mat-dialog-container::-webkit-scrollbar-thumb {
+  background-color: black;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::ng-deep.mat-dialog-container::-webkit-scrollbar-thumb:hover {
+  background-color: #a8bbbf;
+}
+
+/* ::ng-deep.mat-tab-label-container {
+  margin-bottom: 10px !important;
+} */

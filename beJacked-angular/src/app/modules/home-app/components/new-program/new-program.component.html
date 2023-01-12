@@ -131,59 +131,159 @@
             />
             <mat-error>Workout name is required</mat-error>
           </mat-form-field>
+          <mat-divider></mat-divider>
 
-          <mat-tree
-            [dataSource]="dataSource"
-            [treeControl]="treeControl"
-            class="example-tree"
-          >
-            <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
-              <mat-checkbox
-                [value]="node.name"
-                (change)="addExerciseToWorkout($event, i, node.name)"
-              >
-              </mat-checkbox>
+          <mat-form-field>
+            <mat-label>Filter by exercise name</mat-label>
+            <input
+              matInput
+              (keyup)="applyFilter($event, i)"
+              placeholder="Ex. Bench Press"
+              #input
+            />
+          </mat-form-field>
 
-              <mat-accordion>
-                <mat-expansion-panel hideToggle>
-                  <mat-expansion-panel-header>
-                    <mat-panel-title>{{ node.name }}</mat-panel-title>
-                  </mat-expansion-panel-header>
-                  <div class="exercise-info">
-                    <p>Description: {{ node.description }}</p>
-                    <p>Engaged muslces: {{ node.muscles }}</p>
-                    <p>Category: {{ node.exerciseCategory.name }}</p>
-                  </div>
-                </mat-expansion-panel>
-              </mat-accordion>
-            </mat-tree-node>
-
-            <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
-              <div class="mat-tree-node">
-                <button
-                  mat-icon-button
-                  matTreeNodeToggle
-                  [attr.aria-label]="'Toggle ' + node.exerciseCategory"
+          <div class="mat-elevation-z8 table-container">
+            <table
+              mat-table
+              [dataSource]="dataSources[i]"
+              matSort
+              multiTemplateDataRows
+            >
+              <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let row">
+                  <mat-checkbox
+                    (click)="$event.stopPropagation()"
+                    (change)="
+                      $event ? selection.toggle(row) : null;
+                      addRemoveExerciseToWorkout($event, i, row.name)
+                    "
+                    [checked]="selection.isSelected(row)"
+                  >
+                  </mat-checkbox>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="id">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                  sortActionDescription="Sort by number"
                 >
-                  <mat-icon class="mat-icon-rtl-mirror">
-                    {{
-                      treeControl.isExpanded(node)
-                        ? "expand_more"
-                        : "chevron_right"
-                    }}
-                  </mat-icon>
-                </button>
-                {{ node.exerciseCategory }}
-              </div>
+                  No.
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.id }}
+                </td>
+              </ng-container>
 
-              <div
-                [class.example-tree-invisible]="!treeControl.isExpanded(node)"
-                role="group"
-              >
-                <ng-container matTreeNodeOutlet></ng-container>
-              </div>
-            </mat-nested-tree-node>
-          </mat-tree>
+              <ng-container matColumnDef="name">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                  sortActionDescription="Sort by name"
+                >
+                  Name
+                </th>
+                <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="exerciseCategory">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  mat-sort-header
+                  sortActionDescription="Sort by exerciseCategory"
+                >
+                  Category
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.exerciseCategory.name }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="expand">
+                <th mat-header-cell *matHeaderCellDef aria-label="row actions">
+                  &nbsp;
+                  <!-- Action -->
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  <button
+                    mat-icon-button
+                    aria-label="expand row"
+                    (click)="
+                      expandedElement =
+                        expandedElement === element ? null : element;
+                      $event.stopPropagation()
+                    "
+                  >
+                    <mat-icon *ngIf="expandedElement !== element"
+                      >keyboard_arrow_down</mat-icon
+                    >
+                    <mat-icon *ngIf="expandedElement === element"
+                      >keyboard_arrow_up</mat-icon
+                    >
+                  </button>
+                </td>
+              </ng-container>
+              <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+              <ng-container matColumnDef="expandedDetail">
+                <td
+                  mat-cell
+                  *matCellDef="let element"
+                  [attr.colspan]="columnsToDisplayWithExpand.length"
+                >
+                  <div
+                    class="example-element-detail"
+                    [@detailExpand]="
+                      element == expandedElement ? 'expanded' : 'collapsed'
+                    "
+                  >
+                    <div class="example-element-description">
+                      <strong>Description</strong><br />
+                      {{ element.description }}
+                      <br />
+                      <strong>Engaged muscles</strong><br />
+                      {{ element.muscles }}
+                    </div>
+                  </div>
+                </td>
+              </ng-container>
+
+              <tr
+                mat-header-row
+                *matHeaderRowDef="columnsToDisplayWithExpand"
+              ></tr>
+              <tr
+                mat-row
+                *matRowDef="let element; columns: columnsToDisplayWithExpand"
+                class="example-element-row"
+                [class.example-expanded-row]="expandedElement === element"
+                (click)="
+                  expandedElement = expandedElement === element ? null : element
+                "
+              ></tr>
+              <tr
+                mat-row
+                *matRowDef="let row; columns: ['expandedDetail']"
+                class="example-detail-row"
+              ></tr>
+
+              <!-- <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr> -->
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">
+                  No data matching the filter "{{ input.value }}"
+                </td>
+              </tr>
+            </table>
+            <mat-paginator
+              [length]="dataSources[i]?.data?.length"
+              [pageSize]="pageSize"
+              [pageSizeOptions]="pageSizeOptions"
+            >
+            </mat-paginator>
+          </div>
 
           <mat-action-row>
             <button mat-button extended (click)="removeWorkout(i)">
@@ -210,7 +310,7 @@
       <ng-template matStepLabel>Submit</ng-template>
 
       <table
-        *ngIf="isprogramReady()"
+        *ngIf="isProgramReady()"
         class="table table-striped table-bordered"
       >
         <caption *ngIf="isSubmit()">
@@ -227,12 +327,7 @@
           <h4>
             {{ program!.description }}
           </h4>
-          <!-- <tr class="table-head-row">
-            <th colspan="all">{{ program.name }}</th>
-          </tr>
-          <tr class="table-head-row">
-            <th colspan="all">{{ program.description }}</th>
-          </tr> -->
+
           <tr>
             <th *ngFor="let workout of program!.workouts">
               {{ workout.name }}

@@ -92,22 +92,6 @@ public class ProgramServiceImpl implements ProgramService {
 
         log.info(String.valueOf(program.getId()));
 
-//        List<Workout> workouts = new ArrayList<>();
-//        for(WorkoutDTO workoutDto: form.getWorkouts()) {
-//            Workout workout = new Workout();
-//            workout.setName(workoutDto.getName());
-//            workout.setProgram(program);
-//            List<Exercise> exercises = new ArrayList<>();
-//            for (String exerciseDto : workoutDto.getExercises()) {
-//                Exercise exercise = exerciseService.getExerciseByName(exerciseDto);
-//                exercises.add(exercise);
-//            }
-//            workout.setExercises(exercises);
-//
-//            workouts.add(workout);
-//        }
-
-//        program.setWorkouts(workouts);
         for(Workout workout: workouts) {
             log.info(String.valueOf(workout.getId()));
             log.info(workout.getName());

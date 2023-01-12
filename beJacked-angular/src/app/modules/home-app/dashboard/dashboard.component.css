@@ -25,6 +25,7 @@
 ::ng-deep .mat-sidenav-container {
   width: 100vw;
   height: calc(100vh - 64px);
+  overflow-y: scroll;
   /* border-radius: 20px; */
   /* background-color: black; */
   background-color: transparent;
@@ -42,6 +43,7 @@
   border: none !important;
   padding: 10px;
 
+  overflow: hidden;
   width: 200px;
   /* padding: 10px; */
 }
@@ -55,7 +57,7 @@
 
 ::ng-deep .mat-list-item-content {
   display: flex;
-  font-weight: 300;
+  font-weight: 400;
   justify-content: flex-start;
   /* padding-left: 30px !important; */
   align-items: center;
@@ -68,18 +70,42 @@
 .mat-list-item {
   border-left: 5px solid transparent;
   /* height: 70px !important; */
+  box-sizing: border-box;
+
   line-height: 18px;
+}
+
+.mat-nav-list a.active {
+  border-left: 5px solid white;
 }
 
 ::ng-deep .mat-list-item:hover {
   /* background-color: white; */
 
-  box-sizing: border-box;
   border-left: 5px solid white;
 }
 
 ::ng-deep .mat-sidenav-content {
   background-color: black;
+}
+
+::ng-deep .mat-sidenav-content::-webkit-scrollbar {
+  width: 5px;
+}
+
+::ng-deep .mat-sidenav-content::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::ng-deep .mat-sidenav-content::-webkit-scrollbar-thumb {
+  background-color: black;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::ng-deep .mat-sidenav-content::-webkit-scrollbar-thumb:hover {
+  background-color: #a8bbbf;
 }
 
 ::ng-deep .mat-divider {
@@ -115,8 +141,8 @@
   border-radius: 10px;
   background-color: rgba(255, 255, 255, 1);
   backdrop-filter: blur(5px);
-  width: calc(100% - 20px);
-  height: calc(100% - 20px);
+  height: calc(100% - 64px);
+  /* height: 100%; */
   padding: 20px;
 }
 

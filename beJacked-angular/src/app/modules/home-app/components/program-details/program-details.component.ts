@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { Program } from 'src/app/shared/models/program';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-program-details',
@@ -12,7 +13,8 @@ export class ProgramDetailsComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Program,
-    public dialogRef: MatDialogRef<ProgramDetailsComponent>
+    public dialogRef: MatDialogRef<ProgramDetailsComponent>,
+    private ngxService: NgxUiLoaderService
   ) {}
 
   get programId() {
@@ -35,6 +37,9 @@ export class ProgramDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.ngxService.start(); // start the spinner
+    this.ngxService.stop();
+
     console.log(this.data);
   }
 }

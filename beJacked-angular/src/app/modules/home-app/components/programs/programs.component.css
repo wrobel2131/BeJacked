@@ -1,3 +1,7 @@
+::ng-deep * {
+  font-weight: 400;
+}
+
 mat-grid-tile {
   background: none;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
@@ -14,10 +18,49 @@ h2 {
   text-align: center;
 }
 
-.content {
-  display: flex;
-  flex-direction: column;
+.mat-table {
   width: 100%;
-  height: 100%;
-  align-items: center;
+  margin: 0;
+}
+
+.mat-header-row {
+  width: 100%;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: black;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #a8bbbf;
+}
+
+::ng-deep.mat-tab-label-container {
+  margin-bottom: 10px !important;
+}
+
+::ng-deep.mat-elevation-z8.table-container.ng-star-inserted {
+  max-height: 500px !important;
+  overflow-y: auto !important;
+}
+
+.mat-column-name {
+  height: 50px;
 }
