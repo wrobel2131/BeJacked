@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { HomeModule } from './modules/home/home.module';
-import { NgxSpinnerModule } from 'ngx-spinner';
+// import { NgxSpinnerModule } from 'ngx-spinner';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
@@ -22,21 +22,34 @@ import {
 import { HomeAppModule } from './modules/home-app/home-app.module';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
-  text: 'Loading...',
-
-  textColor: '#f5f8ff',
+  bgsColor: '#000000',
+  bgsOpacity: 0.5,
+  bgsPosition: 'center-center',
+  bgsSize: 60,
+  bgsType: 'ball-spin-clockwise',
+  blur: 12,
+  delay: 0,
+  fastFadeOut: true,
+  fgsColor: '#ffffff',
+  fgsPosition: 'center-center',
+  fgsSize: 100,
+  fgsType: 'ball-spin-clockwise-fade-rotating',
+  gap: 24,
+  logoPosition: 'center-center',
+  logoSize: 120,
+  logoUrl: '',
+  masterLoaderId: 'master',
+  overlayBorderRadius: '0',
+  overlayColor: 'rgba(0,0,0,0.55)',
+  pbColor: '#000000',
+  pbDirection: 'ltr',
+  pbThickness: 3,
+  hasProgressBar: true,
+  text: '',
+  textColor: '#FFFFFF',
   textPosition: 'center-center',
-
-  gap: 100,
-  pbColor: '#004d40',
-  bgsColor: '#f5f8ff',
-  bgsSize: 100,
-  fgsColor: '#f5f8ff',
-  fgsType: SPINNER.ballSpinClockwise,
-  fgsSize: 150,
-  pbDirection: PB_DIRECTION.leftToRight,
-  fgsPosition: POSITION.centerCenter,
-  pbThickness: 5,
+  maxTime: -1,
+  minTime: 300,
 };
 
 @NgModule({

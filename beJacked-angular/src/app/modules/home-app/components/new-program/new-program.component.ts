@@ -106,7 +106,6 @@ export class NewProgramComponent implements OnInit {
   ) {
     programService.getExerciseCategories().subscribe((categoryArray) => {
       this.categories = categoryArray;
-      console.log('tu' + this.categories);
       // categoryArray.forEach((cat) => this.categories.push(cat));
     });
 
