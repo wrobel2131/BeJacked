@@ -9,18 +9,9 @@ import { AuthService } from 'src/app/shared/services/auth.service';
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-  constructor(
-    private authService: AuthService,
-    private ngxService: NgxUiLoaderService
-  ) {}
+  constructor(private authService: AuthService) {}
 
-  ngOnInit(): void {
-    // this.ngxService.start(); // start foreground loading with 'default' id
-    // // Stop the foreground loading after 5s
-    // setTimeout(() => {
-    //   this.ngxService.stop(); // stop foreground loading with 'default' id
-    // }, 2000);
-  }
+  ngOnInit(): void {}
 
   hasRole(role: string): boolean {
     if (role === 'admin') {

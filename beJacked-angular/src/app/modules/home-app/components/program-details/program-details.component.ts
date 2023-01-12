@@ -9,13 +9,28 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
   styleUrls: ['./program-details.component.css'],
 })
 export class ProgramDetailsComponent implements OnInit {
-  // @Input() program?: Program;
+  id = 'vcBig73ojpE';
+  playerVars = {
+    cc_lang_preg: 'en',
+  };
+  player?: YT.Player;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Program,
     public dialogRef: MatDialogRef<ProgramDetailsComponent>,
     private ngxService: NgxUiLoaderService
   ) {}
+
+  ngOnInit(): void {}
+
+  savePlayer(player: any) {
+    this.player = player;
+    console.log('player instance', player);
+  }
+
+  onStateChange(event: any) {
+    console.log('player state', event.data);
+  }
 
   get programId() {
     return this.data.id;
@@ -34,12 +49,5 @@ export class ProgramDetailsComponent implements OnInit {
 
   get workouts() {
     return this.data.workouts;
-  }
-
-  ngOnInit(): void {
-    this.ngxService.start(); // start the spinner
-    this.ngxService.stop();
-
-    console.log(this.data);
   }
 }

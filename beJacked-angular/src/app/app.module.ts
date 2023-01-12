@@ -1,12 +1,11 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { HomeModule } from './modules/home/home.module';
-// import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgxYoutubePlayerModule } from 'ngx-youtube-player';
+
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
@@ -20,6 +19,7 @@ import {
   SPINNER,
 } from 'ngx-ui-loader';
 import { HomeAppModule } from './modules/home-app/home-app.module';
+import { BrowserModule } from '@angular/platform-browser';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: '#000000',
@@ -61,6 +61,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     HomeModule,
     HomeAppModule,
     JwtModule,
+    NgxYoutubePlayerModule.forRoot(),
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
     NgxUiLoaderHttpModule.forRoot({ showForeground: true }),
   ],

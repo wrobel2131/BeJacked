@@ -15,7 +15,32 @@
               <mat-divider></mat-divider>
               <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
                 <mat-tab label="Info">
-                  <div class="tab info-content"></div>
+                  <div class="tab info-content">
+                    <div class="tab-top">
+                      <h4>{{ exercise.name }}</h4>
+                      <span class="exercise-text"
+                        >Category: {{ exercise.exerciseCategory.name }}</span
+                      >
+                      <!-- <br /> -->
+                      <span class="exercise-text"
+                        >Engaged muscles: {{ exercise.muscles }}</span
+                      >
+                    </div>
+                    <div class="tab-mid">
+                      Youtube video
+                      <ngx-youtube-player
+                        [videoId]="id"
+                        (ready)="savePlayer($event)"
+                        (change)="onStateChange($event)"
+                        [playerVars]="playerVars"
+                      ></ngx-youtube-player>
+                    </div>
+                    <div class="tab-bottom">
+                      <h4>Description</h4>
+                      <!-- <br /> -->
+                      <p class="exercise-text">{{ exercise.description }}</p>
+                    </div>
+                  </div>
                 </mat-tab>
                 <mat-tab label="Training results">
                   <div class="tab results-content"></div>

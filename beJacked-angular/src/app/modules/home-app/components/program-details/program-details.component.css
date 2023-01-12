@@ -75,21 +75,6 @@ button {
 .exercise-content .mat-tab-group {
   width: 80%;
 }
-.tab {
-  width: 100%;
-  height: 700px;
-}
-
-.info-content {
-  background-color: pink;
-}
-.results-content {
-  background-color: green;
-}
-
-.logs-content {
-  background-color: red;
-}
 
 ::ng-deep.mat-dialog-container::-webkit-scrollbar {
   width: 5px;
@@ -110,6 +95,54 @@ button {
   background-color: #a8bbbf;
 }
 
-/* ::ng-deep.mat-tab-label-container {
-  margin-bottom: 10px !important;
+/* mat-tab {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  border: 1px solid;
 } */
+
+::ng-deep.mat-tab-body-wrapper {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.tab {
+  width: calc(100% - 40px);
+  height: 700px;
+  padding: 20px;
+  background-color: white;
+}
+
+.info-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.tab-mid {
+  background-color: rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.exercise-text {
+  font-size: 15px;
+  display: block;
+}
+
+.results-content {
+  /* background-color: green; */
+}
+
+.logs-content {
+  /* background-color: red; */
+}
+
+h4 {
+  font-size: 18px;
+  font-weight: 500;
+  display: block;
+}
