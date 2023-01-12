@@ -79,7 +79,6 @@ public class ProgramServiceImpl implements ProgramService {
             }
             workout.setExercises(exercises);
 
-//            workouts.add(workout);
             Workout w = workoutRepository.save(workout);
             workouts.add(w);
         }

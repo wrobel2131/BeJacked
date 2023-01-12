@@ -6,7 +6,9 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -29,13 +31,18 @@ public class Exercise {
     @Column(name = "description", length = 1000)
     private String description;
 
-    @Column(name = "muscles", length = 1000)
+    @Column(name = "muscles")
     private String muscles;
 
     @ManyToMany(mappedBy = "exercises", fetch = FetchType.LAZY)
     @JsonIgnore
     @ToString.Exclude
     private Collection<Workout> workouts;
+
+//    @OneToMany(mappedBy = "exercise")
+//    private Set<ExerciseWorkout> exerciseWorkouts = new HashSet<>();
+
+
 
     @ManyToOne
     @JoinColumn(name = "exercise_category_id")
