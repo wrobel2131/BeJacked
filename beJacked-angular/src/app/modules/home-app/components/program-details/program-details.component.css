@@ -160,6 +160,7 @@ button {
   flex-direction: column;
   border-right: 1px solid rgba(0, 0, 0, 0.1);
   padding: 0 10px;
+  height: 400px;
 }
 
 .results-form {
@@ -190,7 +191,22 @@ button.mat-focus-indicator.mat-button.mat-button-base {
   display: flex;
   flex-direction: column;
   /* align-items: flex-start; */
+  height: 400px;
   padding: 0 10px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.sets-title {
+  position: sticky;
+  top: 0;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(5px);
+  padding: 0 5px;
+  display: block;
+  z-index: 10;
+  width: 110%;
+  height: 70px;
 }
 
 .logs-content {
