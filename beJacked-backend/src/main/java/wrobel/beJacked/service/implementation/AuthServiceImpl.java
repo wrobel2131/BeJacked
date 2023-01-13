@@ -35,6 +35,7 @@ public class AuthServiceImpl implements AuthService {
         user.setSurname(form.getSurname());
 //        user.setProfilePicture(form.getProfilePicture());
         Role role = roleRepository.findByName(form.getRole());
+
         user.getRoles().add(role);
 
         return user;
