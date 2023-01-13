@@ -10,6 +10,8 @@ import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
 import { JwtModule } from '@auth0/angular-jwt';
+import { NgChartsModule } from 'ng2-charts';
+
 import {
   NgxUiLoaderConfig,
   NgxUiLoaderHttpModule,
@@ -61,6 +63,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     HomeModule,
     HomeAppModule,
     JwtModule,
+    NgChartsModule,
     NgxYoutubePlayerModule.forRoot(),
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
     NgxUiLoaderHttpModule.forRoot({ showForeground: true }),

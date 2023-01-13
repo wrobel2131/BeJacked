@@ -134,12 +134,13 @@ button {
 }
 
 .chart-container {
-  background-color: rgba(0, 0, 0, 0.1);
+  /* background-color: rgba(0, 0, 0, 0.1); */
+  display: block;
   width: 100%;
   height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  /* display: flex; */
+  /* align-items: center;
+  justify-content: center; */
 }
 
 .results-content {
