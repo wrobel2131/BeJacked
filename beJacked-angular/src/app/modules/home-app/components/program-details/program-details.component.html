@@ -5,7 +5,10 @@
   <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
     <mat-tab *ngFor="let workout of workouts" label="{{ workout.name }}">
       <mat-accordion>
-        <mat-expansion-panel *ngFor="let exercise of workout.exercises">
+        <mat-expansion-panel
+          *ngFor="let exercise of workout.exercises"
+          (opened)="getTodaysLogs(workout.id, exercise.id)"
+        >
           <mat-expansion-panel-header>
             <mat-panel-title> {{ exercise.name }} </mat-panel-title>
           </mat-expansion-panel-header>
@@ -13,7 +16,11 @@
             <div class="exercise-content">
               <p class="exercise-description">{{ exercise.description }}</p>
               <mat-divider></mat-divider>
-              <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
+              <mat-tab-group
+                mat-stretch-tabs="false"
+                mat-align-tabs="center"
+                style="min-height: 300px"
+              >
                 <mat-tab label="Info">
                   <div class="tab info-content">
                     <div class="tab-top">
@@ -43,7 +50,130 @@
                   </div>
                 </mat-tab>
                 <mat-tab label="Training results">
-                  <div class="tab results-content"></div>
+                  <div class="tab results-content">
+                    <div class="chart-container">Chart</div>
+                    <div class="results">
+                      <div class="left-panel">
+                        <h4>Add new set</h4>
+                        <form
+                          class="results-form"
+                          [formGroup]="results"
+                          (ngSubmit)="
+                            onSubmit(exercise.name, exercise.id, workout.id)
+                          "
+                        >
+                          <div class="controls">
+                            <mat-form-field appearance="fill">
+                              <input
+                                id="weight"
+                                matInput
+                                type="number"
+                                formControlName="weight"
+                              />
+                              <mat-hint>Weight</mat-hint>
+                            </mat-form-field>
+                            <mat-form-field appearance="fill">
+                              <input
+                                id="reps"
+                                matInput
+                                type="number"
+                                step="1"
+                                formControlName="reps"
+                              />
+                              <mat-hint>Reps</mat-hint>
+                            </mat-form-field>
+                            <mat-form-field appearance="fill">
+                              <input
+                                id="rpe"
+                                matInput
+                                type="number"
+                                min="0"
+                                step="0.5"
+                                max="10"
+                                formControlName="rpe"
+                              />
+                              <mat-hint>RPE</mat-hint>
+                            </mat-form-field>
+                          </div>
+
+                          <div class="tempo-controls" [formGroup]="tempo">
+                            <mat-hint>Tempo</mat-hint>
+                            <div class="controls">
+                              <mat-form-field appearance="fill">
+                                <input
+                                  class="tempo-input"
+                                  matInput
+                                  type="number"
+                                  formControlName="eccentric"
+                                />
+                                <mat-hint>Eccentric</mat-hint>
+                              </mat-form-field>
+                              <mat-form-field appearance="fill">
+                                <input
+                                  class="tempo-input"
+                                  matInput
+                                  type="text"
+                                  formControlName="bottom"
+                                  (keypress)="checkNumber($event, 'bottom')"
+                                />
+                                <mat-hint>Bottom pause</mat-hint>
+                              </mat-form-field>
+                              <mat-form-field appearance="fill">
+                                <input
+                                  class="tempo-input"
+                                  matInput
+                                  type="text"
+                                  formControlName="concentric"
+                                  (keypress)="checkNumber($event, 'concentric')"
+                                />
+                                <mat-hint>Concentric Contraction</mat-hint>
+                              </mat-form-field>
+                              <mat-form-field appearance="fill">
+                                <input
+                                  class="tempo-input"
+                                  matInput
+                                  type="number"
+                                  formControlName="top"
+                                />
+                                <mat-hint>Top pause</mat-hint>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                          <button
+                            class="add-set"
+                            mat-button
+                            type="submit"
+                            [disabled]="isSubmitDisabled()"
+                          >
+                            <mat-icon>add</mat-icon>
+                          </button>
+                        </form>
+                      </div>
+
+                      <div class="right-panel">
+                        <h4>Today's sets</h4>
+                        <mat-card *ngFor="let log of logs; index as i">
+                          <mat-card-content>
+                            <span class="set-text"
+                              ><strong>{{ log.setNumber }}</strong></span
+                            >
+                            <span class="set-text"
+                              ><strong>Weight: </strong>{{ log.weight }}</span
+                            >
+                            <span class="set-text"
+                              ><strong>Reps: </strong>{{ log.reps }}</span
+                            >
+                            <span class="set-text"
+                              ><strong>RPE: </strong>{{ log.rpe }}</span
+                            >
+                            <span class="set-text"
+                              ><strong>Tempo: </strong>{{ log.tempo }}</span
+                            >
+                          </mat-card-content>
+                        </mat-card>
+                      </div>
+                    </div>
+                  </div>
                 </mat-tab>
                 <mat-tab label="Previous logs">
                   <div class="tab logs-content"></div>

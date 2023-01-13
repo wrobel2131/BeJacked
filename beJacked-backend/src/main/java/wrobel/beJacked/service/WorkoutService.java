@@ -11,4 +11,6 @@ public interface WorkoutService {
     Workout saveWorkout(Workout workout);
     List<Workout> getProgramWorkouts(Program program);
 
+    Workout getWorkoutById(Long id);
+
 }

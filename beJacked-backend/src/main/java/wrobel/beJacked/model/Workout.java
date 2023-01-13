@@ -31,8 +31,10 @@ public class Workout {
     @JoinColumn(name = "program_id")
 //    @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-
     private Program program;
+
+//    @OneToMany(mappedBy = "workout")
+//    private Set<ExerciseWorkout> exerciseWorkouts = new HashSet<>();
 
     @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JoinTable(
@@ -42,6 +44,8 @@ public class Workout {
     )
     @ToString.Exclude
     private List<Exercise> exercises;
+
+
 
     @Override
     public boolean equals(Object o) {

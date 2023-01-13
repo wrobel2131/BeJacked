@@ -13,6 +13,8 @@ import java.util.List;
 public interface ExerciseService {
     Exercise saveExercise(Exercise exercise);
     Exercise getExerciseByName(String name);
+
+    Exercise getExerciseById(Long id);
     List<Exercise> getExercisesByCategory(String exerciseCategory);
     List<Exercise> getExercises();
     Exercise convertAddDTOtoExercise(AddExerciseDTO form);

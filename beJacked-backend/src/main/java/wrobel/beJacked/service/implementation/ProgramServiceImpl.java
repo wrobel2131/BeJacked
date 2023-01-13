@@ -12,6 +12,8 @@ import wrobel.beJacked.repository.UserRepository;
 import wrobel.beJacked.repository.WorkoutRepository;
 import wrobel.beJacked.service.ExerciseService;
 import wrobel.beJacked.service.ProgramService;
+import wrobel.beJacked.service.UserService;
+import wrobel.beJacked.service.WorkoutService;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -22,13 +24,13 @@ import java.util.List;
 @Transactional
 @Slf4j
 public class ProgramServiceImpl implements ProgramService {
-    private final WorkoutRepository workoutRepository;
 
+    private final WorkoutService workoutService;
     private final ProgramRepository programRepository;
     private final ProgramTypeRepository programTypeRepository;
 
     private final ExerciseService exerciseService;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
 
     @Override
@@ -38,14 +40,14 @@ public class ProgramServiceImpl implements ProgramService {
 
     @Override
     public List<Program> getUserPrograms(String username) {
-        User user = userRepository.findByUsername(username);
+        User user = userService.getUserByUsername(username);
 
         return programRepository.findProgramsByUser(user);
     }
 
     @Override
     public Program getUserProgramByName(String username, String programName) {
-        User user = userRepository.findByUsername(username);
+        User user = userService.getUserByUsername(username);
 
         return programRepository.findProgramByNameAndUser(programName, user);
     }
@@ -59,7 +61,7 @@ public class ProgramServiceImpl implements ProgramService {
 
         List<Workout> workouts = new ArrayList<>();
         program.setWorkouts(workouts);
-        User user = userRepository.findByUsername(form.getUsername());
+        User user = userService.getUserByUsername(form.getUsername());
         program.setUser(user);
         return program;
 
@@ -79,8 +81,7 @@ public class ProgramServiceImpl implements ProgramService {
             }
             workout.setExercises(exercises);
 
-//            workouts.add(workout);
-            Workout w = workoutRepository.save(workout);
+            Workout w = workoutService.saveWorkout(workout);
             workouts.add(w);
         }
 
@@ -106,18 +107,18 @@ public class ProgramServiceImpl implements ProgramService {
         return program;
     }
 
-    @Override
-    public Workout convertDTOtoWorkout(WorkoutDTO form, Program program) {
-        Workout workout = new Workout();
-        workout.setName(form.getName());
-        workout.setProgram(program);
-        List<Exercise> exercises = new ArrayList<>();
-        for(String exercise: form.getExercises()) {
-            exercises.add(exerciseService.convertDTOtoExercise(exercise));
-        }
-        workout.setExercises(exercises);
-        return workout;
-    }
+//    @Override
+//    public Workout convertDTOtoWorkout(WorkoutDTO form, Program program) {
+//        Workout workout = new Workout();
+//        workout.setName(form.getName());
+//        workout.setProgram(program);
+//        List<Exercise> exercises = new ArrayList<>();
+//        for(String exercise: form.getExercises()) {
+//            exercises.add(exerciseService.convertDTOtoExercise(exercise));
+//        }
+//        workout.setExercises(exercises);
+//        return workout;
+//    }
 
 
     @Override
