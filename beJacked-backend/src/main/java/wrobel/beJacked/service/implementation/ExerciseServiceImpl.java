@@ -35,6 +35,11 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
+    public Exercise getExerciseById(Long id) {
+        return exerciseRepository.findExerciseById(id);
+    }
+
+    @Override
     public List<Exercise> getExercisesByCategory(String exerciseCategory) {
         return exerciseRepository.findExercisesByExerciseCategoryName(exerciseCategory);
     }

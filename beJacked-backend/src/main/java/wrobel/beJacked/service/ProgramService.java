@@ -20,7 +20,7 @@ public interface ProgramService {
 
     Program addWorkoutsToProgram(Program program, List<Workout> workouts);
 
-    Workout convertDTOtoWorkout(WorkoutDTO form, Program program);
+//    Workout convertDTOtoWorkout(WorkoutDTO form, Program program);
 
     ProgramType saveProgramType(ProgramType programType);
     List<ProgramType> getProgramTypes();
