@@ -1,4 +1,14 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Inject,
+  ElementRef,
+  ViewChild,
+  AfterViewInit,
+  ViewChildren,
+  QueryList,
+} from '@angular/core';
 import { Program } from 'src/app/shared/models/program';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
@@ -12,6 +22,8 @@ import {
 import { filter } from 'rxjs';
 import { LogsService } from 'src/app/shared/services/logs.service';
 import { Log } from 'src/app/shared/models/log';
+import { Chart } from 'chart.js';
+import { MatExpansionPanel } from '@angular/material/expansion';
 
 interface logDTO {
   setNumber: number;
@@ -29,14 +41,24 @@ interface logDTO {
   templateUrl: './program-details.component.html',
   styleUrls: ['./program-details.component.css'],
 })
-export class ProgramDetailsComponent implements OnInit {
+export class ProgramDetailsComponent implements OnInit, AfterViewInit {
+  @ViewChildren(MatExpansionPanel)
+  expansionPanels?: QueryList<MatExpansionPanel>;
+
+  exerciseId?: number;
+  workoutId?: number;
+
   logs: Log[] = [];
+  public chart: any;
 
   id = 'vcBig73ojpE';
   playerVars = {
     cc_lang_preg: 'en',
   };
   player?: YT.Player;
+
+  datesChart: string[] = [];
+  dataChart: string[] = [];
 
   results!: FormGroup;
   allowNumberXRegex = '^([0-9]*|x|X)$';
@@ -48,10 +70,16 @@ export class ProgramDetailsComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: Program,
     public dialogRef: MatDialogRef<ProgramDetailsComponent>,
     private logsService: LogsService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private elementRef: ElementRef
   ) {}
+  ngAfterViewInit(): void {
+    console.log('after view init');
+  }
 
   ngOnInit(): void {
+    // this.createChart();
+    console.log(this.chart);
     this.results = this.fb.group({
       weight: this.fb.control(null, [
         Validators.required,
@@ -131,6 +159,67 @@ export class ProgramDetailsComponent implements OnInit {
     });
   }
 
+  closeExpansionPanels() {
+    console.log('closing panels');
+    this.expansionPanels?.forEach((panel) => panel.close());
+  }
+
+  destroyChart() {
+    console.log('destroy chart');
+    this.chart.destroy();
+    this.chart = undefined;
+    console.log(this.chart);
+    this.dataChart = [];
+    this.datesChart = [];
+  }
+
+  setExerciseWorkout(workoutId?: number, exerciseId?: number) {
+    this.workoutId = workoutId;
+    this.exerciseId = exerciseId;
+    this.getTodaysLogs(workoutId, exerciseId);
+    // this.datesChart.push('cos');
+    // this.datesChart.push('ktos');
+    // this.dataChart.push(String(workoutId));
+    // this.dataChart.push(String(exerciseId));
+  }
+
+  createChart(event: any) {
+    if (this.chart) {
+      this.destroyChart();
+    }
+    this.dataChart.push(String(this.exerciseId));
+    this.dataChart.push(String(this.workoutId));
+    this.datesChart.push('exerciseId');
+    this.datesChart.push('workoutId');
+
+    console.log('createChart');
+    console.log(this.chart);
+    console.log(this.dataChart);
+    console.log(this.datesChart);
+
+    if (!this.chart) {
+      console.log('cretaing new chart');
+      this.chart = new Chart('logs-chart', {
+        type: 'bar', //this denotes tha type of chart
+
+        data: {
+          // values on X-Axis
+          labels: this.datesChart,
+          datasets: [
+            {
+              label: 'Sales',
+              data: this.dataChart,
+              backgroundColor: 'blue',
+            },
+          ],
+        },
+        options: {
+          aspectRatio: 2.5,
+        },
+      });
+    }
+  }
+
   isSubmitDisabled() {
     return !(
       this.weight.value != null &&
@@ -162,6 +251,11 @@ export class ProgramDetailsComponent implements OnInit {
     console.log('workoutid: ' + workoutId + ' exerrciseId: ' + exerciseId);
     const today = new Date();
     const dateToSend = today.toISOString().slice(0, 10);
+    // this.datesChart.push('cos');
+    // this.datesChart.push('ktos');
+    // this.dataChart.push(String(workoutId));
+    // this.dataChart.push(String(exerciseId));
+
     if (exerciseId && workoutId) {
       this.logsService
         .getLogsFromDate(exerciseId, workoutId, dateToSend)
