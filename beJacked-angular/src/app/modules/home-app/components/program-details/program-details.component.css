@@ -73,7 +73,7 @@ button {
 }
 
 .exercise-content .mat-tab-group {
-  width: 80%;
+  width: 90%;
 }
 
 ::ng-deep.mat-dialog-container::-webkit-scrollbar {
@@ -108,7 +108,7 @@ button {
 
 .tab {
   width: calc(100% - 40px);
-  height: 700px;
+  height: 800px;
   padding: 20px;
   background-color: white;
 }
@@ -133,16 +133,108 @@ button {
   display: block;
 }
 
+.chart-container {
+  background-color: rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .results-content {
-  /* background-color: green; */
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between; */
+}
+
+.results {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+}
+
+.left-panel {
+  flex: 0.8;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 0 10px;
+}
+
+.results-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.tempo-controls {
+  display: flex;
+  flex-direction: column;
+  margin: 40px 0 40px 0;
+  align-items: center;
+}
+
+.controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+button.mat-focus-indicator.mat-button.mat-button-base {
+  width: 20px !important;
+  align-self: flex-end;
+}
+
+.right-panel {
+  flex: 1.2;
+  display: flex;
+  flex-direction: column;
+  /* align-items: flex-start; */
+  padding: 0 10px;
 }
 
 .logs-content {
-  /* background-color: red; */
 }
 
 h4 {
   font-size: 18px;
   font-weight: 500;
   display: block;
+}
+
+::ng-deep.mat-form-field-appearance-fill .mat-form-field-flex {
+  background-color: transparent !important;
+}
+::ng-deep.mat-form-field {
+  /* text-align: center !important; */
+  margin: 5px 0 !important;
+  width: 90px !important;
+}
+
+::ng-deep .mat-focused .mat-form-field-label {
+  color: black !important;
+}
+
+::ng-deep.mat-form-field-underline {
+  background-color: black !important;
+}
+
+::ng-deep.mat-form-field-ripple {
+  background-color: black !important;
+}
+
+.mat-card {
+  width: 95%;
+  margin: 5px 0;
+}
+
+.mat-card-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.set-text {
+  display: inline-block;
+  font-size: 12px;
+  margin: 0 10px;
 }
