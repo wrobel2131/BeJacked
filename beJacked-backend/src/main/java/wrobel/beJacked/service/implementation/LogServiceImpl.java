@@ -41,12 +41,14 @@ public class LogServiceImpl implements LogService {
     }
 
     @Override
-    public List<Log> getLogs() {
+    public List<Log> getAllLogs() {
         return logRepository.findAll();
     }
 
     @Override
-    public List<Log> getLogs(Exercise exercise, Workout workout) {
+    public List<Log> getLogs(Long exerciseId, Long workoutId) {
+        Exercise exercise = exerciseService.getExerciseById(exerciseId);
+        Workout workout = workoutService.getWorkoutById(workoutId);
         return logRepository.findLogsByExerciseAndWorkout(exercise, workout);
     }
 

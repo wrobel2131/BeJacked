@@ -35,5 +35,12 @@ public class LogController {
         return logService.getLogsByDate(date, exerciseId, workoutId);
     }
 
+    @RolesAllowed({"ROLE_USER", "ROLE_ADMIN", "ROLE_TRAINER"})
+    @GetMapping("/{workoutId}/{exerciseId}")
+    List<Log> getLogsByWorkoutExercise(@PathVariable Long workoutId, @PathVariable Long exerciseId) {
+
+        return logService.getLogs(exerciseId, workoutId);
+    }
+
 
 }
