@@ -43,4 +43,13 @@ export class LogsService {
         catchError(this.handleError)
       );
   }
+
+  public getLogs(exerciseId: number, workoutId: number): Observable<Log[]> {
+    return this.http
+      .get<Log[]>(this.LOGS_URL + '/' + workoutId + '/' + exerciseId)
+      .pipe(
+        tap((res) => console.log(res)),
+        catchError(this.handleError)
+      );
+  }
 }

@@ -22,9 +22,9 @@ h3 {
 
 button {
   font-weight: 300;
-  color: white;
+  /* color: white;
   background-color: black;
-  border-radius: 15px;
+  border-radius: 15px; */
 }
 
 /* ::ng-deep.mat-icon-button {
@@ -113,6 +113,13 @@ button {
   background-color: white;
 }
 
+.results-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .info-content {
   display: flex;
   flex-direction: column;
@@ -137,10 +144,37 @@ button {
   /* background-color: rgba(0, 0, 0, 0.1); */
   display: block;
   width: 100%;
-  height: 400px;
-  /* display: flex; */
+  height: 100%;
+  display: flex;
   /* align-items: center;
   justify-content: center; */
+}
+
+#logs-chart {
+  display: block;
+}
+
+.chart {
+  height: 100%;
+  flex: 1.5;
+}
+
+.chart-options {
+  flex: 0.8;
+  height: 100%;
+  /* width: 30%; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: space-around; */
+  padding: 20px;
+}
+
+button {
+  margin: 10px;
+  background-color: black;
+  color: white;
+  width: 70%;
 }
 
 .results-content {
@@ -182,14 +216,15 @@ button {
   justify-content: space-between;
 }
 
-button.mat-focus-indicator.mat-button.mat-button-base {
+/* button.mat-focus-indicator.mat-button.mat-button-base {
   width: 20px !important;
   align-self: flex-end;
-}
+} */
 
 .right-panel {
   flex: 1.2;
   display: flex;
+
   flex-direction: column;
   /* align-items: flex-start; */
   height: 400px;
@@ -206,11 +241,20 @@ button.mat-focus-indicator.mat-button.mat-button-base {
   padding: 0 5px;
   display: block;
   z-index: 10;
-  width: 110%;
+  width: 100%;
   height: 70px;
 }
 
 .logs-content {
+  display: flex;
+  flex-direction: column;
+  /* overflow-x: hidden; */
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.log {
+  width: 100%;
 }
 
 h4 {
@@ -222,7 +266,7 @@ h4 {
 ::ng-deep.mat-form-field-appearance-fill .mat-form-field-flex {
   background-color: transparent !important;
 }
-::ng-deep.mat-form-field {
+.mat-form-field {
   /* text-align: center !important; */
   margin: 5px 0 !important;
   width: 90px !important;

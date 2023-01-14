@@ -16,9 +16,9 @@ public interface LogService {
 
     List<Log> getLogsByDate(String date, Long exerciseId, Long workoutId);
 
-    List<Log> getLogs();
+    List<Log> getAllLogs();
 
-    List<Log> getLogs(Exercise exercise, Workout workout);
+    List<Log> getLogs(Long exerciseId, Long workoutId);
 
     Log convertDTOtoLog(LogDTO form);
 }

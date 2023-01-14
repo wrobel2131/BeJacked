@@ -13,7 +13,7 @@
           <mat-expansion-panel
             *ngFor="let exercise of workout.exercises"
             [expanded]="false"
-            (opened)="setExerciseWorkout(workout.id, exercise.id)"
+            (opened)="getLogs(workout.id, exercise.id)"
             (closed)="destroyChart()"
           >
             <mat-expansion-panel-header>
@@ -27,6 +27,7 @@
                   mat-stretch-tabs="false"
                   mat-align-tabs="center"
                   style="min-height: 300px"
+                  [selectedIndex]="selectedTabIndex"
                   (selectedTabChange)="createChart($event)"
                 >
                   <mat-tab label="Info">
@@ -60,7 +61,28 @@
                   <mat-tab label="Training results">
                     <div class="tab results-content">
                       <div class="chart-container">
-                        <canvas id="logs-chart">{{ chart }}</canvas>
+                        <div class="chart">
+                          <canvas id="logs-chart">{{ chart }}</canvas>
+                        </div>
+                        <div class="chart-options">
+                          <h4>Chart options</h4>
+                          <button
+                            mat-button
+                            (click)="updateChartDataByVolume()"
+                          >
+                            Max volume(day)
+                          </button>
+                          <button
+                            mat-button
+                            (click)="updateChartByEstimatedMax()"
+                          >
+                            Max 1 rep max(day)
+                          </button>
+                          <button mat-button (click)="updateChartByWeightMax()">
+                            Max weight(day)
+                          </button>
+                          <!-- <button></button> -->
+                        </div>
                       </div>
                       <div class="results">
                         <div class="left-panel">
@@ -190,7 +212,42 @@
                     </div>
                   </mat-tab>
                   <mat-tab label="Previous logs">
-                    <div class="tab logs-content"></div>
+                    <div *ngIf="previousLogsObject" class="tab logs-content">
+                      <div
+                        class="log"
+                        *ngFor="
+                          let item of (previousLogsObject | keyvalue).reverse()
+                        "
+                      >
+                        <div class="sets-title-previous">
+                          <h4>{{ item.key }}'s sets</h4>
+                        </div>
+                        <mat-card
+                          *ngFor="
+                            let log of Object.values(item.value);
+                            index as i
+                          "
+                        >
+                          <mat-card-content>
+                            <span class="set-text"
+                              ><strong>{{ log.setNumber }}</strong></span
+                            >
+                            <span class="set-text"
+                              ><strong>Weight: </strong>{{ log.weight }}</span
+                            >
+                            <span class="set-text"
+                              ><strong>Reps: </strong>{{ log.reps }}</span
+                            >
+                            <span class="set-text"
+                              ><strong>RPE: </strong>{{ log.rpe }}</span
+                            >
+                            <span class="set-text"
+                              ><strong>Tempo: </strong>{{ log.tempo }}</span
+                            >
+                          </mat-card-content>
+                        </mat-card>
+                      </div>
+                    </div>
                   </mat-tab>
                 </mat-tab-group>
               </div>
