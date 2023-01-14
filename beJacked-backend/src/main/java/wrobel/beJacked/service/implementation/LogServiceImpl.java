@@ -36,6 +36,9 @@ public class LogServiceImpl implements LogService {
         Date dateSql = Date.valueOf(date);
         Exercise exercise = exerciseService.getExerciseById(exerciseId);
         Workout workout = workoutService.getWorkoutById(workoutId);
+        log.info(String.valueOf(exercise.getId()));
+        log.info(String.valueOf(workout.getId()));
+        log.info(String.valueOf(dateSql));
         return logRepository.findLogsByExerciseAndWorkoutAndDate(exercise, workout, dateSql);
 
     }
