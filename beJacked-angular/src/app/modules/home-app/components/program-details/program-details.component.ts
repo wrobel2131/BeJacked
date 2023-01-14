@@ -1,25 +1,15 @@
 import {
   Component,
   OnInit,
-  Input,
   Inject,
   ElementRef,
-  ViewChild,
   AfterViewInit,
   ViewChildren,
   QueryList,
 } from '@angular/core';
 import { Program } from 'src/app/shared/models/program';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { NgxUiLoaderService } from 'ngx-ui-loader';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { filter } from 'rxjs';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LogsService } from 'src/app/shared/services/logs.service';
 import { Log } from 'src/app/shared/models/log';
 import { Chart } from 'chart.js';
@@ -36,20 +26,30 @@ interface logDTO {
   date: string;
 }
 
+enum ChartType {
+  Volume = 1,
+  Weight,
+  Estimated,
+}
+
 @Component({
   selector: 'app-program-details',
   templateUrl: './program-details.component.html',
   styleUrls: ['./program-details.component.css'],
 })
-export class ProgramDetailsComponent implements OnInit, AfterViewInit {
+export class ProgramDetailsComponent implements OnInit {
   @ViewChildren(MatExpansionPanel)
   expansionPanels?: QueryList<MatExpansionPanel>;
+  selectedTabIndex: number = 0;
+
+  Object = Object;
 
   exerciseId?: number;
   workoutId?: number;
 
   logs: Log[] = [];
-  public chart: any;
+  previousLogs: Log[] = [];
+  previousLogsObject: Object = {};
 
   id = 'vcBig73ojpE';
   playerVars = {
@@ -59,6 +59,8 @@ export class ProgramDetailsComponent implements OnInit, AfterViewInit {
 
   datesChart: string[] = [];
   dataChart: string[] = [];
+  public chart: any;
+  chartType?: ChartType;
 
   results!: FormGroup;
   allowNumberXRegex = '^([0-9]*|x|X)$';
@@ -73,9 +75,6 @@ export class ProgramDetailsComponent implements OnInit, AfterViewInit {
     private fb: FormBuilder,
     private elementRef: ElementRef
   ) {}
-  ngAfterViewInit(): void {
-    console.log('after view init');
-  }
 
   ngOnInit(): void {
     // this.createChart();
@@ -173,24 +172,119 @@ export class ProgramDetailsComponent implements OnInit, AfterViewInit {
     this.datesChart = [];
   }
 
-  setExerciseWorkout(workoutId?: number, exerciseId?: number) {
-    this.workoutId = workoutId;
-    this.exerciseId = exerciseId;
-    this.getTodaysLogs(workoutId, exerciseId);
-    // this.datesChart.push('cos');
-    // this.datesChart.push('ktos');
-    // this.dataChart.push(String(workoutId));
-    // this.dataChart.push(String(exerciseId));
+  // setExerciseWorkout(workoutId?: number, exerciseId?: number) {
+  //   this.workoutId = workoutId;
+  //   this.exerciseId = exerciseId;
+  //   this.selectedTabIndex = 0;
+
+  //   this.getLogs(workoutId, exerciseId);
+  //   // this.datesChart.push('cos');
+  //   // this.datesChart.push('ktos');
+  //   // this.dataChart.push(String(workoutId));
+  //   // this.dataChart.push(String(exerciseId));
+  // }
+
+  setChartData() {
+    this.chartType = ChartType.Volume;
+    for (const [key, value] of Object.entries(this.previousLogsObject)) {
+      // this.datesChart.push(key);
+      let volume = 0;
+      value.forEach((log: { weight: number; reps: number }) => {
+        volume += log.weight * log.reps;
+      });
+      this.datesChart.push(key);
+      this.dataChart.push(String(volume));
+
+      console.log('Pushed to dates: ' + key);
+      console.log('Pushed to data: ' + volume);
+    }
+  }
+
+  updateChartDataByVolume() {
+    console.log('udpate vol');
+    console.log(this.previousLogsObject);
+    this.chartType = ChartType.Volume;
+
+    let dataToUpdate = [];
+    for (const [key, value] of Object.entries(this.previousLogsObject)) {
+      // this.datesChart.push(key);
+      let volume = 0;
+      value.forEach((log: { weight: number; reps: number }) => {
+        volume += log.weight * log.reps;
+      });
+      // this.datesChart.push(key);
+      dataToUpdate.push(String(volume));
+    }
+    this.chart.data.datasets[0].data = dataToUpdate;
+    this.chart.data.datasets[0].label =
+      'Maximum volume [kg] graph over time (days)';
+    this.chart.options.scales.y.title.text = 'Maximum volume [kg]';
+
+    this.chart.update();
+  }
+
+  updateChartByEstimatedMax() {
+    console.log('udpate estima');
+    console.log(this.previousLogsObject);
+    this.chartType = ChartType.Estimated;
+
+    let dataToUpdate = [];
+    for (const [key, value] of Object.entries(this.previousLogsObject)) {
+      // this.datesChart.push(key);
+      let bestEestimatedMax = 0;
+      value.forEach((log: { weight: number; reps: number }) => {
+        // let estimatedMax = log.weight * (1 + 0.033 * log.reps);
+        let estimatedMax = log.weight / (1.0278 - 0.0278 * log.reps);
+
+        console.log(
+          'reps: ' +
+            log.reps +
+            ' weight: ' +
+            log.weight +
+            ' estim:' +
+            estimatedMax
+        );
+        bestEestimatedMax =
+          bestEestimatedMax >= estimatedMax ? bestEestimatedMax : estimatedMax;
+      });
+      // this.datesChart.push(key);
+      dataToUpdate.push(bestEestimatedMax);
+    }
+    this.chart.data.datasets[0].data = dataToUpdate;
+    this.chart.data.datasets[0].label =
+      'Maximum estimated 1 rep max [kg] graph over time (days)';
+    this.chart.options.scales.y.title.text = 'Maximum estimated 1 rep max [kg]';
+    this.chart.update();
+  }
+
+  updateChartByWeightMax() {
+    console.log('udpate weitgh');
+    console.log(this.previousLogsObject);
+    this.chartType = ChartType.Weight;
+
+    let dataToUpdate = [];
+    for (const [key, value] of Object.entries(this.previousLogsObject)) {
+      // this.datesChart.push(key);
+      let weightMax = 0;
+      value.forEach((log: { weight: number; reps: number }) => {
+        weightMax = weightMax >= log.weight ? weightMax : log.weight;
+      });
+      // this.datesChart.push(key);
+      dataToUpdate.push(weightMax);
+    }
+    this.chart.data.datasets[0].data = dataToUpdate;
+    this.chart.data.datasets[0].label =
+      'Maximum weight [kg] graph over time (days)';
+    this.chart.options.scales.y.title.text = 'Maximum weight [kg]';
+    this.chart.update();
   }
 
   createChart(event: any) {
     if (this.chart) {
       this.destroyChart();
     }
-    this.dataChart.push(String(this.exerciseId));
-    this.dataChart.push(String(this.workoutId));
-    this.datesChart.push('exerciseId');
-    this.datesChart.push('workoutId');
+
+    this.setChartData();
 
     console.log('createChart');
     console.log(this.chart);
@@ -199,22 +293,44 @@ export class ProgramDetailsComponent implements OnInit, AfterViewInit {
 
     if (!this.chart) {
       console.log('cretaing new chart');
+
       this.chart = new Chart('logs-chart', {
-        type: 'bar', //this denotes tha type of chart
+        type: 'line', //this denotes tha type of chart
 
         data: {
-          // values on X-Axis
           labels: this.datesChart,
+
           datasets: [
             {
-              label: 'Sales',
+              label: 'Maximum volume [kg] graph over time (days)',
               data: this.dataChart,
-              backgroundColor: 'blue',
+              borderColor: 'black',
+              backgroundColor: 'black',
+              pointBackgroundColor: 'black',
+              pointBorderColor: 'black',
+              pointHitRadius: 3,
+              pointRadius: 2,
+
+              borderWidth: 1.5,
             },
           ],
         },
         options: {
-          aspectRatio: 2.5,
+          scales: {
+            y: {
+              title: {
+                display: true,
+                text: 'Maximum volume [kg]',
+              },
+            },
+            x: {
+              title: {
+                display: true,
+
+                text: 'Date [yyyy-MM-dd]',
+              },
+            },
+          },
         },
       });
     }
@@ -247,10 +363,13 @@ export class ProgramDetailsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  getTodaysLogs(workoutId?: number, exerciseId?: number) {
+  getLogs(workoutId?: number, exerciseId?: number) {
     console.log('workoutid: ' + workoutId + ' exerrciseId: ' + exerciseId);
     const today = new Date();
-    const dateToSend = today.toISOString().slice(0, 10);
+    const dateToSend = today.toLocaleDateString('en-CA');
+    console.log('todays date1: ' + today);
+
+    console.log('todays date2: ' + dateToSend);
     // this.datesChart.push('cos');
     // this.datesChart.push('ktos');
     // this.dataChart.push(String(workoutId));
@@ -268,13 +387,50 @@ export class ProgramDetailsComponent implements OnInit, AfterViewInit {
             console.log(error);
           }
         );
+
+      this.logsService.getLogs(exerciseId, workoutId).subscribe(
+        (data) => {
+          this.previousLogs = data;
+          // console.log(data);
+          let obj = data.reduce((acc: { [date: string]: any[] }, obj) => {
+            if (!acc[obj.date]) {
+              acc[obj.date] = [obj];
+            } else {
+              acc[obj.date].push(obj);
+            }
+            return acc;
+          }, {});
+
+          this.previousLogsObject = obj;
+          switch (this.chartType) {
+            case ChartType.Volume:
+              this.updateChartDataByVolume();
+              break;
+            case ChartType.Estimated:
+              this.updateChartByEstimatedMax();
+
+              break;
+
+            case ChartType.Weight:
+              this.updateChartByWeightMax();
+
+              break;
+          }
+
+          console.log('w subscribe get logs ');
+          console.log(this.previousLogsObject);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     }
   }
 
   onSubmit(exerciseName: string, exerciseId?: number, workoutId?: number) {
     // console.log(this.rpe);
     const today = new Date();
-    const dateToSend = today.toISOString().slice(0, 10);
+    const dateToSend = today.toLocaleDateString('en-CA');
 
     let setNumberToSend = this.logs.length + 1;
 
@@ -303,14 +459,20 @@ export class ProgramDetailsComponent implements OnInit, AfterViewInit {
       this.logsService.addLog(logToSend).subscribe(
         (data) => {
           console.log(data);
-          this.getTodaysLogs(workoutId, exerciseId);
+          console.log('add log przed get logu');
+
+          this.getLogs(workoutId, exerciseId);
+          console.log('add log po get logu');
         },
+
         (error) => {
           console.log(error);
         }
       );
       // console.log(logToSend);
     }
+    console.log('submit');
+    console.log(this.previousLogsObject);
   }
 
   savePlayer(player: any) {
