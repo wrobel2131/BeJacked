@@ -241,10 +241,10 @@
                     "
                   >
                     <div class="example-element-description">
-                      <strong>Description</strong><br />
+                      <span>Description</span><br />
                       {{ element.description }}
                       <br />
-                      <strong>Engaged muscles</strong><br />
+                      <span>Engaged muscles</span><br />
                       {{ element.muscles }}
                     </div>
                   </div>
@@ -309,10 +309,45 @@
     <mat-step class="step">
       <ng-template matStepLabel>Submit</ng-template>
 
-      <table
-        *ngIf="isProgramReady()"
-        class="table table-striped table-bordered"
-      >
+      <mat-divider></mat-divider>
+      <mat-card *ngIf="isProgramReady()">
+        <mat-card-header>
+          <mat-card-title
+            ><h2>
+              {{ program!.name }}
+            </h2></mat-card-title
+          >
+          <mat-card-subtitle
+            ><h4>
+              {{ program!.description }}
+            </h4></mat-card-subtitle
+          >
+        </mat-card-header>
+        <mat-card-content>
+          <div class="workouts">
+            <mat-card *ngFor="let workout of program!.workouts">
+              <mat-card-header>
+                <mat-card-title
+                  ><h2>
+                    {{ workout.name }}
+                  </h2></mat-card-title
+                >
+              </mat-card-header>
+              <mat-card-content>
+                <span
+                  class="exercise-table"
+                  *ngFor="let exercise of workout.exercises; index as i"
+                >
+                  <strong>{{ i + 1 }}.</strong> {{ exercise }}
+                </span>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- <table *ngIf="isProgramReady()" class="table">
+        <mat-divider></mat-divider>
         <caption *ngIf="isSubmit()">
           Your program is ready to submit
         </caption>
@@ -321,13 +356,6 @@
         </caption>
 
         <thead>
-          <h2>
-            {{ program!.name }}
-          </h2>
-          <h4>
-            {{ program!.description }}
-          </h4>
-
           <tr>
             <th *ngFor="let workout of program!.workouts">
               {{ workout.name }}
@@ -346,7 +374,7 @@
             </td>
           </tr>
         </tbody>
-      </table>
+      </table> -->
       <!-- <mat-table *ngIf="isprogramReady()" [dataSource]="dataSourceTable">
         <ng-container
           *ngFor="let workout of workoutsTable"

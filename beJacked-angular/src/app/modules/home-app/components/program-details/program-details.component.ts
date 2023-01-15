@@ -40,7 +40,13 @@ enum ChartType {
 export class ProgramDetailsComponent implements OnInit {
   @ViewChildren(MatExpansionPanel)
   expansionPanels?: QueryList<MatExpansionPanel>;
-  selectedTabIndex: number = 0;
+  selectedTabIndex?: number;
+
+  changeTab(index: number) {
+    console.log('change tab');
+
+    this.selectedTabIndex = index;
+  }
 
   Object = Object;
 
@@ -67,6 +73,19 @@ export class ProgramDetailsComponent implements OnInit {
   weightRegex = '^(0|[1-9][0-9]{0,3}|2000)$';
   rpeRegex = '^(0|[1-9]|10)$';
   repsRegex = '^(0|[1-9][0-9]*)$';
+
+  openedPanel: any = null;
+
+  onPanelOpen(index: number, index2: number) {
+    // console.log('open on panel ' + index + ' ' + index2);
+    // this.createChart(index2, index);
+
+    if (this.openedPanel === null) {
+      this.openedPanel = index;
+    } else if (this.openedPanel === index) {
+      this.openedPanel = null;
+    }
+  }
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Program,
@@ -164,12 +183,18 @@ export class ProgramDetailsComponent implements OnInit {
   }
 
   destroyChart() {
-    console.log('destroy chart');
-    this.chart.destroy();
-    this.chart = undefined;
-    console.log(this.chart);
-    this.dataChart = [];
-    this.datesChart = [];
+    // if (this.chart) {
+    if (this.chart instanceof Chart) {
+      this.chart.destroy();
+      this.chart = undefined;
+      console.log(this.chart);
+      this.dataChart = [];
+      this.datesChart = [];
+      this.previousLogs = [];
+      this.previousLogsObject = {};
+      console.log('destroy chart');
+    }
+    // }
   }
 
   // setExerciseWorkout(workoutId?: number, exerciseId?: number) {
@@ -185,19 +210,29 @@ export class ProgramDetailsComponent implements OnInit {
   // }
 
   setChartData() {
+    console.log('set data');
     this.chartType = ChartType.Volume;
-    for (const [key, value] of Object.entries(this.previousLogsObject)) {
-      // this.datesChart.push(key);
-      let volume = 0;
-      value.forEach((log: { weight: number; reps: number }) => {
-        volume += log.weight * log.reps;
-      });
-      this.datesChart.push(key);
-      this.dataChart.push(String(volume));
+    if (this.dataChart.length === 0 && this.datesChart.length === 0) {
+      let dates = [];
+      for (const [key, value] of Object.entries(this.previousLogsObject)) {
+        // this.datesChart.push(key);
+        let volume = 0;
+        value.forEach((log: { weight: number; reps: number }) => {
+          volume += log.weight * log.reps;
+        });
+        this.datesChart.push(key);
+        // dates.push(key);
+        // this.datesChart.push(key);
+        this.dataChart.push(String(volume));
 
-      console.log('Pushed to dates: ' + key);
-      console.log('Pushed to data: ' + volume);
+        console.log('Pushed to dates: ' + key);
+        console.log('Pushed to data: ' + volume);
+      }
     }
+    // dates.sort((a, b) => {
+    //   return new Date(a).getTime() - new Date(b).getTime();
+    // });
+    // this.datesChart = dates;
   }
 
   updateChartDataByVolume() {
@@ -279,22 +314,40 @@ export class ProgramDetailsComponent implements OnInit {
     this.chart.update();
   }
 
-  createChart(event: any) {
-    if (this.chart) {
-      this.destroyChart();
-    }
+  isChartValid() {
+    // console.log(this.dataChart.length);
+    // console.log(this.previousLogs.length);
+    return this.dataChart.length === 0 && this.previousLogs.length === 0;
+  }
 
+  createChart(workout: number, exercise: number) {
+    console.log('tabindex: ' + this.selectedTabIndex);
+    if (this.chart != undefined) {
+      this.chart.destroy();
+      this.dataChart = [];
+      this.datesChart = [];
+    }
+    // this.destroyChart();
     this.setChartData();
+
+    // this.setChartData();
 
     console.log('createChart');
     console.log(this.chart);
     console.log(this.dataChart);
     console.log(this.datesChart);
 
-    if (!this.chart) {
-      console.log('cretaing new chart');
+    // if (!this.chart) {
+    console.log('cretaing new chart');
+    const canvas = document.getElementById(
+      'logs-chart-' + workout + '-' + exercise
+    ) as HTMLCanvasElement | null;
+    console.log('canvas');
+    console.log(canvas);
 
-      this.chart = new Chart('logs-chart', {
+    if (canvas != null) {
+      console.log('creating');
+      this.chart = new Chart('logs-chart-' + workout + '-' + exercise, {
         type: 'line', //this denotes tha type of chart
 
         data: {
@@ -324,6 +377,7 @@ export class ProgramDetailsComponent implements OnInit {
               },
             },
             x: {
+              offset: true,
               title: {
                 display: true,
 
@@ -334,6 +388,8 @@ export class ProgramDetailsComponent implements OnInit {
         },
       });
     }
+
+    console.log(this.chart);
   }
 
   isSubmitDisabled() {
@@ -365,6 +421,12 @@ export class ProgramDetailsComponent implements OnInit {
 
   getLogs(workoutId?: number, exerciseId?: number) {
     console.log('workoutid: ' + workoutId + ' exerrciseId: ' + exerciseId);
+    console.log('chart w getLog: ');
+    console.log(this.chart);
+    // if (this.chart) {
+    //   console.log('destroying old chart');
+    //   this.destroyChart();
+    // }
     const today = new Date();
     const dateToSend = today.toLocaleDateString('en-CA');
     console.log('todays date1: ' + today);
@@ -381,6 +443,7 @@ export class ProgramDetailsComponent implements OnInit {
         .subscribe(
           (data) => {
             this.logs = data;
+            console.log('getLogsFromDate');
             // console.log(data);
           },
           (error) => {
@@ -390,6 +453,8 @@ export class ProgramDetailsComponent implements OnInit {
 
       this.logsService.getLogs(exerciseId, workoutId).subscribe(
         (data) => {
+          console.log('getLogs');
+
           this.previousLogs = data;
           // console.log(data);
           let obj = data.reduce((acc: { [date: string]: any[] }, obj) => {
@@ -401,20 +466,23 @@ export class ProgramDetailsComponent implements OnInit {
             return acc;
           }, {});
 
+          // this.setChartData(obj);
           this.previousLogsObject = obj;
-          switch (this.chartType) {
-            case ChartType.Volume:
-              this.updateChartDataByVolume();
-              break;
-            case ChartType.Estimated:
-              this.updateChartByEstimatedMax();
+          if (this.chart) {
+            switch (this.chartType) {
+              case ChartType.Volume:
+                this.updateChartDataByVolume();
+                break;
+              case ChartType.Estimated:
+                this.updateChartByEstimatedMax();
 
-              break;
+                break;
 
-            case ChartType.Weight:
-              this.updateChartByWeightMax();
+              case ChartType.Weight:
+                this.updateChartByWeightMax();
 
-              break;
+                break;
+            }
           }
 
           console.log('w subscribe get logs ');

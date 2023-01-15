@@ -13,6 +13,7 @@ import { ManageUsersComponent } from './components/manage-users/manage-users.com
 import { NewProgramComponent } from './components/new-program/new-program.component';
 import { ProgramsComponent } from './components/programs/programs.component';
 import { ProgramDetailsComponent } from './components/program-details/program-details.component';
+import { SortByDatePipe } from 'src/app/shared/pipes/sort-by-date.pipe';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { ProgramDetailsComponent } from './components/program-details/program-de
     ManageExercisesComponent,
     NewProgramComponent,
     ProgramDetailsComponent,
+    SortByDatePipe,
   ],
   imports: [
     CommonModule,

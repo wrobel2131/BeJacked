@@ -34,7 +34,7 @@
         <!-- <a mat-list-item [routerLink]="['/app/logs']" routerLinkActive="active"
           ><mat-icon>trending_up</mat-icon>Logs</a
         > -->
-        <mat-divider></mat-divider>
+        <mat-divider *ngIf="hasRole('admin')"></mat-divider>
         <!-- <span >Admin panel</span> -->
         <a
           mat-list-item

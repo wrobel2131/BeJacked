@@ -7,14 +7,22 @@
     mat-align-tabs="center"
     (selectedTabChange)="closeExpansionPanels()"
   >
-    <mat-tab *ngFor="let workout of workouts" label="{{ workout.name }}">
+    <mat-tab
+      *ngFor="let workout of workouts; index as j"
+      label="{{ workout.name }}"
+    >
       <ng-template matTabContent>
         <mat-accordion>
           <mat-expansion-panel
-            *ngFor="let exercise of workout.exercises"
+            *ngFor="let exercise of workout.exercises; index as i"
             [expanded]="false"
-            (opened)="getLogs(workout.id, exercise.id)"
-            (closed)="destroyChart()"
+            (opened)="
+              onPanelOpen(i, j);
+              getLogs(workout.id, exercise.id);
+              createChart(j, i)
+            "
+            (closed)="onPanelOpen(i, j); destroyChart()"
+            [disabled]="openedPanel !== null && openedPanel !== i"
           >
             <mat-expansion-panel-header>
               <mat-panel-title> {{ exercise.name }} </mat-panel-title>
@@ -22,173 +30,234 @@
             <ng-template matExpansionPanelContent>
               <div class="exercise-content">
                 <p class="exercise-description">{{ exercise.description }}</p>
+                <!-- <button (click)="changeTab(2)">Change Tab</button> -->
+
                 <mat-divider></mat-divider>
                 <mat-tab-group
                   mat-stretch-tabs="false"
                   mat-align-tabs="center"
                   style="min-height: 300px"
                   [selectedIndex]="selectedTabIndex"
-                  (selectedTabChange)="createChart($event)"
+                  (selectedTabChange)="createChart(j, i)"
                 >
                   <mat-tab label="Info">
-                    <div class="tab info-content">
-                      <div class="tab-top">
-                        <h4>{{ exercise.name }}</h4>
-                        <span class="exercise-text"
-                          >Category: {{ exercise.exerciseCategory.name }}</span
-                        >
-                        <!-- <br /> -->
-                        <span class="exercise-text"
-                          >Engaged muscles: {{ exercise.muscles }}</span
-                        >
+                    <ng-template matTabContent>
+                      <div class="tab info-content">
+                        <div class="tab-top">
+                          <h4>{{ exercise.name }}</h4>
+                          <span class="exercise-text"
+                            >Category:
+                            {{ exercise.exerciseCategory.name }}</span
+                          >
+                          <!-- <br /> -->
+                          <span class="exercise-text"
+                            >Engaged muscles: {{ exercise.muscles }}</span
+                          >
+                        </div>
+                        <div class="tab-mid">
+                          Youtube video
+                          <ngx-youtube-player
+                            [videoId]="id"
+                            (ready)="savePlayer($event)"
+                            (change)="onStateChange($event)"
+                            [playerVars]="playerVars"
+                          ></ngx-youtube-player>
+                        </div>
+                        <div class="tab-bottom">
+                          <h4>Description</h4>
+                          <!-- <br /> -->
+                          <p class="exercise-text">
+                            {{ exercise.description }}
+                          </p>
+                        </div>
                       </div>
-                      <div class="tab-mid">
-                        Youtube video
-                        <ngx-youtube-player
-                          [videoId]="id"
-                          (ready)="savePlayer($event)"
-                          (change)="onStateChange($event)"
-                          [playerVars]="playerVars"
-                        ></ngx-youtube-player>
-                      </div>
-                      <div class="tab-bottom">
-                        <h4>Description</h4>
-                        <!-- <br /> -->
-                        <p class="exercise-text">{{ exercise.description }}</p>
-                      </div>
-                    </div>
+                    </ng-template>
                   </mat-tab>
                   <mat-tab label="Training results">
-                    <div class="tab results-content">
-                      <div class="chart-container">
-                        <div class="chart">
-                          <canvas id="logs-chart">{{ chart }}</canvas>
+                    <ng-template matTabContent>
+                      <div class="tab results-content">
+                        <div class="chart-container">
+                          <div class="chart">
+                            <canvas id="logs-chart-{{ j }}-{{ i }}">{{
+                              chart
+                            }}</canvas>
+                          </div>
+                          <div *ngIf="chart" class="chart-options">
+                            <button mat-button (click)="createChart(j, i)">
+                              Click to reload chart
+                            </button>
+                            <mat-divider></mat-divider>
+                            <h4>Chart options</h4>
+                            <button
+                              mat-button
+                              (click)="updateChartDataByVolume()"
+                            >
+                              Max volume(day)
+                            </button>
+                            <button
+                              mat-button
+                              (click)="updateChartByEstimatedMax()"
+                            >
+                              Max 1 rep max(day)
+                            </button>
+                            <button
+                              mat-button
+                              (click)="updateChartByWeightMax()"
+                            >
+                              Max weight(day)
+                            </button>
+                            <!-- <button></button> -->
+                          </div>
                         </div>
-                        <div class="chart-options">
-                          <h4>Chart options</h4>
-                          <button
-                            mat-button
-                            (click)="updateChartDataByVolume()"
-                          >
-                            Max volume(day)
-                          </button>
-                          <button
-                            mat-button
-                            (click)="updateChartByEstimatedMax()"
-                          >
-                            Max 1 rep max(day)
-                          </button>
-                          <button mat-button (click)="updateChartByWeightMax()">
-                            Max weight(day)
-                          </button>
-                          <!-- <button></button> -->
-                        </div>
-                      </div>
-                      <div class="results">
-                        <div class="left-panel">
-                          <h4>Add new set</h4>
-                          <form
-                            class="results-form"
-                            [formGroup]="results"
-                            (ngSubmit)="
-                              onSubmit(exercise.name, exercise.id, workout.id)
-                            "
-                          >
-                            <div class="controls">
-                              <mat-form-field appearance="fill">
-                                <input
-                                  id="weight"
-                                  matInput
-                                  type="number"
-                                  formControlName="weight"
-                                />
-                                <mat-hint>Weight</mat-hint>
-                              </mat-form-field>
-                              <mat-form-field appearance="fill">
-                                <input
-                                  id="reps"
-                                  matInput
-                                  type="number"
-                                  step="1"
-                                  formControlName="reps"
-                                />
-                                <mat-hint>Reps</mat-hint>
-                              </mat-form-field>
-                              <mat-form-field appearance="fill">
-                                <input
-                                  id="rpe"
-                                  matInput
-                                  type="number"
-                                  min="0"
-                                  step="0.5"
-                                  max="10"
-                                  formControlName="rpe"
-                                />
-                                <mat-hint>RPE</mat-hint>
-                              </mat-form-field>
-                            </div>
-
-                            <div class="tempo-controls" [formGroup]="tempo">
-                              <mat-hint>Tempo</mat-hint>
+                        <div class="results">
+                          <div class="left-panel">
+                            <h4>Add new set</h4>
+                            <form
+                              class="results-form"
+                              [formGroup]="results"
+                              (ngSubmit)="
+                                onSubmit(exercise.name, exercise.id, workout.id)
+                              "
+                            >
                               <div class="controls">
                                 <mat-form-field appearance="fill">
                                   <input
-                                    class="tempo-input"
+                                    id="weight"
                                     matInput
                                     type="number"
-                                    formControlName="eccentric"
+                                    formControlName="weight"
                                   />
-                                  <mat-hint>Eccentric</mat-hint>
+                                  <mat-hint>Weight</mat-hint>
                                 </mat-form-field>
                                 <mat-form-field appearance="fill">
                                   <input
-                                    class="tempo-input"
-                                    matInput
-                                    type="text"
-                                    formControlName="bottom"
-                                    (keypress)="checkNumber($event, 'bottom')"
-                                  />
-                                  <mat-hint>Bottom pause</mat-hint>
-                                </mat-form-field>
-                                <mat-form-field appearance="fill">
-                                  <input
-                                    class="tempo-input"
-                                    matInput
-                                    type="text"
-                                    formControlName="concentric"
-                                    (keypress)="
-                                      checkNumber($event, 'concentric')
-                                    "
-                                  />
-                                  <mat-hint>Concentric Contraction</mat-hint>
-                                </mat-form-field>
-                                <mat-form-field appearance="fill">
-                                  <input
-                                    class="tempo-input"
+                                    id="reps"
                                     matInput
                                     type="number"
-                                    formControlName="top"
+                                    step="1"
+                                    formControlName="reps"
                                   />
-                                  <mat-hint>Top pause</mat-hint>
+                                  <mat-hint>Reps</mat-hint>
+                                </mat-form-field>
+                                <mat-form-field appearance="fill">
+                                  <input
+                                    id="rpe"
+                                    matInput
+                                    type="number"
+                                    min="0"
+                                    step="0.5"
+                                    max="10"
+                                    formControlName="rpe"
+                                  />
+                                  <mat-hint>RPE</mat-hint>
                                 </mat-form-field>
                               </div>
-                            </div>
-                            <button
-                              class="add-set"
-                              mat-button
-                              type="submit"
-                              [disabled]="isSubmitDisabled()"
-                            >
-                              <mat-icon>add</mat-icon>
-                            </button>
-                          </form>
-                        </div>
 
-                        <div class="right-panel">
-                          <div class="sets-title">
-                            <h4>Today's sets</h4>
+                              <div class="tempo-controls" [formGroup]="tempo">
+                                <mat-hint>Tempo</mat-hint>
+                                <div class="controls">
+                                  <mat-form-field appearance="fill">
+                                    <input
+                                      class="tempo-input"
+                                      matInput
+                                      type="number"
+                                      formControlName="eccentric"
+                                    />
+                                    <mat-hint>Eccentric</mat-hint>
+                                  </mat-form-field>
+                                  <mat-form-field appearance="fill">
+                                    <input
+                                      class="tempo-input"
+                                      matInput
+                                      type="text"
+                                      formControlName="bottom"
+                                      (keypress)="checkNumber($event, 'bottom')"
+                                    />
+                                    <mat-hint>Bottom pause</mat-hint>
+                                  </mat-form-field>
+                                  <mat-form-field appearance="fill">
+                                    <input
+                                      class="tempo-input"
+                                      matInput
+                                      type="text"
+                                      formControlName="concentric"
+                                      (keypress)="
+                                        checkNumber($event, 'concentric')
+                                      "
+                                    />
+                                    <mat-hint>Concentric Contraction</mat-hint>
+                                  </mat-form-field>
+                                  <mat-form-field appearance="fill">
+                                    <input
+                                      class="tempo-input"
+                                      matInput
+                                      type="number"
+                                      formControlName="top"
+                                    />
+                                    <mat-hint>Top pause</mat-hint>
+                                  </mat-form-field>
+                                </div>
+                              </div>
+                              <button
+                                class="add-set"
+                                mat-button
+                                type="submit"
+                                [disabled]="isSubmitDisabled()"
+                              >
+                                <mat-icon>add</mat-icon>
+                              </button>
+                            </form>
                           </div>
-                          <mat-card *ngFor="let log of logs; index as i">
+
+                          <div class="right-panel">
+                            <div class="sets-title">
+                              <h4>Today's sets</h4>
+                            </div>
+                            <mat-card *ngFor="let log of logs; index as i">
+                              <mat-card-content>
+                                <span class="set-text"
+                                  ><strong>{{ log.setNumber }}</strong></span
+                                >
+                                <span class="set-text"
+                                  ><strong>Weight: </strong
+                                  >{{ log.weight }}</span
+                                >
+                                <span class="set-text"
+                                  ><strong>Reps: </strong>{{ log.reps }}</span
+                                >
+                                <span class="set-text"
+                                  ><strong>RPE: </strong>{{ log.rpe }}</span
+                                >
+                                <span class="set-text"
+                                  ><strong>Tempo: </strong>{{ log.tempo }}</span
+                                >
+                              </mat-card-content>
+                            </mat-card>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </mat-tab>
+                  <mat-tab label="Previous logs">
+                    <ng-template matTabContent>
+                      <div *ngIf="previousLogsObject" class="tab logs-content">
+                        <div
+                          class="log"
+                          *ngFor="
+                            let item of (
+                              previousLogsObject | keyvalue
+                            ).reverse()
+                          "
+                        >
+                          <div class="sets-title-previous">
+                            <h4>{{ item.key }}'s sets</h4>
+                          </div>
+                          <mat-card
+                            *ngFor="
+                              let log of Object.values(item.value);
+                              index as i
+                            "
+                          >
                             <mat-card-content>
                               <span class="set-text"
                                 ><strong>{{ log.setNumber }}</strong></span
@@ -209,45 +278,7 @@
                           </mat-card>
                         </div>
                       </div>
-                    </div>
-                  </mat-tab>
-                  <mat-tab label="Previous logs">
-                    <div *ngIf="previousLogsObject" class="tab logs-content">
-                      <div
-                        class="log"
-                        *ngFor="
-                          let item of (previousLogsObject | keyvalue).reverse()
-                        "
-                      >
-                        <div class="sets-title-previous">
-                          <h4>{{ item.key }}'s sets</h4>
-                        </div>
-                        <mat-card
-                          *ngFor="
-                            let log of Object.values(item.value);
-                            index as i
-                          "
-                        >
-                          <mat-card-content>
-                            <span class="set-text"
-                              ><strong>{{ log.setNumber }}</strong></span
-                            >
-                            <span class="set-text"
-                              ><strong>Weight: </strong>{{ log.weight }}</span
-                            >
-                            <span class="set-text"
-                              ><strong>Reps: </strong>{{ log.reps }}</span
-                            >
-                            <span class="set-text"
-                              ><strong>RPE: </strong>{{ log.rpe }}</span
-                            >
-                            <span class="set-text"
-                              ><strong>Tempo: </strong>{{ log.tempo }}</span
-                            >
-                          </mat-card-content>
-                        </mat-card>
-                      </div>
-                    </div>
+                    </ng-template>
                   </mat-tab>
                 </mat-tab-group>
               </div>
