@@ -228,7 +228,14 @@ textarea {
   align-items: center;
 }
 
-.demo-table {
+.table {
+  width: 100%;
+}
+.table thead {
+  width: 100%;
+  margin-top: 30px;
+}
+.table tbody {
   width: 100%;
 }
 
@@ -237,6 +244,16 @@ textarea {
 }
 
 .table-head-row {
+  width: 100%;
+}
+
+.workouts {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.mat-card {
+  margin: 0 10px;
   width: 100%;
 }
 
@@ -284,23 +301,12 @@ tr.example-element-row:not(.example-expanded-row):active {
   display: flex;
 }
 
-.example-element-diagram {
-  min-width: 80px;
-  border: 2px solid black;
-  padding: 8px;
-  font-weight: lighter;
-  margin: 8px 0;
-  height: 104px;
-}
-
-.example-element-symbol {
-  font-weight: bold;
-  font-size: 40px;
-  line-height: normal;
-}
-
 .example-element-description {
   padding: 16px;
+}
+.example-element-description span {
+  font-weight: 500;
+  font-size: larger;
 }
 
 .example-element-description-attribution {

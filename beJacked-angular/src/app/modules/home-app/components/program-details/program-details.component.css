@@ -156,11 +156,20 @@ button {
 
 .chart {
   height: 100%;
-  flex: 1.5;
+  width: 70%;
+}
+
+.chart-reload {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .chart-options {
-  flex: 0.8;
+  /* flex: 0.8; */
+  width: 30%;
   height: 100%;
   /* width: 30%; */
   display: flex;

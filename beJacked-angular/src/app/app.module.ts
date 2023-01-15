@@ -22,6 +22,7 @@ import {
 } from 'ngx-ui-loader';
 import { HomeAppModule } from './modules/home-app/home-app.module';
 import { BrowserModule } from '@angular/platform-browser';
+import { SortByDatePipe } from './shared/pipes/sort-by-date.pipe';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: '#000000',
