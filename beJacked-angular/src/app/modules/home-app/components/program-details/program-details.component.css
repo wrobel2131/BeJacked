@@ -1,3 +1,22 @@
+/* ::ng-deep *::-webkit-scrollbar {
+  width: 5px;
+}
+
+::ng-deep *::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::ng-deep *::-webkit-scrollbar-thumb {
+  background-color: black;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::ng-deep *::-webkit-scrollbar-thumb:hover {
+  background-color: #a8bbbf;
+} */
+
 h2 {
   font-weight: bold;
   font-size: 30px;
@@ -189,6 +208,7 @@ button {
 .results-content {
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
   /* justify-content: space-between; */
 }
 
@@ -308,3 +328,7 @@ h4 {
   font-size: 12px;
   margin: 0 10px;
 }
+
+/* canvas {
+  height: 100%;
+} */

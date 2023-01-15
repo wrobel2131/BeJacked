@@ -358,7 +358,9 @@ export class ProgramDetailsComponent implements OnInit {
               label: 'Maximum volume [kg] graph over time (days)',
               data: this.dataChart,
               borderColor: 'black',
-              backgroundColor: 'black',
+              backgroundColor: 'rgba(0,0,0,0.1)',
+
+              fill: true,
               pointBackgroundColor: 'black',
               pointBorderColor: 'black',
               pointHitRadius: 3,
@@ -369,6 +371,7 @@ export class ProgramDetailsComponent implements OnInit {
           ],
         },
         options: {
+          aspectRatio: 1.5,
           scales: {
             y: {
               title: {
