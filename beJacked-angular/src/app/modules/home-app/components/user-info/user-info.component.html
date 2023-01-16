@@ -1,0 +1,155 @@
+<div *ngIf="user" class="content">
+  <h2 mat-dialog-title>User Profile</h2>
+  <form
+    class="form form-data"
+    id="profileForm"
+    [formGroup]="profileForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <div class="form-field">
+      <mat-form-field appearance="fill">
+        <mat-label>
+          <span>Username</span>
+        </mat-label>
+        <input
+          id="username"
+          class="form-input"
+          matInput
+          formControlName="username"
+          type="text"
+        />
+      </mat-form-field>
+      <button
+        mat-icon-button
+        (click)="toggleEditingControl('username', 0)"
+        *ngIf="!editingControls[0]"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        (click)="toggleEditingControl('username', 0)"
+        *ngIf="editingControls[0]"
+      >
+        <mat-icon>edit_off</mat-icon>
+      </button>
+    </div>
+    <div class="form-field">
+      <mat-form-field appearance="fill">
+        <mat-label>
+          <span>Email</span>
+        </mat-label>
+        <input
+          id="email"
+          class="form-input"
+          matInput
+          formControlName="email"
+          type="email"
+        />
+        <!-- <mat-error>{{ getEmailErrorMessage() }}</mat-error> -->
+      </mat-form-field>
+      <button
+        mat-icon-button
+        (click)="toggleEditingControl('email', 1)"
+        *ngIf="!editingControls[1]"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        (click)="toggleEditingControl('email', 1)"
+        *ngIf="editingControls[1]"
+      >
+        <mat-icon>edit_off</mat-icon>
+      </button>
+    </div>
+    <div class="form-field">
+      <mat-form-field appearance="fill">
+        <mat-label>
+          <span>Password</span>
+        </mat-label>
+        <input
+          id="password"
+          class="form-input"
+          matInput
+          formControlName="password"
+          type="password"
+        />
+        <!-- <mat-error>{{ getPasswordErrorMessage() }}</mat-error> -->
+      </mat-form-field>
+      <button
+        mat-icon-button
+        (click)="toggleEditingControl('password', 2)"
+        *ngIf="!editingControls[2]"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        (click)="toggleEditingControl('password', 2)"
+        *ngIf="editingControls[2]"
+      >
+        <mat-icon>edit_off</mat-icon>
+      </button>
+    </div>
+
+    <div class="form-field">
+      <mat-form-field appearance="fill">
+        <mat-label>
+          <span>Name</span>
+        </mat-label>
+        <input
+          id="name"
+          class="form-input"
+          matInput
+          formControlName="name"
+          type="text"
+        />
+        <!-- <mat-error>{{ getRequiredErrorMessage("name") }}</mat-error> -->
+      </mat-form-field>
+      <button
+        mat-icon-button
+        (click)="toggleEditingControl('name', 3)"
+        *ngIf="!editingControls[3]"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        (click)="toggleEditingControl('name', 3)"
+        *ngIf="editingControls[3]"
+      >
+        <mat-icon>edit_off</mat-icon>
+      </button>
+    </div>
+    <div class="form-field">
+      <mat-form-field appearance="fill">
+        <mat-label>
+          <span>Surname</span>
+        </mat-label>
+        <input
+          id="surname"
+          class="form-input"
+          matInput
+          formControlName="surname"
+          type="text"
+        />
+        <!-- <mat-error>{{ getRequiredErrorMessage("surname") }}</mat-error> -->
+      </mat-form-field>
+      <button
+        mat-icon-button
+        (click)="toggleEditingControl('surname', 4)"
+        *ngIf="!editingControls[4]"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        (click)="toggleEditingControl('surname', 4)"
+        *ngIf="editingControls[4]"
+      >
+        <mat-icon>edit_off</mat-icon>
+      </button>
+    </div>
+  </form>
+</div>

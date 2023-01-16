@@ -47,6 +47,7 @@ import { MatTableModule } from '@angular/material/table';
   imports: [
     CommonModule,
     MatAutocompleteModule,
+    MatMenuModule,
     MatCheckboxModule,
     MatDatepickerModule,
     MatFormFieldModule,
@@ -55,7 +56,6 @@ import { MatTableModule } from '@angular/material/table';
     MatSelectModule,
     MatSliderModule,
     MatSlideToggleModule,
-    MatMenuModule,
     MatSidenavModule,
     MatToolbarModule,
     MatCardModule,

@@ -154,3 +154,17 @@ df-messenger {
   --df-messenger-send-icon: black;
   --df-messenger-user-message: orange;
 }
+
+::ng-deep.mat-menu-content {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+::ng-deep.mat-menu-item {
+  width: 200px !important;
+}
+span.username {
+  font-size: 20px;
+  font-weight: 500;
+}
