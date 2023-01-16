@@ -6,7 +6,18 @@
       <button mat-button (click)="sidenav.toggle()">
         <mat-icon>menu</mat-icon>
       </button>
-      <button mat-mini-fab><mat-icon>account_circle</mat-icon></button>
+
+      <button mat-mini-fab [matMenuTriggerFor]="menu">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu" xPosition="before">
+        <span class="username">{{ username() }}</span>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="openUserInfoDialog(user)">
+          Profile
+        </button>
+        <button mat-menu-item (click)="logout()">Logout</button>
+      </mat-menu>
     </mat-toolbar-row>
   </mat-toolbar>
 

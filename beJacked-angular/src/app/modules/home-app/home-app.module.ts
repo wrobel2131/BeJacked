@@ -14,6 +14,7 @@ import { NewProgramComponent } from './components/new-program/new-program.compon
 import { ProgramsComponent } from './components/programs/programs.component';
 import { ProgramDetailsComponent } from './components/program-details/program-details.component';
 import { SortByDatePipe } from 'src/app/shared/pipes/sort-by-date.pipe';
+import { UserInfoComponent } from './components/user-info/user-info.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { SortByDatePipe } from 'src/app/shared/pipes/sort-by-date.pipe';
     NewProgramComponent,
     ProgramDetailsComponent,
     SortByDatePipe,
+    UserInfoComponent,
   ],
   imports: [
     CommonModule,

@@ -16,12 +16,9 @@
           <mat-expansion-panel
             *ngFor="let exercise of workout.exercises; index as i"
             [expanded]="false"
-            (opened)="
-              onPanelOpen(i, j);
-              getLogs(workout.id, exercise.id);
-              createChart(j, i)
-            "
-            (closed)="onPanelOpen(i, j); destroyChart()"
+            (click)="changeTab(0)"
+            (opened)="onPanelOpen(j, i); getLogs(workout.id, exercise.id, j, i)"
+            (closed)="onPanelOpen(j, i); destroyChart()"
             [disabled]="openedPanel !== null && openedPanel !== i"
           >
             <mat-expansion-panel-header>
@@ -37,8 +34,8 @@
                   mat-stretch-tabs="false"
                   mat-align-tabs="center"
                   style="min-height: 300px"
-                  [selectedIndex]="selectedTabIndex"
-                  (selectedTabChange)="createChart(j, i)"
+                  [selectedIndex]="0"
+                  (selectedTabChange)="createChart()"
                 >
                   <mat-tab label="Info">
                     <ng-template matTabContent>
@@ -83,7 +80,7 @@
                             }}</canvas>
                           </div>
                           <div *ngIf="chart" class="chart-options">
-                            <button mat-button (click)="createChart(j, i)">
+                            <button mat-button (click)="createChart()">
                               Click to reload chart
                             </button>
                             <mat-divider></mat-divider>

@@ -50,7 +50,7 @@ export class ProgramsComponent implements OnInit {
 
   openAddProgramDialog(): void {
     const dialogRef = this.dialog.open(NewProgramComponent, {
-      height: '900px',
+      height: '700px',
       width: '80%',
     });
 

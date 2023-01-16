@@ -76,17 +76,6 @@ export class ProgramDetailsComponent implements OnInit {
 
   openedPanel: any = null;
 
-  onPanelOpen(index: number, index2: number) {
-    // console.log('open on panel ' + index + ' ' + index2);
-    // this.createChart(index2, index);
-
-    if (this.openedPanel === null) {
-      this.openedPanel = index;
-    } else if (this.openedPanel === index) {
-      this.openedPanel = null;
-    }
-  }
-
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Program,
     public dialogRef: MatDialogRef<ProgramDetailsComponent>,
@@ -175,6 +164,22 @@ export class ProgramDetailsComponent implements OnInit {
         console.log('top');
       }
     });
+  }
+
+  i?: number;
+  j?: number;
+
+  onPanelOpen(index: number, index2: number) {
+    // console.log('open on panel ' + index + ' ' + index2);
+    // this.createChart(index2, index);
+    this.i = index2;
+    this.j = index;
+
+    if (this.openedPanel === null) {
+      this.openedPanel = index2;
+    } else if (this.openedPanel === index2) {
+      this.openedPanel = null;
+    }
   }
 
   closeExpansionPanels() {
@@ -320,7 +325,7 @@ export class ProgramDetailsComponent implements OnInit {
     return this.dataChart.length === 0 && this.previousLogs.length === 0;
   }
 
-  createChart(workout: number, exercise: number) {
+  createChart() {
     console.log('tabindex: ' + this.selectedTabIndex);
     if (this.chart != undefined) {
       this.chart.destroy();
@@ -340,14 +345,14 @@ export class ProgramDetailsComponent implements OnInit {
     // if (!this.chart) {
     console.log('cretaing new chart');
     const canvas = document.getElementById(
-      'logs-chart-' + workout + '-' + exercise
+      'logs-chart-' + this.j + '-' + this.i
     ) as HTMLCanvasElement | null;
     console.log('canvas');
     console.log(canvas);
 
     if (canvas != null) {
       console.log('creating');
-      this.chart = new Chart('logs-chart-' + workout + '-' + exercise, {
+      this.chart = new Chart('logs-chart-' + this.j + '-' + this.i, {
         type: 'line', //this denotes tha type of chart
 
         data: {
@@ -422,7 +427,7 @@ export class ProgramDetailsComponent implements OnInit {
     }
   }
 
-  getLogs(workoutId?: number, exerciseId?: number) {
+  getLogs(workoutId?: number, exerciseId?: number, id1?: number, id2?: number) {
     console.log('workoutid: ' + workoutId + ' exerrciseId: ' + exerciseId);
     console.log('chart w getLog: ');
     console.log(this.chart);
@@ -471,6 +476,33 @@ export class ProgramDetailsComponent implements OnInit {
 
           // this.setChartData(obj);
           this.previousLogsObject = obj;
+          // if (this.chart) {
+          //   switch (this.chartType) {
+          //     case ChartType.Volume:
+          //       this.updateChartDataByVolume();
+          //       break;
+          //     case ChartType.Estimated:
+          //       this.updateChartByEstimatedMax();
+
+          //       break;
+
+          //     case ChartType.Weight:
+          //       this.updateChartByWeightMax();
+
+          //       break;
+          //   }
+          // }
+
+          console.log('w subscribe get logs ');
+          console.log(this.previousLogsObject);
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          // if (id1 != undefined && id2 != undefined) {
+          console.log('creating in complete');
+          console.log(this.previousLogsObject);
           if (this.chart) {
             switch (this.chartType) {
               case ChartType.Volume:
@@ -486,13 +518,10 @@ export class ProgramDetailsComponent implements OnInit {
 
                 break;
             }
+          } else {
+            this.createChart();
           }
-
-          console.log('w subscribe get logs ');
-          console.log(this.previousLogsObject);
-        },
-        (error) => {
-          console.log(error);
+          // }
         }
       );
     }
