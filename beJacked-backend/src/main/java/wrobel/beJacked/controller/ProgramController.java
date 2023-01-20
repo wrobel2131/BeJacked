@@ -27,7 +27,7 @@ public class ProgramController {
     private final HttpServletRequest request;
     @RolesAllowed({"ROLE_ADMIN", "ROLE_TRAINER", "ROLE_USER"})
     @GetMapping()
-    List<Program> getPrograms(HttpServletRequest request) {
+    public List<Program> getPrograms(HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();
 
         return programService.getUserPrograms(principal.getName());
@@ -35,7 +35,7 @@ public class ProgramController {
 
     @RolesAllowed({"ROLE_ADMIN", "ROLE_TRAINER", "ROLE_USER"})
     @PostMapping()
-    Program addProgram(@RequestBody ProgramDTO form) {
+    public Program addProgram(@RequestBody ProgramDTO form) {
         log.info("in controller");
 
         log.info(String.valueOf(form));
@@ -59,9 +59,32 @@ public class ProgramController {
         return programService.addWorkoutsToProgram(returnedProgram, workouts);
     }
 
+
+
+
     @RolesAllowed({"ROLE_ADMIN", "ROLE_TRAINER", "ROLE_USER"})
     @GetMapping("/programTypes")
-    List<ProgramType> getProgramTypes() {
+    public List<ProgramType> getProgramTypes() {
         return programService.getProgramTypes();
+    }
+
+    //TODO methods to implement
+
+    @RolesAllowed({"ROLE_ADMIN"})
+    @DeleteMapping("/programTypes/{programTypeId}")
+    public Program deleteProgramTypes(@PathVariable Long programTypeId) {
+        return null;
+    }
+
+    @RolesAllowed({"ROLE_ADMIN"})
+    @PostMapping("/programTypes")
+    public Program addProgramType() {
+        return null;
+    }
+
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_TRAINER", "ROLE_USER"})
+    @DeleteMapping("/{programId}")
+    public Program deleteProgram(@PathVariable Long programId) {
+        return null;
     }
 }
