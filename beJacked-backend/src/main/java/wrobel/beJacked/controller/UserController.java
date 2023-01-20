@@ -20,26 +20,26 @@ public class UserController {
     private final UserService userService;
 
 
-    @RolesAllowed("ROLE_USER")
+    @RolesAllowed({"ROLE_USER", "ROLE_ADMIN", "ROLE_TRAINER"})
     @GetMapping(path = "/{username}")
-    User getUser(@PathVariable String username) {
+    public User getUser(@PathVariable String username) {
         return userService.getUserByUsername(username);
     }
 
     @RolesAllowed("ROLE_ADMIN")
     @GetMapping()
-    List<User> getUsers() {
+    public List<User> getUsers() {
         return userService.getUsers();
     }
 
     @RolesAllowed("ROLE_TRAINER")
     @GetMapping(path = "/email/{email}")
-    User getUserByEmail(@PathVariable String email) {return userService.getUserByEmail(email);}
+    public User getUserByEmail(@PathVariable String email) {return userService.getUserByEmail(email);}
 
     //Trzeba bedzie w tych request body dac USERDTO a obiekty ktore maja stycznosc z baza danych dac USERDAO
 
     @PostMapping()
-    User addUser(@RequestBody User user) {
+    public User addUser(@RequestBody User user) {
         return userService.saveUser(user);
     }
 
@@ -47,7 +47,7 @@ public class UserController {
     //jezeli chodzi o logowanie oraz rejestracje, to chyba osobny kontroller, sprawdzic tez czy da sie zmienic api url z /login
     //na cos innego
 
-    @PostMapping("/role/save")
+    @PostMapping("/role")
     public Role addRole(@RequestBody Role role) {
         return userService.saveRole(role);
     }
@@ -57,6 +57,26 @@ public class UserController {
         userService.addRoleToUser(form.getUsername(), form.getRoleName());
     }
 
+    @RolesAllowed({"ROLE_ADMIN"})
+    @DeleteMapping("/role")
+    public Role deleteRole(@RequestBody Role role) {
+        return userService.saveRole(role);
+    }
+
+    //TODO methods to implement
+
+
+    @RolesAllowed({"ROLE_ADMIN"})
+    @DeleteMapping("/{userId}")
+    public Role deleteUser(@PathVariable Long userId) {
+        return null;
+    }
+
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER", "ROLE_TRAINER"})
+    @PatchMapping("/{userId}")
+    public Role updateUser(@PathVariable Long userId) {
+        return null;
+    }
 
 
 }

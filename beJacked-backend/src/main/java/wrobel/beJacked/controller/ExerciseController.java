@@ -21,13 +21,13 @@ public class ExerciseController {
 
     @RolesAllowed({"ROLE_USER", "ROLE_ADMIN", "ROLE_TRAINER"})
     @GetMapping()
-    List<Exercise> getExercises() {
+    public List<Exercise> getExercises() {
         return exerciseService.getExercises();
     }
 
     @RolesAllowed({"ROLE_USER", "ROLE_ADMIN", "ROLE_TRAINER"})
     @GetMapping(path = "/{exerciseName}")
-    Exercise getExerciseByName(@PathVariable String exerciseName) {
+    public Exercise getExerciseByName(@PathVariable String exerciseName) {
         //TODO check of exercise exists
         return exerciseService.getExerciseByName(exerciseName);
     }
@@ -37,7 +37,7 @@ public class ExerciseController {
 
     @RolesAllowed("ROLE_ADMIN")
     @PostMapping()
-    Exercise addExercise(@RequestBody AddExerciseDTO form) {
+    public Exercise addExercise(@RequestBody AddExerciseDTO form) {
         //TODO sprawdzenie przychodzacego exercise DTO
         log.info("in controller");
         if(form == null) {
@@ -53,24 +53,38 @@ public class ExerciseController {
     }
 
     @RolesAllowed({"ROLE_USER", "ROLE_ADMIN", "ROLE_TRAINER"})
-
     @GetMapping(path = "/category/{categoryName}")
-    List<Exercise> getExercisesByCategory(@PathVariable String categoryName) {
+    public List<Exercise> getExercisesByCategory(@PathVariable String categoryName) {
         //TODO check if category exists
         return exerciseService.getExercisesByCategory(categoryName);
     }
 
     @RolesAllowed({"ROLE_USER", "ROLE_ADMIN", "ROLE_TRAINER"})
     @GetMapping(path = "/category")
-    List<ExerciseCategory> getExerciseCategories() {
+    public List<ExerciseCategory> getExerciseCategories() {
         return exerciseService.getExerciseCategories();
     }
 
 
     @RolesAllowed("ROLE_ADMIN")
     @PostMapping(path = "/category/{categoryName}")
-    ExerciseCategory addExerciseCategory(@PathVariable String categoryName) {
+    public ExerciseCategory addExerciseCategory(@PathVariable String categoryName) {
         return exerciseService.saveExerciseCategory(categoryName);
     }
+
+    //TODO methods to implement
+
+    @RolesAllowed({"ROLE_ADMIN"})
+    @DeleteMapping(path = "/category")
+    public ExerciseCategory deleteExerciseCategory() {
+        return null;
+    }
+
+    @RolesAllowed({"ROLE_ADMIN"})
+    @DeleteMapping(path = "/{exerciseId}")
+    public Exercise deleteExercise(@PathVariable Long exerciseId) {
+        return null;
+    }
+
 
 }
