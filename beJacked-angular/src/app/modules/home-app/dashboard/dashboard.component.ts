@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSidenav } from '@angular/material/sidenav';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
@@ -12,16 +12,17 @@ import { UserInfoComponent } from '../components/user-info/user-info.component';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, AfterViewInit {
   constructor(
     private authService: AuthService,
     public dialog: MatDialog,
     private userService: UserService
   ) {}
-
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.getUser();
   }
+
+  ngOnInit(): void {}
 
   user!: User;
 
