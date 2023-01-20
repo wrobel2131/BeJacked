@@ -29,6 +29,12 @@ public interface ProgramService {
 
     List<Workout> createWorkouts(Program program, ProgramDTO form);
 
+    //TODO methods to implement
+    ProgramType deleteProgramType(Long programTypeId);
+    ProgramType addProgramType(String name);
+
+    Program deleteProgram(Long programId);
+
 
 
 }

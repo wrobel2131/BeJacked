@@ -90,4 +90,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.findByUsername(username) != null || userRepository.findUserByEmail(email) != null;
 
     }
+
+    @Override
+    public User deleteUser(Long userId) {
+        return null;
+    }
+
+    @Override
+    public User updateUser(Long userId) {
+        return null;
+    }
+
+    @Override
+    public Role deleteRole(Role role) {
+        return null;
+    }
 }

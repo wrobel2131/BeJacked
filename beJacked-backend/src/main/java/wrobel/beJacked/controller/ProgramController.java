@@ -72,7 +72,7 @@ public class ProgramController {
 
     @RolesAllowed({"ROLE_ADMIN"})
     @DeleteMapping("/programTypes/{programTypeId}")
-    public Program deleteProgramTypes(@PathVariable Long programTypeId) {
+    public Program deleteProgramType(@PathVariable Long programTypeId) {
         return null;
     }
 

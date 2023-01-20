@@ -17,4 +17,8 @@ public interface UserService {
     void addRoleToUser(String username, String roleName);
 //    List<User> getUsersByRoles(Set<Role> roles);
     Boolean doesUserExists(String username, String email);
+    //TODO to implement
+    User deleteUser(Long userId);
+    User updateUser(Long userId);
+    Role deleteRole(Role role);
 }

@@ -71,5 +71,20 @@ public class LogServiceImpl implements LogService {
         return exerciseLog;
     }
 
+    @Override
+    public List<Log> deleteLogsByWorkoutExerciseDate(Long workoutId, Long exerciseId, String date) {
+        return null;
+    }
+
+    @Override
+    public List<Log> deleteLogsByWorkoutExercise(Long workoutId, Long exerciseId) {
+        return null;
+    }
+
+    @Override
+    public List<Log> deleteUserLogs(Long userId) {
+        return null;
+    }
+
 
 }

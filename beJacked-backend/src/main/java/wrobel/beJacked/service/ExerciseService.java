@@ -2,6 +2,7 @@ package wrobel.beJacked.service;
 
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import wrobel.beJacked.DTO.AddExerciseDTO;
 import wrobel.beJacked.DTO.ExerciseDTO;
 import wrobel.beJacked.model.Exercise;
@@ -27,5 +28,8 @@ public interface ExerciseService {
 
     void setExerciseCategory(String exerciseName, String categoryName);
 
+    //TODO methods to implement
+    ExerciseCategory deleteExerciseCategory( String categoryName);
+    Exercise deleteExercise( Long exerciseId);
 
 }

@@ -91,5 +91,15 @@ public class ExerciseServiceImpl implements ExerciseService {
         exercise.setExerciseCategory(exerciseCategory);
     }
 
+    @Override
+    public ExerciseCategory deleteExerciseCategory(String categoryName) {
+        return null;
+    }
+
+    @Override
+    public Exercise deleteExercise(Long exerciseId) {
+        return null;
+    }
+
 
 }

@@ -75,8 +75,8 @@ public class ExerciseController {
     //TODO methods to implement
 
     @RolesAllowed({"ROLE_ADMIN"})
-    @DeleteMapping(path = "/category")
-    public ExerciseCategory deleteExerciseCategory() {
+    @DeleteMapping(path = "/category/{categoryName}")
+    public ExerciseCategory deleteExerciseCategory(@PathVariable String categoryName) {
         return null;
     }
 

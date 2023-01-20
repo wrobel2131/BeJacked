@@ -89,6 +89,21 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
+    public ProgramType deleteProgramType(Long programTypeId) {
+        return null;
+    }
+
+    @Override
+    public ProgramType addProgramType(String name) {
+        return null;
+    }
+
+    @Override
+    public Program deleteProgram(Long programId) {
+        return null;
+    }
+
+    @Override
     public Program addWorkoutsToProgram(Program program, List<Workout> workouts) {
 
         log.info(String.valueOf(program.getId()));

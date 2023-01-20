@@ -58,7 +58,7 @@ public class LogController {
 
     @RolesAllowed({"ROLE_ADMIN"})
     @DeleteMapping("/userId")
-    public List<Log> deleteUserLogs( @PathVariable String userId) {
+    public List<Log> deleteUserLogs( @PathVariable Long userId) {
         return null;
     }
 
