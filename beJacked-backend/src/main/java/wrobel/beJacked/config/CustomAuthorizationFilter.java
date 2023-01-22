@@ -48,53 +48,27 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
         //first we are checking, if this is not the login path, we dont need to authorize user to login
 
         if(request.getServletPath().equals("/api/v1/auth/login") || request.getServletPath().equals("/api/v1/auth/register") || request.getServletPath().equals("/api/v1/auth/token")) {
-            log.info("auth path");
             filterChain.doFilter(request, response);
         } else {
-            log.info("other path");
+
             String authorizationHeader = request.getHeader(AUTHORIZATION);
             if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
                 try {
-                    log.info("in auth try");
                     String token = authorizationHeader.substring("Bearer ".length()); //removing Bearer, gets only header
-
                     Algorithm algorithm = Algorithm.HMAC256(CustomJWTConfig.getSecret().getBytes(StandardCharsets.UTF_8));
                     JWTVerifier verifier = JWT.require(algorithm).build();
-                    log.info("before verify");
                     DecodedJWT decodedJWT = verifier.verify(token);
-                    log.info("after verify");
                     String username = decodedJWT.getSubject();
-                    log.info("before claims");
                     String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
-                    log.info("roles: " + Arrays.toString(roles));
-                    //need to convert soles to SimpleGrantedAuthorities, because SpringSecurity uses this
                     Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
                     stream(roles).forEach(role -> {
                         authorities.add(new SimpleGrantedAuthority(role));
                     });
-                    log.info("before username");
                     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, null, authorities);
-                    log.info("after username ver");
-                    //spring with the username will authorize him based on the autorities(roles)
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-                    log.info(String.valueOf(response.getStatus()));
-
-
-//                    StringBuilder buffer = new StringBuilder();
-//                    BufferedReader reader = request.getReader();
-//                    String line;
-//                    while ((line = reader.readLine()) != null) {
-//                        buffer.append(line);
-//                    }
-//                    String body = buffer.toString();
-//                        log.info("body: " + body);
-//                        log.info(request.getHeader("Authorization"));
-//
-
 
 
                     filterChain.doFilter(request, response);
-                    log.info(String.valueOf(response.getStatus()));
                 }catch(Exception exception) {
                     log.info(exception.getMessage());
                     response.setHeader(WARNING, exception.getMessage());
