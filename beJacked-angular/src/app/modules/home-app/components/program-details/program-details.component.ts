@@ -560,13 +560,14 @@ export class ProgramDetailsComponent implements OnInit {
         (data) => {
           console.log(data);
           console.log('add log przed get logu');
-
-          this.getLogs(workoutId, exerciseId);
-          console.log('add log po get logu');
         },
 
         (error) => {
           console.log(error);
+        },
+        () => {
+          this.getLogs(workoutId, exerciseId);
+          console.log('add log po get logu');
         }
       );
       // console.log(logToSend);
