@@ -27,10 +27,9 @@ export class AuthService {
     // console.log(error);
     if (error.status === 0) {
       // console.log("client error");
-      return throwError(() => new Error(error.message));
+      return throwError(() => new Error(error.error));
     } else {
-      // console.log("server error");
-      return throwError(() => new Error(error.message));
+      return throwError(() => new Error(error.error));
     }
   }
 

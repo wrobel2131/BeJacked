@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { ErrorMessageComponent } from 'src/app/shared/dialogs/error-message/error-message.component';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +15,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private spinner: NgxUiLoaderService,
     public dialogRef: MatDialogRef<LoginComponent>,
+    public dialog: MatDialog,
     private authService: AuthService,
     private router: Router
   ) {}
@@ -30,9 +32,19 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['app']);
       },
       (error) => {
-        console.log(error);
+        let err = 'Wrong email or password';
+        this.openErrorDialog(err);
+        console.log(error.message);
       }
     );
+  }
+
+  openErrorDialog(error: string): void {
+    const errorRef = this.dialog.open(ErrorMessageComponent, {
+      height: '400px',
+      width: '400px',
+      data: error,
+    });
   }
 
   ngOnInit(): void {}
