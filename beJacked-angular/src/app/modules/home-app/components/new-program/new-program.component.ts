@@ -19,7 +19,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { Exercise } from 'src/app/shared/models/exercise';
 import { ExerciseCategory } from 'src/app/shared/models/exercise-category';
@@ -40,6 +40,8 @@ import {
   transition,
   animate,
 } from '@angular/animations';
+import { ErrorMessageComponent } from 'src/app/shared/dialogs/error-message/error-message.component';
+import { SuccessMessageComponent } from 'src/app/shared/dialogs/success-message/success-message.component';
 
 interface WorkoutToBackend {
   name: string;
@@ -100,35 +102,19 @@ export class NewProgramComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<NewProgramComponent>,
+    public dialog: MatDialog,
     public authService: AuthService,
     private fb: FormBuilder,
     public programService: ProgramService
   ) {
     programService.getExerciseCategories().subscribe((categoryArray) => {
       this.categories = categoryArray;
-      // categoryArray.forEach((cat) => this.categories.push(cat));
     });
-
-    // programService.getExercises().subscribe((exercisesArray) => {
-    //   this.exercises = exercisesArray;
-    //   this.dataSource = new MatTableDataSource<Exercise>(exercisesArray);
-    //   this.dataSource.paginator = this.paginator;
-    //   this.dataSource.sort = this.sort;
-    //   console.log('ewbfjkgwevjfgevwjh');
-    //   console.log(this.dataSource);
-
-    // });
 
     programService.getProgramTypes().subscribe((types) => {
       types.forEach((type) => this.programTypes.push(type));
     });
     this.pageEvent = { pageIndex: 0, pageSize: 5, length: 0 };
-
-    // this.sort = new MatSort();
-    // this.paginator = new MatPaginator(
-    //   new MatPaginatorIntl(),
-    //   ChangeDetectorRef.prototype
-    // );
   }
 
   ngOnInit(): void {
@@ -148,15 +134,21 @@ export class NewProgramComponent implements OnInit {
     });
   }
 
-  /** Announce the change in sort state for assistive technology. */
-  // announceSortChange(sortState: Sort) {
+  openErrorDialog(error: string): void {
+    const errorRef = this.dialog.open(ErrorMessageComponent, {
+      height: '400px',
+      width: '400px',
+      data: error,
+    });
+  }
 
-  //   if (sortState.direction) {
-  //     this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-  //   } else {
-  //     this._liveAnnouncer.announce('Sorting cleared');
-  //   }
-  // }
+  openSuccessDialog(success: string): void {
+    const successRef = this.dialog.open(SuccessMessageComponent, {
+      height: '400px',
+      width: '400px',
+      data: success,
+    });
+  }
 
   applyFilter(event: Event, index: number) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -223,9 +215,11 @@ export class NewProgramComponent implements OnInit {
         (data) => {
           console.log(data);
           this.dialogRef.close();
+          let succ = 'Program has been created successfully!';
+          this.openSuccessDialog(succ);
         },
         (error) => {
-          console.log(error);
+          this.openErrorDialog(error);
         }
       );
     }
@@ -252,20 +246,6 @@ export class NewProgramComponent implements OnInit {
 
     this.programService.getExercises().subscribe((exercisesArray) => {
       this.exercises = exercisesArray;
-
-      // this.dataSource = new MatTableDataSource<Exercise>(exercisesArray);
-      // this.dataSource.paginator = this.paginator;
-      // this.dataSource.sort = this.sort;
-      // this.dataSource.sortingDataAccessor = (item: any, property: any) => {
-      //   switch (property) {
-      //     case 'exerciseCategory':
-      //       return item.exerciseCategory.name;
-
-      //     default:
-      //       return item[property];
-      //   }
-      // };
-      // console.log(this.dataSource);
 
       let source = new MatTableDataSource<Exercise>(exercisesArray);
       // source.sort = this.sorts.get(index - 1);
@@ -317,8 +297,6 @@ export class NewProgramComponent implements OnInit {
           this.workouts.controls[workoutIndex].get('exercises') as FormArray
         ).value.findIndex((el: { value: string }) => el.value === ex)
       );
-
-      // (this.workouts.controls[workoutIndex].get('exercises') as FormArray)
     }
   }
 
@@ -326,8 +304,6 @@ export class NewProgramComponent implements OnInit {
     const workoutArray = this.workouts;
     (workoutArray as FormArray).removeAt(index);
     this.dataSources.splice(index, 1);
-    // this.sorts.splice(index, 1);
-    // this.paginators.splice(index, 1);
   }
 
   selection = new SelectionModel<Exercise>(true, []);

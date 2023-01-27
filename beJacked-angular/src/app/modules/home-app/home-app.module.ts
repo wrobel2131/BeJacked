@@ -15,6 +15,9 @@ import { ProgramsComponent } from './components/programs/programs.component';
 import { ProgramDetailsComponent } from './components/program-details/program-details.component';
 import { SortByDatePipe } from 'src/app/shared/pipes/sort-by-date.pipe';
 import { UserInfoComponent } from './components/user-info/user-info.component';
+import { ErrorMessageComponent } from 'src/app/shared/dialogs/error-message/error-message.component';
+import { SuccessMessageComponent } from 'src/app/shared/dialogs/success-message/success-message.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -37,6 +40,7 @@ import { UserInfoComponent } from './components/user-info/user-info.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    SharedModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

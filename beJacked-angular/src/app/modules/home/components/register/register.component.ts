@@ -8,8 +8,10 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { ErrorMessageComponent } from 'src/app/shared/dialogs/error-message/error-message.component';
+import { SuccessMessageComponent } from 'src/app/shared/dialogs/success-message/success-message.component';
 import { AuthService } from '../../../../shared/services/auth.service';
 
 @Component({
@@ -20,6 +22,7 @@ import { AuthService } from '../../../../shared/services/auth.service';
 export class RegisterComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<RegisterComponent>,
+    public dialog: MatDialog,
     private authService: AuthService,
     private router: Router
   ) {}
@@ -98,12 +101,31 @@ export class RegisterComponent implements OnInit {
         (data) => {
           this.dialogRef.close();
           this.router.navigate(['']);
+          let succ = 'You account has been created successfully!';
+          this.openSuccessDialog(succ);
         },
         (error) => {
           console.log(error);
+          this.openErrorDialog(error);
         }
       );
     }
+  }
+
+  openErrorDialog(error: string): void {
+    const errorRef = this.dialog.open(ErrorMessageComponent, {
+      height: '400px',
+      width: '400px',
+      data: error,
+    });
+  }
+
+  openSuccessDialog(success: string): void {
+    const successRef = this.dialog.open(SuccessMessageComponent, {
+      height: '400px',
+      width: '400px',
+      data: success,
+    });
   }
 
   ngOnInit(): void {}

@@ -69,7 +69,9 @@ public class ExerciseController {
     @RolesAllowed("ROLE_ADMIN")
     @PostMapping(path = "/category/{categoryName}")
     public ExerciseCategory addExerciseCategory(@PathVariable String categoryName) {
-        return exerciseService.saveExerciseCategory(categoryName);
+        ExerciseCategory exerciseCategory = new ExerciseCategory();
+        exerciseCategory.setName(categoryName);
+        return exerciseService.saveExerciseCategory(exerciseCategory);
     }
 
     //TODO methods to implement
