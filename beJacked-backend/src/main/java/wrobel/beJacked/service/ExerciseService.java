@@ -23,7 +23,7 @@ public interface ExerciseService {
 
     ExerciseCategory getExerciseCategory(String exerciseCategory);
     List<ExerciseCategory> getExerciseCategories();
-    ExerciseCategory saveExerciseCategory(String name);
+    ExerciseCategory saveExerciseCategory(ExerciseCategory exerciseCategory);
 
 
     void setExerciseCategory(String exerciseName, String categoryName);
