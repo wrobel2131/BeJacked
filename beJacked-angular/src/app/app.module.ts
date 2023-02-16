@@ -25,6 +25,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { SortByDatePipe } from './shared/pipes/sort-by-date.pipe';
 import { SuccessMessageComponent } from './shared/dialogs/success-message/success-message.component';
 import { ErrorMessageComponent } from './shared/dialogs/error-message/error-message.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: '#000000',
@@ -70,6 +71,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     NgxYoutubePlayerModule.forRoot(),
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
     NgxUiLoaderHttpModule.forRoot({ showForeground: true }),
+    FontAwesomeModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
