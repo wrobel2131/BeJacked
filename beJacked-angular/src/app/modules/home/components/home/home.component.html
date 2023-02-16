@@ -1,20 +1,82 @@
 <div class="main-container">
-  <section id="logo">
+  <section id="logo" class="section">
     <div class="logo-container">
       <img src="assets/images/beJacked-new-svg.svg" alt="beJacked logo" />
       <p class="logo-title">Start tracking your progress</p>
     </div>
   </section>
-  <section id="about">
-    <p>about section</p>
+  <section id="about" class="section info">
+    <p class="info__text">
+      With BeJacked you will achieve your goals faster and easier!
+    </p>
   </section>
-  <section id="features">
-    <p>features section</p>
+  <section id="features" class="section info">
+    <p class="info__text">
+      Create custom training programs, record your results, analize your
+      workouts and make progress of your life!
+    </p>
   </section>
-  <section id="join">
-    <p>join section</p>
-  </section>
-  <section id="contact">
-    <p>contact section</p>
+  <!-- <section id="join" class="section info">
+    <p class="info__text">join section</p>
+  </section> -->
+  <section id="contact" class="section info">
+    <div class="contact__mail">
+      <div class="mail__text">
+        <p class="info__text">If u have any questions, contact us!</p>
+      </div>
+      <form class="form form-data" id="contact" [formGroup]="contactForm">
+        <mat-form-field>
+          <mat-label>
+            <span>Email</span>
+          </mat-label>
+          <input
+            id="email"
+            class="form-input"
+            matInput
+            formControlName="email"
+            type="email"
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>
+            <span>Message</span>
+          </mat-label>
+          <textarea
+            id="email"
+            class="form-input"
+            matInput
+            formControlName="email"
+            type="email"
+            rows="15"
+            cols="40"
+          ></textarea>
+        </mat-form-field>
+        <button mat-button type="submit">Send</button>
+      </form>
+    </div>
+    <div class="contact__other">
+      <!-- <button mat-fab> -->
+      <fa-icon [icon]="faFacebook" class="fa-lg"></fa-icon>
+      <!-- </button> -->
+      <!-- <button mat-fab> -->
+      <fa-icon [icon]="faGithub" class="fa-lg"></fa-icon>
+      <!-- </button> -->
+      <!-- <button mat-fab> -->
+      <fa-icon [icon]="faInstagram" class="fa-lg"></fa-icon>
+      <!-- </button> -->
+      <!-- <button mat-fab> -->
+      <fa-icon [icon]="faLinkedin" class="fa-lg"></fa-icon>
+      <!-- </button> -->
+      <!-- <button mat-mini-fab>
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      <button mat-mini-fab>
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      
+      <button mat-mini-fab>
+        <mat-icon>account_circle</mat-icon>
+      </button> -->
+    </div>
   </section>
 </div>

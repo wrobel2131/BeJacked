@@ -23,6 +23,7 @@
         mat-icon-button
         (click)="toggleEditingControl('username', 0)"
         *ngIf="!editingControls[0]"
+        type="button"
       >
         <mat-icon>edit</mat-icon>
       </button>
@@ -30,6 +31,7 @@
         mat-icon-button
         (click)="toggleEditingControl('username', 0)"
         *ngIf="editingControls[0]"
+        type="button"
       >
         <mat-icon>edit_off</mat-icon>
       </button>
@@ -52,6 +54,7 @@
         mat-icon-button
         (click)="toggleEditingControl('email', 1)"
         *ngIf="!editingControls[1]"
+        type="button"
       >
         <mat-icon>edit</mat-icon>
       </button>
@@ -59,6 +62,7 @@
         mat-icon-button
         (click)="toggleEditingControl('email', 1)"
         *ngIf="editingControls[1]"
+        type="button"
       >
         <mat-icon>edit_off</mat-icon>
       </button>
@@ -81,6 +85,7 @@
         mat-icon-button
         (click)="toggleEditingControl('password', 2)"
         *ngIf="!editingControls[2]"
+        type="button"
       >
         <mat-icon>edit</mat-icon>
       </button>
@@ -88,6 +93,7 @@
         mat-icon-button
         (click)="toggleEditingControl('password', 2)"
         *ngIf="editingControls[2]"
+        type="button"
       >
         <mat-icon>edit_off</mat-icon>
       </button>
@@ -111,6 +117,7 @@
         mat-icon-button
         (click)="toggleEditingControl('name', 3)"
         *ngIf="!editingControls[3]"
+        type="button"
       >
         <mat-icon>edit</mat-icon>
       </button>
@@ -118,6 +125,7 @@
         mat-icon-button
         (click)="toggleEditingControl('name', 3)"
         *ngIf="editingControls[3]"
+        type="button"
       >
         <mat-icon>edit_off</mat-icon>
       </button>
@@ -140,6 +148,7 @@
         mat-icon-button
         (click)="toggleEditingControl('surname', 4)"
         *ngIf="!editingControls[4]"
+        type="button"
       >
         <mat-icon>edit</mat-icon>
       </button>
@@ -147,9 +156,11 @@
         mat-icon-button
         (click)="toggleEditingControl('surname', 4)"
         *ngIf="editingControls[4]"
+        type="button"
       >
         <mat-icon>edit_off</mat-icon>
       </button>
     </div>
+    <button mat-button class="change-button">Edit</button>
   </form>
 </div>
