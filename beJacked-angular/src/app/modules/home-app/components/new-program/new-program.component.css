@@ -256,6 +256,9 @@ textarea {
   margin: 0 10px;
   width: 100%;
 }
+.mat-card-content {
+  width: 100%;
+}
 
 ::ng-deep .mat-vertical-stepper-header {
   pointer-events: none !important;
