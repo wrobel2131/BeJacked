@@ -68,7 +68,6 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     HomeAppModule,
     JwtModule,
     NgChartsModule,
-    NgxYoutubePlayerModule.forRoot(),
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
     NgxUiLoaderHttpModule.forRoot({ showForeground: true }),
     FontAwesomeModule,
